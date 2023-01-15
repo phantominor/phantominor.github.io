@@ -1,0 +1,45 @@
+body{
+    background: radial-gradient(ellipse at center, #f1f7b2c8 0%,#fae1b8c6 100%);}
+.title{
+    color:azure;
+    background-color: #003C9D;
+    /* border-radius:30px 30px 0px 0px; */
+    text-align: center;
+}
+
+#btn_B{
+    font-size:100pt;
+    color:rgb(241, 247, 178);
+
+    width:300px; height:300px;
+    background-color:#c364ec;
+    border:1px #761b92 solid;
+    opacity:0.75;
+    border-radius:10px;
+    cursor:pointer;
+}
+#btn_B:hover{
+    color:#761b92;
+    background-color:rgb(241, 247, 178);
+    border:2px #003C9D solid;
+}
+#btn_O{
+    font-size:100pt;
+    color:rgb(250, 225, 184);
+
+    width:300px; height:300px;   
+    background-color:#4869ed;
+    opacity:0.75;
+    border:1px #003C9D solid;
+    border-radius:10px;
+    cursor:pointer;
+}
+#btn_O:hover{
+    color:#003C9D;
+    background-color:rgb(250, 225, 184);
+    border:2px #003C9D solid;
+}
+.buttons{
+    display: flex;
+    justify-content: space-evenly;
+}
