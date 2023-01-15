@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="LOT.css"/>
     </head>
     <body>
-        <div class="title" style="position:absolute; top:0px; left:0px; right:0px">
+        <div class="title">
             <h1>實運積分系統</h1>
             <p>START: 2023.01.05</p>
         </div>
@@ -19,35 +19,34 @@
                 <img src="log_out.jpg" border=0px height="119px">
             </a>
         </div>
-        <div class="pages" style="position:absolute; top:119px; left:0px; right:0px">
+        <div class="pages">
             <button id="page_lot">Lot</button>
             <button id="page_cap" onclick="location.href='CAP.html';">Capibility</button>
             <button id="page_ptt" onclick="location.href='PTT.html';">Potential</button>
             <button id="page_cht" onclick="location.href='CHT.html';">Chart</button>
             <button id="page_RNK" onclick="location.href='RNK.html';">Rank </button>
         </div>
-        <div class="data" style="position:absolute; top:169px; left:0px; right:0px"></div>
+        <div class="data"></div>
         <br/>
-        <!-- 運氣積分 -->
-        <div class="luckpts" style="position: relative; top:200px">
-            <div class="pts_count" style="position: absolute; left: 10px; top: 45px;">
+        <div class="luckpts">
+            <span class="pts_count">
                 <h2>運氣積分 總計：(pts)</h2>
-                <div class="pts_num" style="position: absolute; left: 50px; right: 50px;">num#</div>
-            </div>
-            <div class="luckbtns" style="position: absolute; right: 10px; top: 45px;">
+                <div class="pts_num">num#</div>
+            </span>
+            <span class="luckbtns">
                 <button id="pts+0">+0</button>
                 <button id="pts+0.5">+0.5</button>
                 <button id="pts+1">+1</button>
-            </div>
+            </span>
         </div>
-        <div class="random_chest" style="position: absolute; top:576px; left: 8px;">
+        <span class="random_chest">
             <p>a</p>
             <div class="chest_animation"></div>
             <div class="chest_clickbtn"></div>
-        </div>
-        <div class="transaction_record" style="position: absolute; top:576px; right: 8px;">
+        </span>
+        <span class="transaction_record">
             <p>a</p>
-        </div>
+        </span>
         
 
         
