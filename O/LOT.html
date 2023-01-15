@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>實運積分系統</title>
+        <link rel="stylesheet" href="LOT.css"/>
+    </head>
+    <body>
+        <div class="title" style="position:absolute; top:0px; left:0px; right:0px">
+            <h1>實運積分系統</h1>
+            <p>START: 2023.01.05</p>
+        </div>
+        <div class="logout">
+            <a href="../log_in.html">
+                <img src="log_out.jpg" border=0px height="119px">
+            </a>
+        </div>
+        <div class="pages" style="position:absolute; top:119px; left:0px; right:0px">
+            <button id="page_lot">Lot</button>
+            <button id="page_cap" onclick="location.href='CAP.html';">Capibility</button>
+            <button id="page_ptt" onclick="location.href='PTT.html';">Potential</button>
+            <button id="page_cht" onclick="location.href='CHT.html';">Chart</button>
+            <button id="page_RNK" onclick="location.href='RNK.html';">Rank </button>
+        </div>
+        <div class="data" style="position:absolute; top:169px; left:0px; right:0px"></div>
+        <br/>
+        <div class="contents" style="position:relative; top:250px;">
+            <div class="luckpts">
+                <h2>運氣積分 總計：</h2>
+                <div class="luckbtns">
+                    <button id="pts+0">+0</button>
+                    <button id="pts+0.5">+0.5</button>
+                    <button id="pts+1">+1</button>
+                </div>
+            </div>
+            <div class="random_chest"></div>
+            <div class="trancsaction_record"></div>
+        </div>
+        
+
+        
+        
+    </body>
+</html>

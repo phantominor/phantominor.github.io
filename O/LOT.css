@@ -1,0 +1,41 @@
+body{
+    background: radial-gradient(ellipse at center, #fefcea 0%,#fae1b8 100%);
+}
+.title{
+    /* position: absolute; */
+    color:azure;
+    background-color: #003C9D;
+    /* border-radius:30px 30px 0px 0px; */
+    text-align: center;
+}
+.logout{
+    position: absolute;
+    right: 0px; top: 0px;
+}
+.logout a img:hover{
+    opacity: 0.8;
+    filter:brightness(200%)
+}
+.pages{
+    /* position: absolute; */
+    display: flex;
+    justify-content: center;
+}
+.pages button{
+    font-size: larger;
+    width:256px; height:50px;
+    color:black;
+    background-color:#70c5ec;
+    border:2px #000000 solid;
+    opacity:0.75;
+}
+.pages button:hover{
+    font-weight:bold;
+    color:#003C9D;
+    background-color:rgb(254, 239, 214);
+    border:2px #003C9D solid;
+}
+.data{
+    width:screen; height:50px;
+    background-color: rgb(191, 216, 238);
+}
