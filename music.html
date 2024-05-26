@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phantom's Haven - Music</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <div class="logo">
+                    <a href="index.html">Phantom's Haven</a>
+                </div>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search...">
+                </div>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="novels.html">Novels</a>
+                    <a href="music.html">Music</a>
+                    <a href="notes.html">Notes</a>
+                    <a href="tcm.html">TCM</a>
+                    <a href="essays.html">Essays</a>
+                    <a href="games.html">Games</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="content">
+        <aside class="sidebar">
+            <button class="sidebar-toggle">☰</button>
+            <div class="sidebar-content">
+                <h2>Contents</h2>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="novels.html">Novels</a></li>
+                    <li><a href="music.html">Music</a></li>
+                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="tcm.html">TCM</a></li>
+                    <li><a href="essays.html">Essays</a></li>
+                    <li><a href="games.html">Games</a></li>
+                </ul>
+            </div>
+        </aside>
+        <main>
+            <section class="music">
+                <h1>Music</h1>
+                <p>Here are some of my music creations.</p>
+                <!-- Add content for your music here -->
+            </section>
+        </main>
+    </div>
+    <footer>
+        <div class="footer-container">
+            <div class="social-links">
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+                <a href="#">Gmail</a>
+                <a href="#">GitHub</a>
+            </div>
+            <p>&copy; 2024 Phantom's Haven. All rights reserved.</p>
+            <p>Current visitors: <span id="visitor-count">123</span></p>
+            <p>Page views: <span id="page-view-count">456</span></p>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelector('.sidebar-toggle').addEventListener('click', function() {
+            document.querySelector('.sidebar-content').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
