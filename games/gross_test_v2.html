@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phantom's Haven - Games</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <div class="logo">
+                    <a href="index.html">Phantom's Haven</a>
+                </div>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search...">
+                </div>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="novels.html">Novels</a>
+                    <a href="music.html">Music</a>
+                    <a href="notes.html">Notes</a>
+                    <a href="tcm.html">TCM</a>
+                    <a href="essays.html">Essays</a>
+                    <a href="games.html">Games</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="content">
+        <aside class="sidebar">
+            <button class="sidebar-toggle">☰</button>
+            <div class="sidebar-content">
+                <h2>Contents</h2>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="novels.html">Novels</a></li>
+                    <li><a href="music.html">Music</a></li>
+                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="tcm.html">TCM</a></li>
+                    <li><a href="essays.html">Essays</a></li>
+                    <li><a href="games.html">Games</a></li>
+                </ul>
+            </div>
+        </aside>
+        <main>
+            <section class="games">
+                <h1>Games</h1>
+                <p>Here are some inspirations of games in any type.</p>
+                <div id="gross-practice-game">
+                    <h2>跑台機 - Gross Practice</h2>
+                    <button id="startBtn">開始</button>
+                    <div id="test" style="display: none;">
+                        <div class="game-info">
+                            <span>Time left: <span id="timer">30</span> sec</span>
+                            <span>答對率：<span id="correct">0</span>/<span id="total">0</span></span>
+                        </div>
+                        <div id="description" class="text-block"></div>
+                        <img id="image" src="https://drive.google.com/thumbnail?id=1TeyV9xFcckCSs0zO-xvwVFeekxSiMj2g&sz=s1000" alt="Gross Practice Image" />
+                        <div class="text-block">題目編號：<span id="num"></span></div>
+                        <div class="input-group">
+                            <input id="answer" type="text" placeholder="Type your answer here" />
+                            <button id="send">送出</button>
+                            <button id="next" style="display: none;">下一題</button>
+                        </div>
+                        <div id="showAnswer" class="text-block"></div>
+                        <div id="showExplanation" class="text-block"></div>
+                    </div>
+                    <div id="pop"></div>
+                    <a href="https://docs.google.com/spreadsheets/d/1xx3LAOByVnspxKPGwn5-0AwReJq0pZLyomD6AtzHTnE/edit?usp=sharing" target="_blank">
+                        <button class="submit">我要勘誤/寫詳解/加題目</button>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+    <footer>
+        <div class="footer-container">
+            <div class="social-links">
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+                <a href="#">Gmail</a>
+                <a href="#">GitHub</a>
+            </div>
+            <p>&copy; 2024 Phantom's Haven. All rights reserved.</p>
+            <p>Current visitors: <span id="visitor-count">123</span></p>
+            <p>Page views: <span id="page-view-count">456</span></p>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.21/jquery.csv.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script>
+        //var score;
+        var TIME = 31;
+        var numOfProbs;
+        var tm; // timer (global)
+        var data; // answersheet
+        var x; // number of image
+        var state = 0;
+        var correct = 0;
+        var total = 0;
+        var done;
+
+        function parseMultiAns(data) {
+            for (const item of Object.entries(data)) {
+                if (typeof item[1]['answer'] === 'undefined') { continue; }
+                var ans = JSON.stringify(item[1]['answer']).replace(/\"/g, "").split(" / ");
+                item[1]['answer'] = ans;
+            }
+            return data;
+        }
+
+        function enterKeyEvent(event) {
+            var getAns = document.getElementById("answer");
+            var show = document.getElementById("timer");
+            var ans = getAns.value;
+
+            if (state === 1) {
+                var getAns = document.getElementById("answer");
+                if (getAns.value !== "" & event.keyCode == 13) {
+                    state = 3 - state;
+                    update();
+                }
+            } else {
+                if (event.keyCode == 13 & (ans.length > 0 | show.innerHTML == 0)) {
+                    state = 3 - state;
+                    nextProb();
+                }
+            }
+        }
+
+        function init() {
+            $(document).ready(function () {
+                var id = "1xx3LAOByVnspxKPGwn5-0AwReJq0pZLyomD6AtzHTnE";
+                var gid = "0";
+                // var url = "https://spreadsheets.google.com/feeds/list/"+id+"/"+gid+"/public/values?alt=json";
+                var url = "./answersheet.csv";
+                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.21/jquery.csv.js", function () {
+                    // https://ouoholly.github.io/post/google-spreadsheet-data-to-json-javascript-html/#%E6%96%B9%E6%B3%95%E4%B8%80-Code
+                    $.get(url, function (CSVdata) {
+                        console.log(data);
+                        data = $.csv.toObjects(CSVdata);
+                        //window.console.log(data);
+                        //window.console.log(Object.entries(data));
+                        numOfProbs = Object.keys(data).length;
+                        window.console.log(numOfProbs);
+
+                        data = parseMultiAns(data); // split "A / B / C" in answersheet into array
+                        window.console.log(data);
+
+                        score = 0;
+
+                        var btn = document.getElementById("startBtn");
+                        var handler = function () {
+                            btn.innerHTML += 1;
+                            btn.style.display = "none";
+                            test.style.display = "block";
+                            document.removeEventListener("keypress", enterPress);
+                            state = 1;
+                            done = new Array(numOfProbs + 1).fill(false);
+
+                            startGame();
+                        };
+                        var enterPress = function (event) {
+                            if (event.keyCode == 13) {
+                                handler();
+                            }
+                        }
+
+                        btn.addEventListener("click", handler);
+
+                        // https://stackoverflow.com/questions/16089421/how-do-i-detect-keypresses-in-javascript
+                        document.addEventListener("keypress", enterPress);
+                    });
+                });
+            });
+        }
+
+        function startGame() {
+            document.addEventListener("keypress", enterKeyEvent);
+
+            var send = document.getElementById("send");
+            send.addEventListener("click", update);
+
+            // https://stackoverflow.com/questions/16089421/how-do-i-detect-keypresses-in-javascript
+            // Pressing 'Enter' === clicking send button
+
+            var next = document.getElementById("next");
+            next.addEventListener("click", nextProb);
+
+            window.console.log(next);
+
+            nextProb();
+        }
+
+        function checkAns(input, ansArr) {
+            input = input.trim();
+            return ansArr.includes(input);
+        }
+
+        function updateCorrect() {
+            correct += 1;
+            var cor = document.getElementById("correct");
+            cor.innerHTML = correct;
+        }
+
+        function update() {
+            var getAns = document.getElementById("answer");
+            var ans = getAns.value;
+            var showAns = document.getElementById("showAnswer");
+
+            if (checkAns(ans, data[x]['answer'])) {
+                updateCorrect();
+                showAns.innerHTML = "correct";
+            } else {
+                showAns.innerHTML = "wrong";
+            }
+
+            state = 3 - state;
+        }
+
+        function countdown() {
+            var timer = document.getElementById("timer");
+            var val = timer.innerHTML;
+
+            if (val == 0) {
+                clearInterval(tm);
+                nextProb();
+            } else {
+                timer.innerHTML = val - 1;
+            }
+        }
+
+        function nextProb() {
+            if (total >= numOfProbs) {
+                finish();
+                return;
+            }
+
+            while (done[x]) {
+                x = Math.floor(Math.random() * numOfProbs);
+            }
+
+            done[x] = true;
+
+            var image = document.getElementById("image");
+            image.src = data[x]["link"];
+
+            var showProb = document.getElementById("description");
+            showProb.innerHTML = data[x]["description"];
+
+            var getAnswer = document.getElementById("answer");
+            getAnswer.value = "";
+
+            var show = document.getElementById("num");
+            show.innerHTML = x + 1;
+
+            state = 1;
+
+            var timer = document.getElementById("timer");
+            timer.innerHTML = TIME;
+
+            tm = setInterval(countdown, 1000);
+
+            total += 1;
+            var showTotal = document.getElementById("total");
+            showTotal.innerHTML = total;
+        }
+
+        function finish() {
+            clearInterval(tm);
+
+            var test = document.getElementById("test");
+            test.style.display = "none";
+            var show = document.getElementById("pop");
+            show.innerHTML = "You scored " + correct + " out of " + total + ".";
+        }
+
+        // Initialize the game
+        window.onload = init;
+    </script>
+</body>
+</html>
