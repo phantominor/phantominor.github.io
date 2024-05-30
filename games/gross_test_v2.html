@@ -1,284 +1,352 @@
-<!DOCTYPE html>
-<html lang="en">
+<!Doctype html>
+<html lang="zh-Hant-TW">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phantom's Haven - Games</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header>
-        <nav>
-            <div class="nav-container">
-                <div class="logo">
-                    <a href="index.html">Phantom's Haven</a>
-                </div>
-                <div class="search-bar">
-                    <input type="text" placeholder="Search...">
-                </div>
-                <div class="nav-links">
-                    <a href="index.html">Home</a>
-                    <a href="novels.html">Novels</a>
-                    <a href="music.html">Music</a>
-                    <a href="notes.html">Notes</a>
-                    <a href="tcm.html">TCM</a>
-                    <a href="essays.html">Essays</a>
-                    <a href="games.html">Games</a>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="content">
-        <aside class="sidebar">
-            <button class="sidebar-toggle">☰</button>
-            <div class="sidebar-content">
-                <h2>Contents</h2>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="novels.html">Novels</a></li>
-                    <li><a href="music.html">Music</a></li>
-                    <li><a href="notes.html">Notes</a></li>
-                    <li><a href="tcm.html">TCM</a></li>
-                    <li><a href="essays.html">Essays</a></li>
-                    <li><a href="games.html">Games</a></li>
-                </ul>
-            </div>
-        </aside>
-        <main>
-            <section class="games">
-                <h1>Games</h1>
-                <p>Here are some inspirations of games in any type.</p>
-                <div id="gross-practice-game">
-                    <h2>跑台機 - Gross Practice</h2>
-                    <button id="startBtn">開始</button>
-                    <div id="test" style="display: none;">
-                        <div class="game-info">
-                            <span>Time left: <span id="timer">30</span> sec</span>
-                            <span>答對率：<span id="correct">0</span>/<span id="total">0</span></span>
-                        </div>
-                        <div id="description" class="text-block"></div>
-                        <img id="image" src="https://drive.google.com/thumbnail?id=1TeyV9xFcckCSs0zO-xvwVFeekxSiMj2g&sz=s1000" alt="Gross Practice Image" />
-                        <div class="text-block">題目編號：<span id="num"></span></div>
-                        <div class="input-group">
-                            <input id="answer" type="text" placeholder="Type your answer here" />
-                            <button id="send">送出</button>
-                            <button id="next" style="display: none;">下一題</button>
-                        </div>
-                        <div id="showAnswer" class="text-block"></div>
-                        <div id="showExplanation" class="text-block"></div>
-                    </div>
-                    <div id="pop"></div>
-                    <a href="https://docs.google.com/spreadsheets/d/1xx3LAOByVnspxKPGwn5-0AwReJq0pZLyomD6AtzHTnE/edit?usp=sharing" target="_blank">
-                        <button class="submit">我要勘誤/寫詳解/加題目</button>
-                    </a>
-                </div>
-            </section>
-        </main>
-    </div>
-    <footer>
-        <div class="footer-container">
-            <div class="social-links">
-                <a href="#">Facebook</a>
-                <a href="#">Instagram</a>
-                <a href="#">Gmail</a>
-                <a href="#">GitHub</a>
-            </div>
-            <p>&copy; 2024 Phantom's Haven. All rights reserved.</p>
-            <p>Current visitors: <span id="visitor-count">123</span></p>
-            <p>Page views: <span id="page-view-count">456</span></p>
-        </div>
-    </footer>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.21/jquery.csv.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-    <script>
-        //var score;
-        var TIME = 31;
-        var numOfProbs;
-        var tm; // timer (global)
-        var data; // answersheet
-        var x; // number of image
-        var state = 0;
-        var correct = 0;
-        var total = 0;
-        var done;
-
-        function parseMultiAns(data) {
-            for (const item of Object.entries(data)) {
-                if (typeof item[1]['answer'] === 'undefined') { continue; }
-                var ans = JSON.stringify(item[1]['answer']).replace(/\"/g, "").split(" / ");
-                item[1]['answer'] = ans;
-            }
-            return data;
+    <title>跑台機</title>
+    
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
         }
 
-        function enterKeyEvent(event) {
-            var getAns = document.getElementById("answer");
-            var show = document.getElementById("timer");
-            var ans = getAns.value;
-
-            if (state === 1) {
-                var getAns = document.getElementById("answer");
-                if (getAns.value !== "" & event.keyCode == 13) {
-                    state = 3 - state;
-                    update();
-                }
-            } else {
-                if (event.keyCode == 13 & (ans.length > 0 | show.innerHTML == 0)) {
-                    state = 3 - state;
-                    nextProb();
-                }
-            }
+        h1 {
+            font-size: 2em;
+            margin: 20px 0;
         }
 
-        function init() {
-            $(document).ready(function () {
-                var id = "1xx3LAOByVnspxKPGwn5-0AwReJq0pZLyomD6AtzHTnE";
-                var gid = "0";
-                // var url = "https://spreadsheets.google.com/feeds/list/"+id+"/"+gid+"/public/values?alt=json";
-                var url = "./answersheet.csv";
-                $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.21/jquery.csv.js", function () {
-                    // https://ouoholly.github.io/post/google-spreadsheet-data-to-json-javascript-html/#%E6%96%B9%E6%B3%95%E4%B8%80-Code
-                    $.get(url, function (CSVdata) {
-                        console.log(data);
-                        data = $.csv.toObjects(CSVdata);
-                        //window.console.log(data);
-                        //window.console.log(Object.entries(data));
-                        numOfProbs = Object.keys(data).length;
-                        window.console.log(numOfProbs);
+        #startBtn, .submit, #send, #next {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-                        data = parseMultiAns(data); // split "A / B / C" in answersheet into array
-                        window.console.log(data);
+        #startBtn, #send, #next {
+            background-color: #4CAF50;
+            color: #fff;
+        }
 
-                        score = 0;
+        .submit {
+            background-color: #007BFF;
+            color: #fff;
+        }
 
-                        var btn = document.getElementById("startBtn");
-                        var handler = function () {
-                            btn.innerHTML += 1;
-                            btn.style.display = "none";
-                            test.style.display = "block";
-                            document.removeEventListener("keypress", enterPress);
-                            state = 1;
-                            done = new Array(numOfProbs + 1).fill(false);
+        #startBtn:hover, .submit:hover, #send:hover, #next:hover {
+            background-color: #45a049;
+        }
 
-                            startGame();
-                        };
-                        var enterPress = function (event) {
-                            if (event.keyCode == 13) {
-                                handler();
-                            }
+        #startBtn {
+            font-size: 20px;
+        }
+
+        #test {
+            display: none;
+            text-align: center;
+        }
+
+        #image {
+            margin: 20px 0;
+            max-height: 400px;
+            max-width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #timer {
+            color: #000;
+            font-size: 25px;
+        }
+
+        .text-block {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        #pop {
+            display: none;
+            margin: 20px 0;
+        }
+
+        footer {
+            font-size: 12px;
+            color: grey;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<script type="text/javascript">
+    var TIME = 31;
+    var numOfProbs;
+    var tm;
+    var data;
+    var x;
+    var state = 0;
+    var correct = 0;
+    var total = 0;
+    var done;
+
+    function parseMultiAns(data) {
+        for (const item of Object.entries(data)) {
+            if (typeof item[1]['answer'] === 'undefined') { continue; }
+            var ans = JSON.stringify(item[1]['answer']).replace(/\"/g, "").split(" / ");
+            item[1]['answer'] = ans;
+        }
+        return data;
+    }
+
+    function enterKeyEvent(event) {
+        var getAns = document.getElementById("answer");
+        var show = document.getElementById("timer");
+        var ans = getAns.value;
+
+        if (state === 1) {
+            if (getAns.value !== "" & event.keyCode == 13) {
+                state = 3 - state;
+                update();
+            }
+        } else {
+            if (event.keyCode == 13 & (ans.length > 0 | show.innerHTML == 0)) {
+                state = 3 - state;
+                nextProb();
+            }
+        }
+    }
+
+    function init() {
+        $(document).ready(function () {
+            var url = "./answersheet.csv";
+            $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.21/jquery.csv.js", function () {
+                $.get(url, function (CSVdata) {
+                    data = $.csv.toObjects(CSVdata);
+                    numOfProbs = Object.keys(data).length;
+                    data = parseMultiAns(data);
+
+                    var btn = document.getElementById("startBtn");
+                    var handler = function () {
+                        btn.style.display = "none";
+                        test.style.display = "block";
+                        document.removeEventListener("keypress", enterPress);
+                        state = 1;
+                        done = new Array(numOfProbs + 1).fill(false);
+                        startGame();
+                    };
+                    var enterPress = function (event) {
+                        if (event.keyCode == 13) {
+                            handler();
                         }
+                    }
 
-                        btn.addEventListener("click", handler);
-
-                        // https://stackoverflow.com/questions/16089421/how-do-i-detect-keypresses-in-javascript
-                        document.addEventListener("keypress", enterPress);
-                    });
+                    btn.addEventListener("click", handler);
+                    document.addEventListener("keypress", enterPress);
                 });
             });
+        });
+    }
+
+    function startGame() {
+        document.addEventListener("keypress", enterKeyEvent);
+        var send = document.getElementById("send");
+        send.addEventListener("click", update);
+        var next = document.getElementById("next");
+        next.addEventListener("click", nextProb);
+        nextProb();
+    }
+
+    function checkAns(input, ansArr) {
+        input = input.trim();
+        return ansArr.includes(input);
+    }
+
+    function updateCorrect() {
+        correct += 1;
+        var cor = document.getElementById("correct");
+        cor.innerHTML = correct;
+    }
+
+    function update() {
+        var getAns = document.getElementById("answer");
+        var ans = getAns.value;
+        var showAns = document.getElementById("showAnswer");
+
+        if (checkAns(ans, data[x]['answer'])) {
+            updateCorrect();
+            showAns.innerHTML = "Correct! The answer is: " + data[x]['answer'][0];
+        } else {
+            showAnswer();
         }
+        showNext();
+        updateTotal();
+    }
 
-        function startGame() {
-            document.addEventListener("keypress", enterKeyEvent);
+    function showAnswer() {
+        var showAns = document.getElementById("showAnswer");
+        showAns.innerHTML = "Wrong. Correct Answer is: " + data[x]['answer'][0];
+    }
 
-            var send = document.getElementById("send");
-            send.addEventListener("click", update);
-
-            // https://stackoverflow.com/questions/16089421/how-do-i-detect-keypresses-in-javascript
-            // Pressing 'Enter' === clicking send button
-
-            var next = document.getElementById("next");
-            next.addEventListener("click", nextProb);
-
-            window.console.log(next);
-
-            nextProb();
+    function showExplanation() {
+        var exp = document.getElementById("showExplanation");
+        if (JSON.stringify(data[x]['explanation']) === "\"\"") {
+            exp.innerHTML = "詳解：還沒有人寫這題的詳解喔！"
+            var pop = document.getElementById("pop");
+            pop.style.display = "block";
+        } else {
+            exp.innerHTML = "詳解：" + data[x]['explanation'];
         }
+    }
 
-        function checkAns(input, ansArr) {
-            input = input.trim();
-            return ansArr.includes(input);
+    function showNext() {
+        var next = document.getElementById("next");
+        next.style.display = "inline-block";
+        showExplanation();
+    }
+
+    function hideNext() {
+        var next = document.getElementById("next");
+        next.style.display = "none";
+    }
+
+    function updateTotal() {
+        total += 1;
+        var tot = document.getElementById("total");
+        tot.innerHTML = total;
+
+        if (total === numOfProbs) {
+            alert("You've reached the end of the problem list. The problems will be shown again in different order if you continue.")
+            done = new Array(numOfProbs + 1).fill(false);
         }
+    }
 
-        function updateCorrect() {
-            correct += 1;
-            var cor = document.getElementById("correct");
-            cor.innerHTML = correct;
+    function nextProb() {
+        var pop = document.getElementById("pop");
+        pop.style.display = "none";
+
+        hideNext();
+        updateImage();
+        var getAns = document.getElementById("answer");
+        getAns.value = "";
+        var showAns = document.getElementById("showAnswer");
+        showAns.innerHTML = "";
+        var des = document.getElementById("description");
+        des.value = "";
+        var exp = document.getElementById("showExplanation");
+        exp.innerHTML = "";
+        resetTime();
+        countdown();
+    }
+
+    function pickNewImage() {
+        x = getRandomInt(1, numOfProbs);
+        while (done[x] === true) {
+            x = getRandomInt(1, numOfProbs);
         }
+        done[x] = true;
+        return x;
+    }
 
-        function update() {
-            var getAns = document.getElementById("answer");
-            var ans = getAns.value;
-            var showAns = document.getElementById("showAnswer");
+    function updateImage() {
+        x = pickNewImage();
+        var picture = document.getElementById("image");
+        var picref = data[x]['path'];
+        picture.setAttribute('src', picref);
 
-            if (checkAns(ans, data[x]['answer'])) {
-                updateCorrect();
-                showAns.innerHTML = "correct";
-            } else {
-                showAns.innerHTML = "wrong";
-            }
+        var num = document.getElementById("num");
+        num.innerHTML = data[x]['num'];
 
-            state = 3 - state;
+        var des = document.getElementById("description");
+        des.innerHTML = data[x]['description'];
+    }
+
+    function countdown() {
+        var show = document.getElementById("timer");
+        if (show.innerHTML > 0) {
+            show.innerHTML -= 1;
+            tm = window.setTimeout(countdown, 1000);
+        } else {
+            clearTimeout(tm);
+            showAnswer();
         }
-
-        function countdown() {
-            var timer = document.getElementById("timer");
-            var val = timer.innerHTML;
-
-            if (val == 0) {
-                clearInterval(tm);
-                nextProb();
-            } else {
-                timer.innerHTML = val - 1;
-            }
+        if (show.innerHTML <= 10) {
+            show.style.color = "#ff0000";
         }
+    }
 
-        function nextProb() {
-            if (total >= numOfProbs) {
-                finish();
-                return;
-            }
+    function resetTime() {
+        var timer = document.getElementById("timer");
+        timer.innerHTML = TIME;
+        timer.style.color = "#000";
+        clearTimeout(tm);
+    }
 
-            while (done[x]) {
-                x = Math.floor(Math.random() * numOfProbs);
-            }
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min) + min);
+    }
+</script>
 
-            done[x] = true;
-
-            var image = document.getElementById("image");
-            image.src = data[x]["link"];
-
-            var showProb = document.getElementById("description");
-            showProb.innerHTML = data[x]["description"];
-
-            var getAnswer = document.getElementById("answer");
-            getAnswer.value = "";
-
-            var show = document.getElementById("num");
-            show.innerHTML = x + 1;
-
-            state = 1;
-
-            var timer = document.getElementById("timer");
-            timer.innerHTML = TIME;
-
-            tm = setInterval(countdown, 1000);
-
-            total += 1;
-            var showTotal = document.getElementById("total");
-            showTotal.innerHTML = total;
-        }
-
-        function finish() {
-            clearInterval(tm);
-
-            var test = document.getElementById("test");
-            test.style.display = "none";
-            var show = document.getElementById("pop");
-            show.innerHTML = "You scored " + correct + " out of " + total + ".";
-        }
-
-        // Initialize the game
-        window.onload = init;
-    </script>
+<body onload="init();">
+    <h1>跑台機</h1>
+    <div>
+        <div style="margin: 5px;">
+            Gross exam ver.
+        </div>
+        <button id="startBtn">開始</button>
+    </div>
+    
+    <div id="test">
+        <div style="margin: 5px; font-size: 25px; display: inline-block;">Time left: <span id="timer">30</span> sec</div>
+        <div class="text-block" style="display: inline-block;">答對率：<span id="correct">0</span>/<span id="total">0</span></div>
+        <div class="text-block" id="description"></div>
+        <img id="image" src="https://drive.google.com/thumbnail?id=1TeyV9xFcckCSs0zO-xvwVFeekxSiMj2g&sz=s1000" alt="Question Image"/>
+        <div class="text-block">題目編號：<span id="num"></span></div>
+        <div>
+            <input id="answer" type="text" placeholder="輸入答案" />
+            <button id="send">送出</button>
+            <button id="next">下一題</button>
+        </div>
+        <div class="text-block" id="showAnswer"></div>
+        <div class="text-block" id="showExplanation"></div>
+    </div>
+    
+    <div id="pop">
+    </div>
+    <a href="https://docs.google.com/spreadsheets/d/1xx3LAOByVnspxKPGwn5-0AwReJq0pZLyomD6AtzHTnE/edit?usp=sharing" target="_blank">
+        <button class="submit">我要勘誤/寫詳解/加題目</button>
+    </a>
+    
+    <footer>
+        Created by: Yu-Tong Cheng, Contributed by: B09 NTU MED.
+        Slightly revised by Phantominor.
+    </footer>
 </body>
+
 </html>
