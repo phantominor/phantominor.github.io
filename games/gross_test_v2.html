@@ -19,14 +19,14 @@
         #startBtn{
             /* display: block;*/
             margin: 10px;
-            width: 100px;
-            height:60px;
+            width: 80px;
+            height:40px;
             font-size: 20px;
         }
         #image{
             position: relative;
             margin: 10px;
-            max-height: 400px;
+            max-height: 300px;
             max-width: 80%;
             width: auto;
             height: auto;
@@ -40,8 +40,8 @@
         }
         .submit{
             margin: 10px;
-            width: 100px;
-            height:30px;
+            width: 250px;
+            height:40px;
             font-size: 15px;
         }
         
@@ -350,19 +350,19 @@
                 </ul>
             </div>
         </aside>
-        <main>
-            <div>
+        <main style="position: relative;">
+            <div align="center">
                 <div style="margin:5px">
-                    Gross exam ver.
+                    <h2 align="center">Pathology (Gross exam) - v.2</h2>
                 </div>
                 <button id="startBtn">開始</button>
             </div>
             
-            <div id="test">
+            <div id="test" align="center">
                 <div style="margin:5px; font-size: 25px; display:inline-block">Time left: <span id="timer">30</span> sec</div>
                 <div class="text-block" style="display:inline-block">答對率：<span id="correct">0</span>/<span id="total">0</span></div>
                 <div class="text-block" id="description"> </div>
-                <img id="image" src="https://drive.google.com/thumbnail?id=1TeyV9xFcckCSs0zO-xvwVFeekxSiMj2g&sz=s1000" style="width:150px">
+                <img id="image" src="https://drive.google.com/thumbnail?id=1TeyV9xFcckCSs0zO-xvwVFeekxSiMj2g&sz=s1000">
                 <div class="text-block">題目編號：<span id="num"> </span></div>
                 <div>
                     <input id="answer" type="text" style="width:70%; height:30px"/>
@@ -373,18 +373,20 @@
                 <div class="text-block" id="showExplanation"></div>
             </div>
             
-            <div>
+            <div align="center">
                 <div id="pop">
         <!--
                     <marquee class="blink">↓↓↓ Contribute to the community!! ↓↓↓</marquee>
         -->
                 </div>
                 <a href="https://docs.google.com/spreadsheets/d/1xx3LAOByVnspxKPGwn5-0AwReJq0pZLyomD6AtzHTnE/edit?usp=sharing" target="_blank">
-                    <button class="submit">我要勘誤/寫詳解/加題目</button>
+                    <button class="submit">我要勘誤／編輯詳解／新增題目</button>
                 </a>
             </div>  
 
-            <div style="position:absolute; font-size: 5px; color: grey; top: 0px; right: 0px">
+            <!-- <div style="position:absolute; font-size: 5px; color: grey; top: 0px; right: 0px"> -->
+            <div style="position:absolute; font-size: 10px; color: grey; bottom: 0px; right: 0px">
+
                 Created by: Yu-Tong Cheng, Contributed by: B09 NTU MED.
                 Slightly revised by Phantominor.
             </div>
