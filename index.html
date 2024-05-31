@@ -7,43 +7,10 @@
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="nav-container">
-                <div class="logo">
-                    <a href="index.html">Phantom's Haven</a>
-                </div>
-                <div class="search-bar">
-                    <input type="text" placeholder="Search...">
-                </div>
-                <div class="nav-links">
-                    <a href="index.html">Home</a>
-                    <a href="novels.html">Novels</a>
-                    <a href="music.html">Music</a>
-                    <a href="notes.html">Notes</a>
-                    <a href="tcm.html">TCM</a>
-                    <a href="essays.html">Essays</a>
-                    <a href="games.html">Games</a>
-                </div>
-            </div>
-        </nav>
-    </header>
+    <div id="headerPage"></div> <!-- Placeholder for the header -->
+    
     <div class="content">
-        <aside class="sidebar">
-            <button class="sidebar-toggle">☰</button>
-            <div class="sidebar-content">
-                <h2>Contents</h2>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="novels.html">Novels</a></li>
-                    <li><a href="music.html">Music</a></li>
-                    <li><a href="notes.html">Notes</a></li>
-                    <li><a href="tcm.html">TCM</a></li>
-                    <li><a href="essays.html">Essays</a></li>
-                    <li><a href="games.html">Games</a></li>
-                </ul>
-            </div>
-        </aside>
+        <div id="sidebarPage"></div> <!-- Placeholder for the sidebar -->
         <main>
             <section class="profile">
                 <h1>Welcome to Phantom's Haven</h1>
@@ -57,26 +24,84 @@
                     <li><a href="#">Update 3</a></li>
                 </ul>
             </section>
+            <h2 id="section1">Section 1</h2>
+            <p>Content...</p>
+            <h3 id="subsection1">Subsection 1</h3>
+            <p>Content...</p>
         </main>
     </div>
-    <footer>
-        <div class="footer-container">
-            <div class="social-links">
-                <a href="#">Facebook</a>
-                <a href="#">Instagram</a>
-                <a href="#">Gmail</a>
-                <a href="#">GitHub</a>
-            </div>
-            <p>&copy; 2024 Phantom's Haven. All rights reserved.</p>
-            <p>Current visitors: <span id="visitor-count">123</span></p>
-            <p>Page views: <span id="page-view-count">456</span></p>
-        </div>
-    </footer>
+    
+    <div id="footerPage"></div> <!-- Placeholder for the footer -->
 
     <script>
-        document.querySelector('.sidebar-toggle').addEventListener('click', function() {
-            document.querySelector('.sidebar-content').classList.toggle('active');
-        });
+        // JavaScript to load the header
+        function loadHeader() {
+            fetch('templates/header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('headerPage').innerHTML = data;
+                })
+                .catch(error => console.error('Error loading header:', error));
+        }
+
+        // JavaScript to load the footer
+        function loadFooter() {
+            fetch('templates/footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('footerPage').innerHTML = data;
+                })
+                .catch(error => console.error('Error loading footer:', error));
+        }
+
+        // JavaScript to load the sidebar
+        function loadSidebar() {
+            fetch('templates/sidebar.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('sidebarPage').innerHTML = data;
+                    generateSidebarMenu(); // Generate the sidebar menu after loading the sidebar
+                    setupSidebarToggle();  // Set up the sidebar toggle after loading the sidebar
+                })
+                .catch(error => console.error('Error loading sidebar:', error));
+        }
+
+        // JavaScript to generate sidebar menu
+        function generateSidebarMenu() {
+            const sidebarMenu = document.getElementById('sidebar-menu');
+            const headers = document.querySelectorAll('h2, h3'); // Select the headers you want in the TOC
+
+            headers.forEach((header, index) => {
+                // Skip the first h2 element (the "Contents" heading)
+                if (index === 0 && header.tagName === 'H2') {
+                    return;
+                }
+
+                const listItem = document.createElement('li');
+                const anchor = document.createElement('a');
+                anchor.href = `#${header.id}`;
+                anchor.textContent = header.textContent;
+
+                if (header.tagName === 'H3') {
+                    listItem.style.paddingLeft = '20px'; // Indent H3 items
+                }
+
+                listItem.appendChild(anchor);
+                sidebarMenu.appendChild(listItem);
+            });
+        }
+
+        // JavaScript to set up the sidebar toggle
+        function setupSidebarToggle() {
+            document.querySelector('.sidebar-toggle').addEventListener('click', function() {
+                document.querySelector('.sidebar-content').classList.toggle('active');
+            });
+        }
+
+        // Load header, footer, and sidebar
+        loadHeader();
+        loadFooter();
+        loadSidebar();
     </script>
 </body>
 </html>
