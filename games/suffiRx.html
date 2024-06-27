@@ -103,7 +103,7 @@
         buttons.forEach(btn => btn.disabled = true);
 
         // Update the score
-        document.getElementById('score').innerText = `Score: ${score}/${totalQuestions}`;
+        document.getElementById('score').innerText = `Score: ${score} / ${totalQuestions}`;
 
         // Pause before the next question
         document.addEventListener('keydown', nextQuestionHandler);
@@ -115,7 +115,7 @@
         if (currentQuestionIndex < questions.length) {
           displayQuestion();
         } else {
-          document.getElementById('score').innerText = `Final Score: ${score}/${totalQuestions}`;
+          document.getElementById('score').innerText = `Final Score: ${score} / ${totalQuestions}`;
           document.getElementById('question').innerText = '<h1>Quiz Over</h1>';
           document.getElementById('choices').innerHTML = '';
           document.getElementById('feedback').innerText = '';
@@ -141,7 +141,7 @@
           <div id="question">Loading question...</div>
           <div id="choices"></div>
           <div id="feedback"></div>
-          <div id="score">Score: 0/0</div>
+          <div id="score">Score: 0 / 0</div>
         
           <div style="position:absolute; font-size: 10px; color: grey; bottom: 0px; right: 0px">
 
