@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacology (Drug suffix exam) - v.1</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+
+    <style>
+      body { font-family: Arial, sans-serif; }
+      #quiz { max-width: 600px; margin: auto; text-align: center; }
+      .choice { display: inline-block; margin: 10px; padding: 10px; border: 1px solid #ccc; cursor: pointer; width: 200px; height: 70px}
+      .correct { background-color: green; color: black; }
+      .incorrect { background-color: red; color: white; }
+      #feedback { margin-top: 20px; font-size: 1.2em; }
+      #score { margin-top: 20px; font-size: 1.5em; }
+      .drug-name { font-size: 1.5em; font-weight: bold; }
+      .suffix { color: blue; }
+    </style>
+</head>
+<body>
+           
+    <script>
+      async function loadDatabase() {
+        const response = await fetch('drugDatabase.json');
+        const data = await response.json();
+        return data;
+      }
+
+      function getRandomItems(arr, count) {
+        return arr.sort(() => 0.5 - Math.random()).slice(0, count);
+      }
+
+      function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
+
+      function generateQuestions(database) {
+        const questions = getRandomItems(database, 20).map(drug => {
+          const mainCategory = drug.mainCategory;
+          const correctAnswer = drug.subCategory;
+
+          // Filter distractors from the same main category
+          let possibleDistractors = database.filter(d => d.mainCategory === mainCategory && d.subCategory !== correctAnswer);
+          if (possibleDistractors.length < 3) {
+            const otherDistractors = database.filter(d => d.mainCategory !== mainCategory && d.subCategory !== correctAnswer);
+            possibleDistractors = possibleDistractors.concat(getRandomItems(otherDistractors, 3 - possibleDistractors.length));
+          }
+
+          const distractors = getRandomItems(possibleDistractors, 3);
+
+          return {
+            DNWS: drug.DNWS,
+            suffix: drug.suffix,
+            choices: shuffleArray([correctAnswer, ...distractors.map(d => d.subCategory)]),
+            correctAnswer: correctAnswer
+          };
+        });
+
+        return questions;
+      }
+
+      let currentQuestionIndex = 0;
+      let score = 0;
+      let totalQuestions = 0;
+      let questions = [];
+
+      function displayQuestion() {
+        const questionData = questions[currentQuestionIndex];
+        const questionElement = document.getElementById('question');
+        const DNWSParts = questionData.DNWS.split(questionData.suffix);
+        questionElement.innerHTML = `<h1>== Q${currentQuestionIndex + 1} ==</h1><span class="drug-name">${DNWSParts[0]}<span class="suffix">${questionData.suffix}</span></span>`;
+        
+        const choicesContainer = document.getElementById('choices');
+        choicesContainer.innerHTML = '';
+        questionData.choices.forEach(choice => {
+          const button = document.createElement('button');
+          button.innerText = choice;
+          button.classList.add('choice');
+          button.onclick = () => handleAnswer(button, choice, questionData.correctAnswer);
+          choicesContainer.appendChild(button);
+        });
+      }
+
+      function handleAnswer(button, selectedAnswer, correctAnswer) {
+        const feedback = document.getElementById('feedback');
+        totalQuestions++;
+        if (selectedAnswer === correctAnswer) {
+          score++;
+          feedback.innerText = `Correct! The answer was ${correctAnswer}.`;
+          button.classList.add('correct');
+        } else {
+          feedback.innerText = `Wrong! The correct answer was ${correctAnswer}.`;
+          button.classList.add('incorrect');
+        }
+
+        // Disable all buttons
+        const buttons = document.querySelectorAll('.choice');
+        buttons.forEach(btn => btn.disabled = true);
+
+        // Update the score
+        document.getElementById('score').innerText = `Score: ${score}/${totalQuestions}`;
+
+        // Pause before the next question
+        document.addEventListener('keydown', nextQuestionHandler);
+        document.addEventListener('click', nextQuestionHandler);
+      }
+
+      function nextQuestionHandler() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+          displayQuestion();
+        } else {
+          document.getElementById('score').innerText = `Final Score: ${score}/${totalQuestions}`;
+          document.getElementById('question').innerText = '<h1>Quiz Over</h1>';
+          document.getElementById('choices').innerHTML = '';
+          document.getElementById('feedback').innerText = '';
+        }
+        document.removeEventListener('keydown', nextQuestionHandler);
+        document.removeEventListener('click', nextQuestionHandler);
+      }
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        const database = await loadDatabase();
+        questions = generateQuestions(database);
+        displayQuestion();
+      });
+    </script>
+
+    <div id="headerPage"></div> <!-- Placeholder for the header -->
+    <div class="content">
+        <div id="sidebarPage"></div> <!-- Placeholder for the sidebar -->
+        <main id="quiz" style="position: relative;">
+          <div id="question">Loading question...</div>
+          <div id="choices"></div>
+          <div id="feedback"></div>
+          <div id="score">Score: 0/0</div>
+        
+          <div style="position:absolute; font-size: 10px; color: grey; bottom: 0px; right: 0px">
+
+              Created by: Phantominor, Contributed by: B09 NTU MED.
+          </div>
+        </main>
+
+    </div>
+    <div id="footerPage"></div> <!-- Placeholder for the footer -->
+
+    <script>
+        // JavaScript to load the header
+        function loadHeader() {
+            fetch('../templates/header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('headerPage').innerHTML = data;
+                })
+                .catch(error => console.error('Error loading header:', error));
+        }
+
+        // JavaScript to load the footer
+        function loadFooter() {
+            fetch('../templates/footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('footerPage').innerHTML = data;
+                })
+                .catch(error => console.error('Error loading footer:', error));
+        }
+
+        // JavaScript to load the sidebar
+        function loadSidebar() {
+            fetch('../templates/sidebar.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('sidebarPage').innerHTML = data;
+                    generateSidebarMenu(); // Generate the sidebar menu after loading the sidebar
+                    setupSidebarToggle();  // Set up the sidebar toggle after loading the sidebar
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+        }
+
+        // JavaScript to generate sidebar menu
+        function generateSidebarMenu() {
+        const sidebarMenu = document.getElementById('sidebar-menu');
+        const headers = document.querySelectorAll('h2, h3'); // Select the headers you want in the TOC
+
+        headers.forEach((header, index) => {
+            // Skip the first h2 element (the "Contents" heading)
+            if (index === 0 && header.tagName === 'H2') {
+                return;
+            }
+
+            const listItem = document.createElement('li');
+            const anchor = document.createElement('a');
+            anchor.href = `#${header.id}`;
+            anchor.textContent = header.textContent;
+
+            if (header.tagName === 'H3') {
+                listItem.style.paddingLeft = '20px'; // Indent H3 items
+            }
+
+            listItem.appendChild(anchor);
+            sidebarMenu.appendChild(listItem);
+        });
+        }
+
+        // JavaScript to set up the sidebar toggle
+        function setupSidebarToggle() {
+        document.querySelector('.sidebar-toggle').addEventListener('click', function() {
+            document.querySelector('.sidebar-content').classList.toggle('active');
+        });
+        }
+
+        // Load header, footer, and sidebar
+        loadHeader();
+        loadFooter();
+        loadSidebar();
+    </script>
+    
+</body>
+</html>

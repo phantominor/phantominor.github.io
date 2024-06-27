@@ -18,6 +18,41 @@ function loadFooter() {
       .catch(error => console.error('Error loading footer:', error));
 }
 
+// function loadFile(elementId, filePath) {
+//     fetch(filePath)
+//         .then(response => response.text())
+//         .then(data => {
+//             document.getElementById(elementId).innerHTML = data;
+//         })
+//         .catch(error => console.error(`Error loading ${filePath}:`, error));
+// }
+
+// function loadHeaderFooter() {
+//     const path = window.location.pathname;
+//     const depth = (path.match(/\//g) || []).length;
+
+//     let headerPath = '';
+//     let footerPath = '';
+
+//     switch (depth) {
+//         case 2: // in the 'games' directory
+//             headerPath = '../templates/header.html';
+//             footerPath = '../templates/footer.html';
+//             break;
+//         default: // in the root directory
+//             headerPath = 'templates/header.html';
+//             footerPath = 'templates/footer.html';
+//             break;
+//     }
+
+//     loadFile('headerPage', headerPath);
+//     loadFile('footerPage', footerPath);
+// }
+
+// document.addEventListener('DOMContentLoaded', loadHeaderFooter);
+
+
+
 // JavaScript to load the sidebar
 function loadSidebar() {
   fetch('templates/sidebar.html')
