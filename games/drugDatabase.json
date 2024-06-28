@@ -196,7 +196,7 @@
   {"ID": 196, "mainCategory": "Other", "subCategory": "5α-reductase inhibitor", "drugName": "Finasteride", "DNWS": "Fina", "suffix": "steride"},
   {"ID": 197, "mainCategory": "Other", "subCategory": "5α-reductase inhibitor", "drugName": "Dutasteride", "DNWS": "Duta", "suffix": "steride"},
   {"ID": 198, "mainCategory": "Other", "subCategory": "H1-antagonist", "drugName": "Loratadine", "DNWS": "Lora", "suffix": "tadine"},
-  {"ID": 199, "mainCategory": "Other", "subCategory": "H1-antagonist", "drugName": "Fexofenadine", "DNWS": "Fexofenadine", "suffix": "tadine"},
+  {"ID": 199, "mainCategory": "Other", "subCategory": "H1-antagonist", "drugName": "Fexofenadine", "DNWS": "Fexofe", "suffix": "nadine"},
   {"ID": 200, "mainCategory": "Other", "subCategory": "H1-antagonist", "drugName": "Desloratadine", "DNWS": "Deslora", "suffix": "tadine"},
   {"ID": 201, "mainCategory": "Other", "subCategory": "H2-antagonist", "drugName": "Cimetidine", "DNWS": "Cime", "suffix": "tidine"},
   {"ID": 202, "mainCategory": "Other", "subCategory": "H2-antagonist", "drugName": "Famotidine", "DNWS": "Famo", "suffix": "tidine"},
