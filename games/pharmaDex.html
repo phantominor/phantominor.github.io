@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PharmaDex - v.1</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+
+    <style>
+      /* body {
+          font-family: Arial, sans-serif;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+          background-color: #f4f4f9;
+      } */
+      .container {
+          text-align: center;
+          background-color: white;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      }
+      /* #quiz { max-width: 600px; margin: auto; text-align: center; } */
+      button, select {
+          padding: 10px 20px;
+          margin-top: 20px;
+          color: white;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+      }
+      button {
+          background-color: #007bff;
+          border: none;
+      }
+      button:hover {
+          background-color: #0056b3;
+      }
+      select {
+          max-width: 200px;
+          background-color: #ffffff;
+          color: black;
+          border: 1px solid #ccc;
+      }
+      select:hover {
+          background-color: #e6e6e6;
+      }
+      .info {
+          margin-top: 10px;
+          font-size: 16px;
+          color: #333;
+      }
+      .intro {
+          font-size: 18px;
+          color: #555;
+          margin-bottom: 20px;
+      }
+    </style>
+</head>
+<body>
+           
+    <script src="pharmaDex.js"></script>
+    <script>
+        let filteredDrugs = drugs;
+    
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'j' || event.key === 'a' || event.keyCode === 37) {
+                showRandomDrug();
+            } else if (event.key === 'l' || event.key === 'd' || event.keyCode === 39) {
+                showDetails();
+            }
+        });
+    
+        function populateMainCategories() {
+            const mainCategorySet = new Set(drugs.map(drug => drug[0]));
+            const mainCategorySelect = document.getElementById('mainCategorySelect');
+            mainCategorySelect.innerHTML = '<option value="All">All Categories</option>';
+            mainCategorySet.forEach(category => {
+                mainCategorySelect.innerHTML += `<option value="${category}">${category}</option>`;
+            });
+            updateSubCategories();
+        }
+    
+        function updateSubCategories() {
+            const selectedMainCategory = document.getElementById('mainCategorySelect').value;
+            const subCategorySet = new Set(drugs.filter(drug => drug[0] === selectedMainCategory || selectedMainCategory === "All").map(drug => drug[1]));
+            const subCategorySelect = document.getElementById('subCategorySelect');
+            subCategorySelect.innerHTML = '<option value="All">All Subcategories</option>';
+            subCategorySet.forEach(subCategory => {
+                subCategorySelect.innerHTML += `<option value="${subCategory}">${subCategory}</option>`;
+            });
+            filterDrugs();
+        }
+    
+        function filterDrugs() {
+            const selectedMainCategory = document.getElementById('mainCategorySelect').value;
+            const selectedSubCategory = document.getElementById('subCategorySelect').value;
+            filteredDrugs = drugs.filter(drug => 
+                (drug[0] === selectedMainCategory || selectedMainCategory === "All") &&
+                (drug[1] === selectedSubCategory || selectedSubCategory === "All")
+            );
+            showRandomDrug();
+        }
+    
+        function showRandomDrug() {
+            document.getElementById('mainCategorySelect').blur();
+            document.getElementById('subCategorySelect').blur();
+            if (filteredDrugs.length === 0) {
+                document.getElementById('drugName').textContent = "No drugs available";
+                document.getElementById('drugInfo').textContent = "";
+                return;
+            }
+            const randomDrug = filteredDrugs[Math.floor(Math.random() * filteredDrugs.length)];
+            document.getElementById('drugName').textContent = randomDrug[2];
+            document.getElementById('drugInfo').textContent = "";
+        }
+    
+        function showDetails() {
+            const drugName = document.getElementById('drugName').textContent;
+            const drug = filteredDrugs.find(d => d[2] === drugName);
+            document.getElementById('drugInfo').textContent = drug ? drug.join(' - ') : "Select a drug to view details";
+        }
+    
+        window.onload = populateMainCategories;
+    </script>
+
+    <div id="headerPage"></div> <!-- Placeholder for the header -->
+    
+    <div class="content">
+        
+        <!-- <main id="quiz" style="position: relative;"> -->
+        <main class="container">
+        <!-- <main class="container" style="position: relative;"> -->
+          <div class="intro">
+            Welcome to PharmaDex!<br><br>
+            Use the dropdown menus to select drug categories and subcategories.<br>
+            Press the left arrow key or 'J'/'A' to show a random drug.<br>
+            Press the right arrow key or 'L'/'D' to show details.
+          </div>
+          <select id="mainCategorySelect" onchange="updateSubCategories()"></select>
+          <select id="subCategorySelect" onchange="filterDrugs()"></select>
+          <h1 id="drugName">Drug Name</h1>
+          <button onclick="showRandomDrug()">New Random Drug</button>
+          <button onclick="showDetails()">Show Details</button>
+          <div class="info" id="drugInfo"></div>
+        </main>
+
+    </div>
+
+    <div id="footerPage"></div> <!-- Placeholder for the footer -->
+
+    <script>
+        // JavaScript to load the header
+        function loadHeader() {
+            fetch('../templates/header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('headerPage').innerHTML = data;
+                })
+                .catch(error => console.error('Error loading header:', error));
+        }
+
+        // JavaScript to load the footer
+        function loadFooter() {
+            fetch('../templates/footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('footerPage').innerHTML = data;
+                })
+                .catch(error => console.error('Error loading footer:', error));
+        }
+
+        // Load header, footer, and sidebar
+        loadHeader();
+        loadFooter();
+
+    </script>
+    
+</body>
+</html>

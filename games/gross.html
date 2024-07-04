@@ -72,7 +72,7 @@
         var TIME=31;
         var numOfProbs;
         var tm; // timer (global)
-        var data; // answersheet
+        var data; // gross_answersheet
         var x; // number of image
         var state = 0;
         var correct = 0;
@@ -112,7 +112,7 @@
                 var id = "1xx3LAOByVnspxKPGwn5-0AwReJq0pZLyomD6AtzHTnE";
                 var gid = "0";
                 // var url = "https://spreadsheets.google.com/feeds/list/"+id+"/"+gid+"/public/values?alt=json";
-                var url = "./answersheet.csv";
+                var url = "./gross_answersheet.csv";
                 $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.21/jquery.csv.js",function(){
                     // https://ouoholly.github.io/post/google-spreadsheet-data-to-json-javascript-html/#%E6%96%B9%E6%B3%95%E4%B8%80-Code
                     $.get(url, function(CSVdata){
@@ -123,7 +123,7 @@
                         numOfProbs = Object.keys(data).length;
                         window.console.log(numOfProbs);
     
-                        data = parseMultiAns(data); // split "A / B / C" in answersheet into array
+                        data = parseMultiAns(data); // split "A / B / C" in gross_answersheet into array
                         window.console.log(data);
                         
                         score=0;
