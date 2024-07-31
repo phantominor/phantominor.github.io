@@ -53,8 +53,8 @@ function sendData(obj,ele){
     return rep.json()
   }).then((json)=>{
     console.log(json);
-  //   let temp = ele.textContent.slice(0,2);
-  //   console.log(temp);
-  //   ele.innerHTML = temp + json.val;
+    let temp = ele.textContent.slice(0,2);
+    console.log(temp);
+    ele.innerHTML = temp + json.val;
   })
 }
