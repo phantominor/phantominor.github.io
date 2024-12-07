@@ -1,0 +1,24 @@
+{
+  "song_title": "Me Gustas Tu",
+  "singer": "BTS",
+  "album": "Love Yourself: Answer",
+  "year": "2018",
+  "achievements": "Billboard Music Awards Top Social Artist, multiple music show wins",
+  "additional_info": "Part of the Love Yourself series, symbolizing youth and transformation",
+  "personal_feedback": "A deeply emotional song that captures the essence of youth and change",
+  "lyrics": [
+      {
+          "lyric": "바람에 나풀거리는 꽃잎처럼",
+          "pronunciation": "ba ra me na pul geo ri neun ggo nib cheo reum",
+          "translation": "Like a flower petal fluttering in the wind",
+          "grammar": "꽃잎 (ggo nib) demonstrates complex Korean pronunciation rules",
+          "background": "This line metaphorically describes the delicate nature of youth"
+      },
+      {
+          "lyric": "너의 모든 순간이 꽃잎처럼",
+          "pronunciation": "neo-ui mo-deun sun-gan-i ggo-nib-cheo-reum",
+          "translation": "Every moment of you, like a flower petal",
+          "background": "Continuing the metaphor of fragile, beautiful moments"
+      }
+  ]
+}
