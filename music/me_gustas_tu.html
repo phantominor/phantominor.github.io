@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K-Pop Lyrics Learning</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; }
+    .song-title { text-align: center; color: #2c3e50; margin-bottom: 15px; }
+    .song-info { text-align: center; background-color: #f4f7f6; padding: 15px; margin-bottom: 20px; border-radius: 8px; }
+    .song-info-item { margin: 5px 0; color: #34495e; }
+    .lyrics-container { margin-top: 20px; }
+    .lyric-line { 
+        position: relative; 
+        cursor: pointer; 
+        padding: 10px; 
+        transition: background-color 0.3s; 
+        border-bottom: 1px solid #ecf0f1; 
+    }
+    .lyric-line:hover { background-color: #f1f4f6; }
+    .lyric-line::after { 
+        content: "Click to expand"; 
+        position: absolute; 
+        right: 10px; 
+        top: 50%; 
+        transform: translateY(-50%); 
+        color: #3498db; 
+        opacity: 0; 
+        transition: opacity 0.3s; 
+    }
+    .lyric-line:hover::after { opacity: 1; }
+    .lyric-details { 
+        display: none; 
+        background-color: #f4f7f6; 
+        padding: 15px; 
+        margin-top: 10px; 
+        border-radius: 8px; 
+    }
+    .lyric-details.active { display: block; }
+    .section-title { color: #2980b9; border-bottom: 2px solid #3498db; padding-bottom: 5px; margin-bottom: 10px; }
+    .section-content { color: #2c3e50; }
+    .pronunciation { color: #16a085; }
+    .translation { color: #27ae60; }
+    .grammar { color: #d35400; }
+    .background { color: #7f8c8d; font-style: italic; }
+    </style>
+</head>
+<body>
+    <h1 class="song-title">Me Gustas Tu</h1>
+    <div class="song-info">
+        <div class="song-info-item"><strong>Singer:</strong> GFRIEND</div>
+        <div class="song-info-item"><strong>Album:</strong> Flower Bud</div>
+        <div class="song-info-item"><strong>Year:</strong> 2015</div>
+    </div>
+    <div class="lyrics-container">
+        <div class="lyric-line" data-index="0">
+            널 향한 설레임을 오늘 부터 우리 는
+        </div>
+        <div class="lyric-details" data-index="0">
+            <div class="pronunciation">
+                <h3 class="section-title">Pronunciation</h3>
+                <div class="section-content">noel hyang han, soel re i meul, o neul bu toe u ri neun</div>
+            </div>
+            <div class="translation">
+                <h3 class="section-title">Translation</h3>
+                <div class="section-content">Facing you, I feel so excited, we are from today</div>
+            </div>
+            <div class="learning_tips">
+                <h3 class="section-title">Learning tips</h3>
+                <div class="section-content">Notice the particle &#x27;는&#x27; marking the subject of the sentence</div>
+            </div>
+        </div>
+        <div class="lyric-line" data-index="1">
+            꿈꾸 며 기도하는 오늘 부터 우리는
+        </div>
+        <div class="lyric-details" data-index="1">
+            <div class="pronunciation">
+                <h3 class="section-title">Pronunciation</h3>
+                <div class="section-content">ggum ggu myoen, gi do ha neun, o neul bu toe u ri neun</div>
+            </div>
+            <div class="translation">
+                <h3 class="section-title">Translation</h3>
+                <div class="section-content">Dreaming and praying, we are from today</div>
+            </div>
+            <div class="learning_tips">
+                <h3 class="section-title">Learning tips</h3>
+                <div class="section-content">The verb ending &#x27;-는&#x27; indicates a descriptive present tense</div>
+            </div>
+        </div>
+        <div class="lyric-line" data-index="2">
+            저 바람에 노을 빛 내 맘을 실어 보낼 게
+        </div>
+        <div class="lyric-details" data-index="2">
+            <div class="pronunciation">
+                <h3 class="section-title">Pronunciation</h3>
+                <div class="section-content">joe, ba ra me, no eul, bid, ne, ma meul, si roe, bo nel ge</div>
+            </div>
+            <div class="translation">
+                <h3 class="section-title">Translation</h3>
+                <div class="section-content">In the wind, with the sunset&#x27;s light, I&#x27;ll send my heart</div>
+            </div>
+            <div class="learning_tips">
+                <h3 class="section-title">Learning tips</h3>
+                <div class="section-content">&#x27;-ㄹ 게&#x27; indicates a future intention or promise</div>
+            </div>
+        </div>
+        <div class="lyric-line" data-index="3">
+            그리운 마음이 모여서 내리 는
+        </div>
+        <div class="lyric-details" data-index="3">
+            <div class="pronunciation">
+                <h3 class="section-title">Pronunciation</h3>
+                <div class="section-content">geu ri un, ma eu mi, mo yoe soe, ne ri neun</div>
+            </div>
+            <div class="translation">
+                <h3 class="section-title">Translation</h3>
+                <div class="section-content">Nostalgic hearts gathering and descending</div>
+            </div>
+            <div class="learning_tips">
+                <h3 class="section-title">Learning tips</h3>
+                <div class="section-content">&#x27;-는&#x27; at the end indicates a descriptive present continuous action</div>
+            </div>
+        </div>
+        <div class="lyric-line" data-index="4">
+            Me gustas tu gustas tu
+        </div>
+        <div class="lyric-details" data-index="4">
+            <div class="pronunciation">
+                <h3 class="section-title">Pronunciation</h3>
+                <div class="section-content">me gustas tu gustas tu</div>
+            </div>
+            <div class="translation">
+                <h3 class="section-title">Translation</h3>
+                <div class="section-content">I like you, you like you</div>
+            </div>
+            <div class="learning_tips">
+                <h3 class="section-title">Learning tips</h3>
+                <div class="section-content">Spanish phrase meaning &#x27;I like you&#x27;</div>
+            </div>
+        </div>
+        <div class="lyric-line" data-index="5">
+            수투 두루 좋아해요
+        </div>
+        <div class="lyric-details" data-index="5">
+            <div class="pronunciation">
+                <h3 class="section-title">Pronunciation</h3>
+                <div class="section-content">su tu du ru, jo ha he yo</div>
+            </div>
+            <div class="translation">
+                <h3 class="section-title">Translation</h3>
+                <div class="section-content">I really, really like you</div>
+            </div>
+            <div class="learning_tips">
+                <h3 class="section-title">Learning tips</h3>
+                <div class="section-content">&#x27;-해요&#x27; is a polite way to express liking or doing something</div>
+            </div>
+        </div>
+        <div class="lyric-line" data-index="6">
+            Gustas tu 수투루 수투~루
+        </div>
+        <div class="lyric-details" data-index="6">
+            <div class="pronunciation">
+                <h3 class="section-title">Pronunciation</h3>
+                <div class="section-content">gustas tu, su tu ru su tuuuu ru</div>
+            </div>
+            <div class="translation">
+                <h3 class="section-title">Translation</h3>
+                <div class="section-content">You like, truly like</div>
+            </div>
+            <div class="learning_tips">
+                <h3 class="section-title">Learning tips</h3>
+                <div class="section-content">Another variation of the Spanish phrase &#x27;you like&#x27;</div>
+            </div>
+        </div>
+    </div>
+    <script>
+    document.querySelectorAll(".lyric-line").forEach(line => {
+        line.addEventListener("click", function() {
+            const index = this.dataset.index;
+            const details = document.querySelector(`.lyric-details[data-index="${index}"]`);
+            details.classList.toggle("active");
+        });
+    });
+    </script>
+</body>
+</html>

@@ -1,24 +1,51 @@
 {
   "song_title": "Me Gustas Tu",
-  "singer": "BTS",
-  "album": "Love Yourself: Answer",
-  "year": "2018",
-  "achievements": "Billboard Music Awards Top Social Artist, multiple music show wins",
-  "additional_info": "Part of the Love Yourself series, symbolizing youth and transformation",
-  "personal_feedback": "A deeply emotional song that captures the essence of youth and change",
+  "singer": "GFRIEND",
+  "album": "Flower Bud",
+  "year": "2015",
+
   "lyrics": [
       {
-          "lyric": "바람에 나풀거리는 꽃잎처럼",
-          "pronunciation": "ba ra me na pul geo ri neun ggo nib cheo reum",
-          "translation": "Like a flower petal fluttering in the wind",
-          "grammar": "꽃잎 (ggo nib) demonstrates complex Korean pronunciation rules",
-          "background": "This line metaphorically describes the delicate nature of youth"
+          "lyric": "널 향한 설레임을 오늘 부터 우리 는",
+          "pronunciation": "noel hyang han, soel re i meul, o neul bu toe u ri neun",
+          "translation": "Facing you, I feel so excited, we are from today",
+          "learning_tips": "Notice the particle '는' marking the subject of the sentence"
       },
       {
-          "lyric": "너의 모든 순간이 꽃잎처럼",
-          "pronunciation": "neo-ui mo-deun sun-gan-i ggo-nib-cheo-reum",
-          "translation": "Every moment of you, like a flower petal",
-          "background": "Continuing the metaphor of fragile, beautiful moments"
+          "lyric": "꿈꾸 며 기도하는 오늘 부터 우리는",
+          "pronunciation": "ggum ggu myoen, gi do ha neun, o neul bu toe u ri neun",
+          "translation": "Dreaming and praying, we are from today",
+          "learning_tips": "The verb ending '-는' indicates a descriptive present tense"
+      },
+      {
+          "lyric": "저 바람에 노을 빛 내 맘을 실어 보낼 게",
+          "pronunciation": "joe, ba ra me, no eul, bid, ne, ma meul, si roe, bo nel ge",
+          "translation": "In the wind, with the sunset's light, I'll send my heart",
+          "learning_tips": "'-ㄹ 게' indicates a future intention or promise"
+      },
+      {
+          "lyric": "그리운 마음이 모여서 내리 는",
+          "pronunciation": "geu ri un, ma eu mi, mo yoe soe, ne ri neun",
+          "translation": "Nostalgic hearts gathering and descending",
+          "learning_tips": "'-는' at the end indicates a descriptive present continuous action"
+      },
+      {
+          "lyric": "Me gustas tu gustas tu",
+          "pronunciation": "me gustas tu gustas tu",
+          "translation": "I like you, you like you",
+          "learning_tips": "Spanish phrase meaning 'I like you'"
+      },
+      {
+          "lyric": "수투 두루 좋아해요",
+          "pronunciation": "su tu du ru, jo ha he yo",
+          "translation": "I really, really like you",
+          "learning_tips": "'-해요' is a polite way to express liking or doing something"
+      },
+      {
+          "lyric": "Gustas tu 수투루 수투~루",
+          "pronunciation": "gustas tu, su tu ru su tuuuu ru",
+          "translation": "You like, truly like",
+          "learning_tips": "Another variation of the Spanish phrase 'you like'"
       }
   ]
 }

@@ -100,9 +100,7 @@ def convert_lyrics_to_html(input_file, output_file):
             sections_to_add = [
                 ('pronunciation', 'Pronunciation'),
                 ('translation', 'Translation'),
-                ('grammar', 'Grammar Analysis'),
-                ('background', 'Background'),
-                ('practice', 'Practice')
+                ('learning_tips', 'Learning tips'),
             ]
             
             for key, display_name in sections_to_add:
