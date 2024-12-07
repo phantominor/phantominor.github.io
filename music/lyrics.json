@@ -8,44 +8,40 @@
       {
           "lyric": "널 향한 설레임을 오늘 부터 우리 는",
           "pronunciation": "noel hyang han, soel re i meul, o neul bu toe u ri neun",
-          "translation": "Facing you, I feel so excited, we are from today",
-          "learning_tips": "Notice the particle '는' marking the subject of the sentence"
+          "translation": "你 對著 激動 今天 從 我們 是 → 面對你，我感到好激動，我們是從今天開始",
+          "learning_tips": "句中'는'前為主詞，表判斷句；此處為倒裝。"
       },
       {
           "lyric": "꿈꾸 며 기도하는 오늘 부터 우리는",
           "pronunciation": "ggum ggu myoen, gi do ha neun, o neul bu toe u ri neun",
-          "translation": "Dreaming and praying, we are from today",
-          "learning_tips": "The verb ending '-는' indicates a descriptive present tense"
+          "translation": "夢 做 祈禱 今天 從 我們 是 → 在夢中祈禱，我們是從今天開始"
       },
       {
           "lyric": "저 바람에 노을 빛 내 맘을 실어 보낼 게",
           "pronunciation": "joe, ba ra me, no eul, bid, ne, ma meul, si roe, bo nel ge",
-          "translation": "In the wind, with the sunset's light, I'll send my heart",
-          "learning_tips": "'-ㄹ 게' indicates a future intention or promise"
+          "translation": "我 在風中 夕陽 光 我 心 攜帶 發送 你 → 風中的我，將我的心意藉由夕陽餘暉照向你",
+          "learning_tips": "'-ㄹ 게'為未來式，或表承諾。"
       },
       {
           "lyric": "그리운 마음이 모여서 내리 는",
           "pronunciation": "geu ri un, ma eu mi, mo yoe soe, ne ri neun",
-          "translation": "Nostalgic hearts gathering and descending",
-          "learning_tips": "'-는' at the end indicates a descriptive present continuous action"
+          "translation": "懷舊的 心 聚集 往下 → 讓我們眷戀的心聚集並落下"
       },
       {
           "lyric": "Me gustas tu gustas tu",
           "pronunciation": "me gustas tu gustas tu",
-          "translation": "I like you, you like you",
-          "learning_tips": "Spanish phrase meaning 'I like you'"
+          "translation": "我喜歡你 喜歡你 → 我喜歡你",
+          "learning_tips": "為西班牙文中的 I like you。"
       },
       {
           "lyric": "수투 두루 좋아해요",
           "pronunciation": "su tu du ru, jo ha he yo",
-          "translation": "I really, really like you",
-          "learning_tips": "'-해요' is a polite way to express liking or doing something"
+          "translation": "[語助詞] 自始至終、毫無遺漏 我喜歡你 → 我真的真的喜歡你"
       },
       {
           "lyric": "Gustas tu 수투루 수투~루",
           "pronunciation": "gustas tu, su tu ru su tuuuu ru",
-          "translation": "You like, truly like",
-          "learning_tips": "Another variation of the Spanish phrase 'you like'"
+          "translation": "喜歡你 [語助詞] → 喜歡你，真的喜歡"
       }
   ]
 }

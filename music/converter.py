@@ -138,4 +138,4 @@ def convert_lyrics_to_html(input_file, output_file):
 
 # Run the conversion
 if __name__ == "__main__":
-    convert_lyrics_to_html('lyrics.json', 'index.html')
+    convert_lyrics_to_html('lyrics.json', 'me_gustas_tu.html')
