@@ -42,6 +42,19 @@
           "lyric": "Gustas tu 수투루 수투~루",
           "pronunciation": "gustas tu, su tu ru su tuuuu ru",
           "translation": "喜歡你 [語助詞] → 喜歡你，真的喜歡"
+      },
+      {
+        "lyric": "바람에 나풀거리는 꽃잎처럼",
+        "pronunciation": "ba ra me na pul geo ri neun ggo nib cheo reum",
+        "translation": "Like a flower petal fluttering in the wind",
+        "learning_tips": 
+          "**Key Grammar Point**: Descriptive phrase using ㄴ transformation\n- Analyze the word **꽃잎** (ggo nib)\n- Understand the pronunciation rules\n- Break down the metaphorical meaning"
+      },
+      {
+          "lyric": "너의 모든 순간이 꽃잎처럼",
+          "pronunciation": "neo-ui mo-deun sun-gan-i ggo-nib-cheo-reum",
+          "translation": "Every moment of you, like a flower petal",
+          "learning_tips": "<p><strong>꽃잎</strong> (ggo nib)：這是發音規則「ㄴ添加」還有「鼻音化」的關係！</p>                    <ol>                    <li>代表音規則：꽃잎 → 꼳입<ul>                    <li>ㄱ, ㄲ, ㅋ → [ㄱ]</li>                    <li>ㄷ, ㅌ, ㅅ, ㅆ, ㅈ, ㅊ, ㅎ → [ㄷ]</li>                    <li>ㅂ, ㅍ → [ㅂ]</li>                    </ul>                    </li>                    <li>ㄴ添加：꼳입 → 꼳닙<ul>                    <li>前面字是子音結尾，後面是이 ,야 ,여 ,요 ,유開頭時，要加上ㄴ，變成 [니, 냐, 녀, 뇨, 뉴]</li>                    </ul>                    </li>                    <li>鼻音化：꼳닙 → 꼰닙<ul>                    <li>終聲代表音 ㄱ, ㄷ, ㅂ 後面遇到 ㅁ, ㄴ開頭時，ㄱ, ㄷ, ㅂ會變成 [ㅇ, ㄴ, ㅁ]</li>                    </ul>                    </li>                    <li>練習：<ul>                    <li>영업용 營業用 </li>                    <li>홑이불 薄被 </li>                    <li>한국 요리 韓國料理 </li>                    <li>아침에 못 일어나요. 早上起不來。</li>                    </ul>                    </li>                    </ol>"
       }
   ]
 }

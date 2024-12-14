@@ -1,103 +1,98 @@
 // JavaScript to load the header
 function loadHeader() {
-  fetch('templates/header.html')
-      .then(response => response.text())
-      .then(data => {
-          document.getElementById('headerPage').innerHTML = data;
-      })
-      .catch(error => console.error('Error loading header:', error));
+    fetch('templates/header.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('headerPage').innerHTML = data;
+        })
+        .catch(error => console.error('Error loading header:', error));
 }
 
 // JavaScript to load the footer
 function loadFooter() {
-  fetch('templates/footer.html')
-      .then(response => response.text())
-      .then(data => {
-          document.getElementById('footerPage').innerHTML = data;
-      })
-      .catch(error => console.error('Error loading footer:', error));
+    fetch('templates/footer.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('footerPage').innerHTML = data;
+        })
+        .catch(error => console.error('Error loading footer:', error));
 }
 
-// function loadFile(elementId, filePath) {
-//     fetch(filePath)
-//         .then(response => response.text())
-//         .then(data => {
-//             document.getElementById(elementId).innerHTML = data;
-//         })
-//         .catch(error => console.error(`Error loading ${filePath}:`, error));
-// }
-
-// function loadHeaderFooter() {
-//     const path = window.location.pathname;
-//     const depth = (path.match(/\//g) || []).length;
-
-//     let headerPath = '';
-//     let footerPath = '';
-
-//     switch (depth) {
-//         case 2: // in the 'games' directory
-//             headerPath = '../templates/header.html';
-//             footerPath = '../templates/footer.html';
-//             break;
-//         default: // in the root directory
-//             headerPath = 'templates/header.html';
-//             footerPath = 'templates/footer.html';
-//             break;
-//     }
-
-//     loadFile('headerPage', headerPath);
-//     loadFile('footerPage', footerPath);
-// }
-
-// document.addEventListener('DOMContentLoaded', loadHeaderFooter);
-
-
-
-// JavaScript to load the sidebar
-function loadSidebar() {
-  fetch('templates/sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-          document.getElementById('sidebarPage').innerHTML = data;
-          generateSidebarMenu(); // Generate the sidebar menu after loading the sidebar
-          setupSidebarToggle();  // Set up the sidebar toggle after loading the sidebar
-      })
-      .catch(error => console.error('Error loading sidebar:', error));
+// JavaScript to load the profile column
+function loadProfileColumn() {
+    fetch('templates/profile-column.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('profileColumnPage').innerHTML = data;
+            generatePageContents(); // Generate page contents after loading profile column
+        })
+        .catch(error => console.error('Error loading profile column:', error));
 }
 
-// JavaScript to generate sidebar menu
-function generateSidebarMenu() {
-  const sidebarMenu = document.getElementById('sidebar-menu');
-  const headers = document.querySelectorAll('h2, h3'); // Select the headers you want in the TOC
+// Function to generate page contents
+function generatePageContents() {
+    const pageTOC = document.getElementById('page-toc');
+    if (!pageTOC) return; // Exit if TOC element doesn't exist
 
-  headers.forEach((header, index) => {
-      // Skip the first h2 element (the "Contents" heading)
-      if (index === 0 && header.tagName === 'H2') {
-          return;
-      }
+    // Clear previous contents
+    pageTOC.innerHTML = '';
 
-      const listItem = document.createElement('li');
-      const anchor = document.createElement('a');
-      anchor.href = `#${header.id}`;
-      anchor.textContent = header.textContent;
+    // Select headers within the main content area
+    const headers = document.querySelectorAll('main h2, main h3');
 
-      if (header.tagName === 'H3') {
-          listItem.style.paddingLeft = '20px'; // Indent H3 items
-      }
+    headers.forEach((header, index) => {
+        // Assign an ID if not already present
+        if (!header.id) {
+            header.id = `section-${index}`;
+        }
 
-      listItem.appendChild(anchor);
-      sidebarMenu.appendChild(listItem);
-  });
+        const listItem = document.createElement('li');
+        const anchor = document.createElement('a');
+        anchor.href = `#${header.id}`;
+        anchor.textContent = header.textContent;
+
+        // Indent subsections
+        if (header.tagName === 'H3') {
+            listItem.style.paddingLeft = '15px';
+        }
+
+        listItem.appendChild(anchor);
+        pageTOC.appendChild(listItem);
+    });
 }
 
-// JavaScript to set up the sidebar toggle
-function setupSidebarToggle() {
-  document.querySelector('.sidebar-toggle').addEventListener('click', function() {
-      document.querySelector('.sidebar-content').classList.toggle('active');
-  });
+// Function to manage featured sections
+function manageFeaturedSections() {
+    const recentUpdatesList = document.querySelector('.recent-updates .featured-list');
+    const popularContentList = document.querySelector('.popular-content .featured-list');
+
+    // Limit to 5 items for recent updates
+    if (recentUpdatesList) {
+        const updateItems = recentUpdatesList.querySelectorAll('.featured-item');
+        if (updateItems.length > 5) {
+            for (let i = 5; i < updateItems.length; i++) {
+                updateItems[i].style.display = 'none';
+            }
+        }
+    }
+
+    // Limit to 5 items for popular content
+    if (popularContentList) {
+        const popularItems = popularContentList.querySelectorAll('.featured-item');
+        if (popularItems.length > 5) {
+            for (let i = 5; i < popularItems.length; i++) {
+                popularItems[i].style.display = 'none';
+            }
+        }
+    }
 }
 
-// Load header, footer, and sidebar
-loadHeader();
-loadFooter();
-loadSidebar();
+// Add the event listener to load components
+document.addEventListener('DOMContentLoaded', () => {
+    loadHeader();
+    loadFooter();
+    loadProfileColumn();
+    
+    // Manage featured sections after content is loaded
+    setTimeout(manageFeaturedSections, 100);
+});

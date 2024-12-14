@@ -30,7 +30,7 @@ def convert_lyrics_to_html(input_file, output_file):
         '        position: relative; ',
         '        cursor: pointer; ',
         '        padding: 10px; ',
-        '        transition: background-color 0.3s; ',
+        '        transition: all 0.3s; ',
         '        border-bottom: 1px solid #ecf0f1; ',
         '    }',
         '    .lyric-line:hover { background-color: #f1f4f6; }',
@@ -45,6 +45,11 @@ def convert_lyrics_to_html(input_file, output_file):
         '        transition: opacity 0.3s; ',
         '    }',
         '    .lyric-line:hover::after { opacity: 1; }',
+        '    .lyric-line.active { ',
+        '        background-color: #e8f4f8; ',
+        '        font-weight: bold; ',
+        '        color: #2c3e50; ',
+        '    }',
         '    .lyric-details { ',
         '        display: none; ',
         '        background-color: #f4f7f6; ',
@@ -57,8 +62,7 @@ def convert_lyrics_to_html(input_file, output_file):
         '    .section-content { color: #2c3e50; }',
         '    .pronunciation { color: #16a085; }',
         '    .translation { color: #27ae60; }',
-        '    .grammar { color: #d35400; }',
-        '    .background { color: #7f8c8d; font-style: italic; }',
+        '    .learning-tips { color: #d35400; }',
         '    </style>',
         '</head>',
         '<body>'
@@ -96,19 +100,22 @@ def convert_lyrics_to_html(input_file, output_file):
             # Lyric details (hidden by default)
             html_parts.append(f'        <div class="lyric-details" data-index="{index}">')
             
-            # Additional sections
+            # Simplified sections
             sections_to_add = [
                 ('pronunciation', 'Pronunciation'),
                 ('translation', 'Translation'),
-                ('learning_tips', 'Learning tips'),
+                ('learning_tips', 'Learning Tips')
             ]
             
             for key, display_name in sections_to_add:
                 if key in section:
-                    html_parts.append(f'            <div class="{key}">')
-                    html_parts.append(f'                <h3 class="section-title">{display_name}</h3>')
-                    html_parts.append(f'                <div class="section-content">{html.escape(section[key])}</div>')
-                    html_parts.append('            </div>')
+                    # Handle potential key variations
+                    content = section.get(key) or section.get(key.replace('_', ' '))
+                    if content:
+                        html_parts.append(f'            <div class="{key.replace("_", "-")}">')
+                        html_parts.append(f'                <h3 class="section-title">{display_name}</h3>')
+                        html_parts.append(f'                <div class="section-content">{html.escape(content)}</div>')
+                        html_parts.append('            </div>')
             
             html_parts.append('        </div>')
 
@@ -122,6 +129,15 @@ def convert_lyrics_to_html(input_file, output_file):
         '        line.addEventListener("click", function() {',
         '            const index = this.dataset.index;',
         '            const details = document.querySelector(`.lyric-details[data-index="${index}"]`);',
+        '            const allLines = document.querySelectorAll(".lyric-line");',
+        '            const allDetails = document.querySelectorAll(".lyric-details");',
+        '            ',
+        '            // First, remove active state from all lines and details',
+        '            allLines.forEach(l => l.classList.remove("active"));',
+        '            allDetails.forEach(d => d.classList.remove("active"));',
+        '            ',
+        '            // Toggle current line and details',
+        '            this.classList.toggle("active");',
         '            details.classList.toggle("active");',
         '        });',
         '    });',

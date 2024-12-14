@@ -14,7 +14,7 @@
         position: relative; 
         cursor: pointer; 
         padding: 10px; 
-        transition: background-color 0.3s; 
+        transition: all 0.3s; 
         border-bottom: 1px solid #ecf0f1; 
     }
     .lyric-line:hover { background-color: #f1f4f6; }
@@ -29,6 +29,11 @@
         transition: opacity 0.3s; 
     }
     .lyric-line:hover::after { opacity: 1; }
+    .lyric-line.active { 
+        background-color: #e8f4f8; 
+        font-weight: bold; 
+        color: #2c3e50; 
+    }
     .lyric-details { 
         display: none; 
         background-color: #f4f7f6; 
@@ -41,8 +46,7 @@
     .section-content { color: #2c3e50; }
     .pronunciation { color: #16a085; }
     .translation { color: #27ae60; }
-    .grammar { color: #d35400; }
-    .background { color: #7f8c8d; font-style: italic; }
+    .learning-tips { color: #d35400; }
     </style>
 </head>
 <body>
@@ -65,8 +69,8 @@
                 <h3 class="section-title">Translation</h3>
                 <div class="section-content">你 對著 激動 今天 從 我們 是 → 面對你，我感到好激動，我們是從今天開始</div>
             </div>
-            <div class="learning_tips">
-                <h3 class="section-title">Learning tips</h3>
+            <div class="learning-tips">
+                <h3 class="section-title">Learning Tips</h3>
                 <div class="section-content">句中&#x27;는&#x27;前為主詞，表判斷句；此處為倒裝。</div>
             </div>
         </div>
@@ -95,8 +99,8 @@
                 <h3 class="section-title">Translation</h3>
                 <div class="section-content">我 在風中 夕陽 光 我 心 攜帶 發送 你 → 風中的我，將我的心意藉由夕陽餘暉照向你</div>
             </div>
-            <div class="learning_tips">
-                <h3 class="section-title">Learning tips</h3>
+            <div class="learning-tips">
+                <h3 class="section-title">Learning Tips</h3>
                 <div class="section-content">&#x27;-ㄹ 게&#x27;為未來式，或表承諾。</div>
             </div>
         </div>
@@ -125,8 +129,8 @@
                 <h3 class="section-title">Translation</h3>
                 <div class="section-content">我喜歡你 喜歡你 → 我喜歡你</div>
             </div>
-            <div class="learning_tips">
-                <h3 class="section-title">Learning tips</h3>
+            <div class="learning-tips">
+                <h3 class="section-title">Learning Tips</h3>
                 <div class="section-content">為西班牙文中的 I like you。</div>
             </div>
         </div>
@@ -156,12 +160,83 @@
                 <div class="section-content">喜歡你 [語助詞] → 喜歡你，真的喜歡</div>
             </div>
         </div>
+        <div class="lyric-line" data-index="7">
+            바람에 나풀거리는 꽃잎처럼
+        </div>
+        <div class="lyric-details" data-index="7">
+            <div class="pronunciation">
+                <h3 class="section-title">Pronunciation</h3>
+                <div class="section-content">ba ra me na pul geo ri neun ggo nib cheo reum</div>
+            </div>
+            <div class="translation">
+                <h3 class="section-title">Translation</h3>
+                <div class="section-content">Like a flower petal fluttering in the wind</div>
+            </div>
+            <div class="learning-tips">
+                <h3 class="section-title">Learning Tips</h3>
+                <div class="section-content">**Key Grammar Point**: Descriptive phrase using ㄴ transformation
+- Analyze the word **꽃잎** (ggo nib)
+- Understand the pronunciation rules
+- Break down the metaphorical meaning</div>
+            </div>
+        </div>
+        <div class="lyric-line" data-index="8">
+            너의 모든 순간이 꽃잎처럼
+        </div>
+        <div class="lyric-details" data-index="8">
+            <div class="pronunciation">
+                <h3 class="section-title">Pronunciation</h3>
+                <div class="section-content">neo-ui mo-deun sun-gan-i ggo-nib-cheo-reum</div>
+            </div>
+            <div class="translation">
+                <h3 class="section-title">Translation</h3>
+                <div class="section-content">Every moment of you, like a flower petal</div>
+            </div>
+            <div class="learning-tips">
+                <h3 class="section-title">Learning Tips</h3>
+                <div class="section-content">
+                    <p><strong>꽃잎</strong> (ggo nib)：這是發音規則「ㄴ添加」還有「鼻音化」的關係！</p>
+                    <ol>
+                    <li>代表音規則：꽃잎 → 꼳입<ul>
+                    <li>ㄱ, ㄲ, ㅋ → [ㄱ]</li>
+                    <li>ㄷ, ㅌ, ㅅ, ㅆ, ㅈ, ㅊ, ㅎ → [ㄷ]</li>
+                    <li>ㅂ, ㅍ → [ㅂ]</li>
+                    </ul>
+                    </li>
+                    <li>ㄴ添加：꼳입 → 꼳닙<ul>
+                    <li>前面字是子音結尾，後面是이 ,야 ,여 ,요 ,유開頭時，要加上ㄴ，變成 [니, 냐, 녀, 뇨, 뉴]</li>
+                    </ul>
+                    </li>
+                    <li>鼻音化：꼳닙 → 꼰닙<ul>
+                    <li>終聲代表音 ㄱ, ㄷ, ㅂ 後面遇到 ㅁ, ㄴ開頭時，ㄱ, ㄷ, ㅂ會變成 [ㅇ, ㄴ, ㅁ]</li>
+                    </ul>
+                    </li>
+                    <li>練習：<ul>
+                    <li>영업용 營業用 </li>
+                    <li>홑이불 薄被 </li>
+                    <li>한국 요리 韓國料理 </li>
+                    <li>아침에 못 일어나요. 早上起不來。</li>
+                    </ul>
+                    </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
     </div>
     <script>
     document.querySelectorAll(".lyric-line").forEach(line => {
         line.addEventListener("click", function() {
             const index = this.dataset.index;
             const details = document.querySelector(`.lyric-details[data-index="${index}"]`);
+            const allLines = document.querySelectorAll(".lyric-line");
+            const allDetails = document.querySelectorAll(".lyric-details");
+            
+            // First, remove active state from all lines and details
+            allLines.forEach(l => l.classList.remove("active"));
+            allDetails.forEach(d => d.classList.remove("active"));
+            
+            // Toggle current line and details
+            this.classList.toggle("active");
             details.classList.toggle("active");
         });
     });
