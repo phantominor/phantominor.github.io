@@ -61,38 +61,9 @@ function generatePageContents() {
     });
 }
 
-// Function to manage featured sections
-function manageFeaturedSections() {
-    const recentUpdatesList = document.querySelector('.recent-updates .featured-list');
-    const popularContentList = document.querySelector('.popular-content .featured-list');
-
-    // Limit to 5 items for recent updates
-    if (recentUpdatesList) {
-        const updateItems = recentUpdatesList.querySelectorAll('.featured-item');
-        if (updateItems.length > 5) {
-            for (let i = 5; i < updateItems.length; i++) {
-                updateItems[i].style.display = 'none';
-            }
-        }
-    }
-
-    // Limit to 5 items for popular content
-    if (popularContentList) {
-        const popularItems = popularContentList.querySelectorAll('.featured-item');
-        if (popularItems.length > 5) {
-            for (let i = 5; i < popularItems.length; i++) {
-                popularItems[i].style.display = 'none';
-            }
-        }
-    }
-}
-
-// Add the event listener to load components
+// Modify the DOMContentLoaded event listener
 document.addEventListener('DOMContentLoaded', () => {
     loadHeader();
     loadFooter();
     loadProfileColumn();
-    
-    // Manage featured sections after content is loaded
-    setTimeout(manageFeaturedSections, 100);
 });

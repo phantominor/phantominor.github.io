@@ -1,0 +1,25 @@
+{
+  "recentUpdates": [
+      {
+          "date": "2024/12/08",
+          "category": "[Music]",
+          "title": "Me Gustas Tu",
+          "link": "music/me_gustas_tu.html",
+          "remarks": "Latest musical composition added"
+      },
+      {
+          "date": "2024/07/04",
+          "category": "[Games]",
+          "title": "Random Drug Classification Practice",
+          "link": "games/pharmaDex.html",
+          "remarks": "New educational game for medical students"
+      },
+      {
+          "date": "2024/06/27",
+          "category": "[Games]",
+          "title": "Drugs Suffix Quiz",
+          "link": "games/suffiRx.html",
+          "remarks": "Interactive learning tool"
+      }
+  ]
+}

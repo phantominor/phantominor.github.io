@@ -1,0 +1,16 @@
+{
+  "popularContent": [
+      {
+          "category": "[Novels]",
+          "title": "The Midnight Chronicles",
+          "link": "#",
+          "remarks": "Our most read novel this month"
+      },
+      {
+          "category": "[Music]",
+          "title": "Acoustic Melodies",
+          "link": "#",
+          "remarks": "Top listened music collection"
+      }
+  ]
+}
