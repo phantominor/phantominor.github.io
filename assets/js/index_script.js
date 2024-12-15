@@ -17,12 +17,12 @@ const ITEMS_PER_PAGE = 3;
 async function fetchFeaturedSectionsData() {
   try {
       // Fetch recent updates
-      const recentUpdatesResponse = await fetch('index/recent-updates.json');
+      const recentUpdatesResponse = await fetch('../../index/recent-updates.json');
       const recentUpdatesData = await recentUpdatesResponse.json();
       featuredSectionsData.recentUpdates = recentUpdatesData.recentUpdates;
 
       // Fetch popular content
-      const popularContentResponse = await fetch('index/popular-content.json');
+      const popularContentResponse = await fetch('../../index/popular-content.json');
       const popularContentData = await popularContentResponse.json();
       featuredSectionsData.popularContent = popularContentData.popularContent;
 
