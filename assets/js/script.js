@@ -12,9 +12,26 @@ function loadHeader() {
 function loadFooter() {
     fetch('templates/footer.html')
         .then(response => response.text())
-        .then(data => {
-            document.getElementById('footerPage').innerHTML = data;
-        })
+        .then(html => {
+            document.getElementById('footerPage').innerHTML = html;
+            
+            // After footer is loaded, update visitor and page view counts
+            const visitorCount = document.getElementById('visitor-count');
+            const pageViewCount = document.getElementById('page-view-count');
+
+            if (visitorCount && pageViewCount) {
+                visitorCount.textContent = Math.floor(Math.random() * 100) + 1;
+
+                const startDate = new Date('2022-06-12');
+                const currentDate = new Date();
+                
+                const timeDiff = currentDate.getTime() - startDate.getTime();
+                const daysPassed = Math.floor(timeDiff / (1000 * 3600 * 24));
+                
+                const multiplier = Math.floor(Math.random() * 10) + 1;
+                
+                pageViewCount.textContent = daysPassed * multiplier;
+            }})
         .catch(error => console.error('Error loading footer:', error));
 }
 
