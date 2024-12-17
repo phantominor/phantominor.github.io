@@ -2,24 +2,24 @@
   "recentUpdates": [
       {
           "date": "2024/12/08",
-          "category": "[Music]",
+          "category": "[Lingo]",
           "title": "Me Gustas Tu",
-          "link": "music/me_gustas_tu.html",
-          "remarks": "Latest musical composition added"
+          "link": "lingo/me_gustas_tu.html",
+          "remarks": "Newly started Korean learning program"
       },
       {
           "date": "2024/07/04",
           "category": "[Games]",
           "title": "Random Drug Classification Practice",
           "link": "games/pharmaDex.html",
-          "remarks": "New educational game for medical students"
+          "remarks": "Pharmacology memorizing challenge"
       },
       {
           "date": "2024/06/27",
           "category": "[Games]",
           "title": "Drugs Suffix Quiz",
           "link": "games/suffiRx.html",
-          "remarks": "Interactive learning tool"
+          "remarks": "Interactive drug classification memory assistant"
       }
   ]
 }
