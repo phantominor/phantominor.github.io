@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PharmaDex - v.1</title>
-    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
 
     <style>
       /* body {
@@ -152,32 +152,7 @@
 
     <div id="footerPage"></div> <!-- Placeholder for the footer -->
 
-    <script>
-        // JavaScript to load the header
-        function loadHeader() {
-            fetch('../templates/header.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('headerPage').innerHTML = data;
-                })
-                .catch(error => console.error('Error loading header:', error));
-        }
-
-        // JavaScript to load the footer
-        function loadFooter() {
-            fetch('../templates/footer.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('footerPage').innerHTML = data;
-                })
-                .catch(error => console.error('Error loading footer:', error));
-        }
-
-        // Load header, footer, and sidebar
-        loadHeader();
-        loadFooter();
-
-    </script>
+    <script src="/assets/js/script.js"></script>
     
 </body>
 </html>
