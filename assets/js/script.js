@@ -1,6 +1,6 @@
 // JavaScript to load the header
 function loadHeader() {
-    fetch('templates/header.html')
+    fetch('/templates/header.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('headerPage').innerHTML = data;
@@ -10,7 +10,7 @@ function loadHeader() {
 
 // JavaScript to load the footer
 function loadFooter() {
-    fetch('templates/footer.html')
+    fetch('/templates/footer.html')
         .then(response => response.text())
         .then(html => {
             document.getElementById('footerPage').innerHTML = html;
@@ -37,7 +37,7 @@ function loadFooter() {
 
 // JavaScript to load the profile column
 function loadProfileColumn() {
-    fetch('templates/profile-column.html')
+    fetch('/templates/profile-column.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('profileColumnPage').innerHTML = data;
