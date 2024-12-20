@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phantom's Haven - Medical Knowledge</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/med_styles.css">
+</head>
+<body>
+    <div id="headerPage"></div>
+    <div class="content">
+        <div id="profileColumnPage"></div>
+        <main class="med-notes-container">
+            <section class="breadcrumb">
+                <nav aria-label="Breadcrumb">
+                    <ol class="breadcrumb-list">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/med">Medical</a></li>
+                    </ol>
+                </nav>
+            </section>
+
+            <section class="med-nav">
+                <h1>Medical Knowledge Hub</h1>
+                <nav class="med-main-nav">
+                    <ul>
+                        <li><a href="#notes">Notes</a></li>
+                        <li><a href="#cases">Cases</a></li>
+                        <li><a href="#exams">Exams</a></li>
+                        <li><a href="#reviews">Reviews</a></li>
+                        <li><a href="#reflections">Reflections</a></li>
+                    </ul>
+                </nav>
+            </section>
+
+            <section id="notes" class="med-section">
+                <div class="section-header">
+                    <h2>Notes</h2>
+                    <a href="/med/notes" class="view-all-btn">View Full Notes</a>
+                </div>
+                <div class="classification-menu" id="notesContainer">
+                    <div class="classification-system" id="neurologicalSystem">
+                        <h3>Neurological System</h3>
+                        <div class="system-details"></div>
+                    </div>
+                    <div class="classification-system" id="cardiovascularSystem">
+                        <h3>Cardiovascular System</h3>
+                        <div class="system-details"></div>
+                    </div>
+                    <div class="classification-system" id="digestiveSystem">
+                        <h3>Digestive System</h3>
+                        <div class="system-details"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="cases" class="med-section">
+                <div class="section-header">
+                    <h2>Cases</h2>
+                    <a href="/med/cases.html" class="view-all-btn">View All Cases</a>
+                </div>
+                <div class="case-list" id="caseListContainer">
+                    <!-- Cases will be dynamically populated by JavaScript -->
+                </div>
+            </section>
+
+            <section id="exams" class="med-section">
+                <div class="section-header">
+                    <h2>Exams</h2>
+                    <a href="/med/exams" class="view-all-btn">View Full Exam Resources</a>
+                </div>
+                <div class="resources-container">
+                    <div class="exam-questions">
+                        <h3>Exam Question Bank</h3>
+                        <ul id="questionList"></ul>
+                    </div>
+                    <div class="study-strategies">
+                        <h3>Preparation Strategies</h3>
+                        <div id="studyStrategies"></div>
+                    </div>
+                    <div class="recommended-books">
+                        <h3>Recommended Books</h3>
+                        <div id="bookRecommendations"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="reviews" class="med-section">
+                <div class="section-header">
+                    <h2>Reviews</h2>
+                    <a href="/med/reviews" class="view-all-btn">View All Reviews</a>
+                </div>
+                <div class="highlights-container" id="researchHighlights">
+                    <!-- Research highlights will be populated dynamically -->
+                </div>
+            </section>
+
+            <section id="reflections" class="med-section">
+                <div class="section-header">
+                    <h2>Reflections</h2>
+                    <a href="/med/reflections" class="view-all-btn">View All Reflections</a>
+                </div>
+                <div class="essay-list" id="essayListContainer">
+                    <!-- Essay list will be dynamically populated -->
+                </div>
+            </section>
+        </main>
+    </div>
+    <div id="footerPage"></div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script src="/assets/js/script.js"></script>
+    <script src="/assets/js/med_script.js"></script>
+</body>
+</html>
