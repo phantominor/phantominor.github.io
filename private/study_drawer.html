@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Private Notes</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/private_styles.css">
+    <style>
+      .container {
+          text-align: center;
+          background: white;
+          padding: 2rem;
+          border-radius: 10px;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      }
+      button {
+          padding: 1rem 2rem;
+          font-size: 1.2rem;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          margin-bottom: 1rem;
+      }
+      button:hover {
+          background-color: #45a049;
+      }
+      #result {
+          font-size: 2rem;
+          margin-top: 1rem;
+          min-height: 3rem;
+      }
+    </style>
+</head>
+<body>
+    <div id="headerPage"></div>
+    <div class="content">
+      <div id="profileColumnPage"></div>
+      <main>
+        <div class="container">
+          <button onclick="drawSubject()">Draw Study Subject</button>
+          <div id="result"></div>
+        </div>
+      </main>
+    </div>
+    <div id="footerPage"></div>
+
+    <script src="/assets/js/script.js"></script>
+    <script src="/assets/js/private_script.js"></script>
+    <script>
+      const subjects = [
+          {name: '解剖', weight: 31},
+          {name: '胚胎', weight: 5},
+          {name: '組織', weight: 10},
+          {name: '生理', weight: 27},
+          {name: '生化', weight: 27},
+          {name: '微物', weight: 17},
+          {name: '免疫', weight: 11},
+          {name: '寄蟲', weight: 7},
+          {name: '生統', weight: 6},
+          {name: '公衛', weight: 9},
+          {name: '藥理', weight: 25},
+          {name: '病理', weight: 25}
+      ];
+
+      function drawSubject() {
+          const totalWeight = subjects.reduce((sum, subject) => sum + subject.weight, 0);
+          let random = Math.random() * totalWeight;
+          
+          for (let subject of subjects) {
+              random -= subject.weight;
+              if (random <= 0) {
+                  document.getElementById('result').textContent = subject.name;
+                  break;
+              }
+          }
+      }
+    </script>
+</body>
+</html>
