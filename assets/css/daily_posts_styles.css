@@ -1,0 +1,114 @@
+/* Table Styles */
+.table-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.knowledge-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.knowledge-table th {
+  background-color: #f5f5f5;
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #ddd;
+}
+
+.knowledge-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.knowledge-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* Topic link styling */
+.topic-link {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.topic-link:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* Tags styling */
+.tag {
+  display: inline-block;
+  background: #e9ecef;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin: 2px;
+  font-size: 0.85em;
+  color: #495057;
+}
+
+/* Pagination Styles */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.page-btn {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.page-btn:hover {
+  background: #f5f5f5;
+}
+
+.page-btn:disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.page-numbers {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.page-number {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  background: white;
+  min-width: 40px;
+  text-align: center;
+}
+
+.page-number:hover {
+  background: #f5f5f5;
+}
+
+.page-number.active {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.ellipsis {
+  padding: 8px 12px;
+  color: #666;
+}

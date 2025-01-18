@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phantom's Haven - Medical Knowledge</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/med_styles.css">
+    <link rel="stylesheet" href="/assets/css/daily_posts_styles.css">
+</head>
+<body>
+    <div id="headerPage"></div>
+    <div class="content">
+        <div id="profileColumnPage"></div>
+        <main>
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <ul>
+                    <li><a href="/">HOME</a></li>
+                    <li><a href="/med.html">MED</a></li>
+                    <li><a href="/med/daily_posts.html">DAILY POSTS</a></li>
+                </ul>
+            </nav>
+            
+            <section class="main-content">      
+              <div class="table-container">
+                  <table class="knowledge-table">
+                      <thead>
+                          <tr>
+                              <th>Date</th>
+                              <th>Starting Topic</th>
+                              <th>Lrn pts</th>
+                              <th>Tags</th>
+                          </tr>
+                      </thead>
+                      <tbody id="tableBody">
+                          <!-- Table content will be dynamically populated -->
+                      </tbody>
+                  </table>
+                  <div class="pagination">
+                      <button id="prevPage" class="page-btn">&lt; Previous</button>
+                      <div id="pageNumbers" class="page-numbers"></div>
+                      <button id="nextPage" class="page-btn">Next &gt;</button>
+                  </div>
+              </div>
+            </section>
+        </main>
+    </div>
+    <div id="footerPage"></div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script src="/assets/js/script.js"></script>
+    <script src="/assets/js/med_script.js"></script>
+    <script src="/assets/js/daily_posts_script.js"></script>
+</body>
+</html>
