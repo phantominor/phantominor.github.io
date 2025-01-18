@@ -5,7 +5,7 @@
       "type": "wordLength"
     },
     {
-      "text": "Dancing leaves whisper secrets through autumn's golden embrace",
+      "text": "The password is hidden in plain sight",
       "type": "wordLength"
     },
     {
@@ -13,9 +13,13 @@
       "type": "charCount"
     },
     {
-      "text": "HELLO world 123",
+      "text": "The key is in your hand, but you don't know how to use it.",
+      "type": "charCount"
+    },
+    {
+      "text": "Say ALOHOMORA for opening the door",
       "type": "custom",
-      "pattern": "U5L5N3"
+      "key": "138674288"
     }
   ]
 }
