@@ -23,7 +23,7 @@
   color: #333;
   font-size: 1.1em;
 }
-input {
+.login-box input {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
@@ -31,7 +31,7 @@ input {
   border-radius: 4px;
   box-sizing: border-box;
 }
-button {
+.login-box button {
   background-color: #007bff;
   color: white;
   border: none;
@@ -40,10 +40,10 @@ button {
   cursor: pointer;
   width: 100%;
 }
-button:hover {
+.login-box button:hover {
   background-color: #0056b3;
 }
-#content_box {
+#content {
   display: none;
   max-width: 800px;
   margin: 0 auto;
