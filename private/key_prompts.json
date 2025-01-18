@@ -1,0 +1,21 @@
+{
+  "prompts": [
+    {
+      "text": "Type in the password to unlock the page",
+      "type": "wordLength"
+    },
+    {
+      "text": "Dancing leaves whisper secrets through autumn's golden embrace",
+      "type": "wordLength"
+    },
+    {
+      "text": "Where mirror meets mirror, truth splits infinity",
+      "type": "charCount"
+    },
+    {
+      "text": "HELLO world 123",
+      "type": "custom",
+      "pattern": "U5L5N3"
+    }
+  ]
+}
