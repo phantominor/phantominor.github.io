@@ -36,7 +36,7 @@ function renderTable() {
     tableBody.innerHTML = paginatedData.map(item => `
         <tr>
             <td>${item.date}</td>
-            <td><a href="${item.topic.link}" class="topic-link">${item.topic.text}</a></td>
+            <td><a href="${item.topic.url}" class="topic-url">${item.topic.text}</a></td>
             <td>${item.links}</td>
             <td>${formatTags(item.tags)}</td>
         </tr>
