@@ -33,13 +33,13 @@
 
 /* Topic link styling */
 .topic-link {
-  color: #007bff;
+  color: #2563eb;  /* Blue color for links */
   text-decoration: none;
   transition: color 0.2s;
 }
 
 .topic-link:hover {
-  color: #0056b3;
+  color: #1d4ed8;  /* Darker blue on hover */
   text-decoration: underline;
 }
 

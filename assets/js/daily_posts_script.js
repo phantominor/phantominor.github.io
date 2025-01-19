@@ -1,29 +1,37 @@
+// Sample data structure with URLs
+let tableData = [
+    {
+        date: "2024/01/18",
+        topic: "Tuberculosis",
+        url: "/med/daily-posts/20250118.html",  // Add URL for each topic
+        links: 5,
+        tags: ["microbiology", "pharmacology"]
+    },
+    // Example of another entry
+    {
+        date: "2024/01/18",
+        topic: "Respiratory System Basics",
+        url: "/med/topics/respiratory-system.html",
+        links: 3,
+        tags: ["respiratory", "anatomy"]
+    }
+];
+
 // Pagination variables
 let currentPage = 1;
 const itemsPerPage = 10;
-let tableData = [];
-
-// Fetch data from JSON file
-async function fetchTableData() {
-    try {
-        const response = await fetch('/med/postlist/list.json');
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        tableData = data.posts;
-        renderTable();
-    } catch (error) {
-        console.error('Error loading data:', error);
-        document.getElementById('tableBody').innerHTML = `
-            <tr><td colspan="4">Error loading data. Please try again later.</td></tr>
-        `;
-    }
-}
 
 // Function to format tags
 function formatTags(tags) {
     return tags.map(tag => `<span class="tag">${tag}</span>`).join(' ');
+}
+
+// Function to create safe HTML links
+function createTopicLink(topic, url) {
+    if (url) {
+        return `<a href="${url}" class="topic-link">${topic}</a>`;
+    }
+    return topic; // Return plain text if no URL is provided
 }
 
 // Function to render table data
@@ -36,7 +44,7 @@ function renderTable() {
     tableBody.innerHTML = paginatedData.map(item => `
         <tr>
             <td>${item.date}</td>
-            <td><a href="${item.topic.url}" class="topic-url">${item.topic.text}</a></td>
+            <td>${createTopicLink(item.topic, item.url)}</td>
             <td>${item.links}</td>
             <td>${formatTags(item.tags)}</td>
         </tr>
@@ -133,7 +141,7 @@ function nextPage() {
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('prevPage').addEventListener('click', prevPage);
     document.getElementById('nextPage').addEventListener('click', nextPage);
-    fetchTableData(); // Fetch data when page loads
+    renderTable();
 });
 
 // Function to add new data
