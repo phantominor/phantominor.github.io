@@ -6,7 +6,7 @@ let tableData = [];
 // Fetch data from JSON file
 async function fetchTableData() {
     try {
-        const response = await fetch('/med/postlist/list.json');
+        const response = await fetch('/med/postlist/_list.json');
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
