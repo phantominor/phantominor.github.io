@@ -5,10 +5,13 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin: 20px 0;
+  overflow-x: auto; /* Add this line */
+  -webkit-overflow-scrolling: touch; /* Add this for smooth scrolling on iOS */
 }
 
 .knowledge-table {
   width: 100%;
+  min-width: 600px; /* Add this line - adjust the value based on your needs */
   border-collapse: collapse;
   margin-bottom: 20px;
 }
@@ -29,18 +32,6 @@
 
 .knowledge-table tbody tr:hover {
   background-color: #f9f9f9;
-}
-
-/* Topic link styling */
-.topic-link {
-  color: #2563eb;  /* Blue color for links */
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.topic-link:hover {
-  color: #1d4ed8;  /* Darker blue on hover */
-  text-decoration: underline;
 }
 
 /* Tags styling */
