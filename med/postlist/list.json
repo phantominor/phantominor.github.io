@@ -8,15 +8,6 @@
             },
             "links": 5,
             "tags": ["microbiology", "pharmacology", "physiology"]
-        },
-        {
-            "date": "2024/01/18",
-            "topic": {
-                "text": "Nervous System Basics",
-                "url": "/med/posts/nervous-system.html"
-            },
-            "links": 3,
-            "tags": ["neurology", "anatomy"]
         }
     ]
 }
