@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Posts - Tuberculosis</title>
     <link rel="stylesheet" href="/assets/css/styles.css">
-    <link rel="stylesheet" href="/assets/css/med_styles.css">
     <link rel="stylesheet" href="/assets/css/daily_posts_styles.css">
 </head>
 <body>
@@ -23,12 +22,123 @@
             </nav>
             
             <section class="main-content">      
-              <h1>Tuberculosis</h1>
-
-              <h3>1 - Tests of tuberculosis</h2>
-              <p>aaaaa</p>
-              <h3>2 - IGRA</h2>
-              <p>IGRA means interferon-γ release assay</p>
+                <h1>Tuberculosis</h1>
+        
+                <h3>1 - Tuberculosis 的檢驗方式</h3>
+                <div class="content-block">
+                    <h4>PPD (purified protein derivative)</h4>
+                    <ul>
+                        <li>PPD(+): 表示感染或過去曾經暴露</li>
+                        <li>PPD(-): 無感染，或有感染的 immunocompromised 病患 (especially low CD4+ cell count)</li>
+                    </ul>
+                    
+                    <h4>IGRA (interferon-γ release assay)</h4>
+                    <ul>
+                        <li>IGRA 相比於 PPD 試驗較少因過去施打卡介苗 (BCG vaccine) 所致的偽陽性 (sensitivity 較高)</li>
+                    </ul>
+                </div>
+        
+                <h3>2 - PPD 怎麼做？跟傳統 OT 有何區別？</h3>
+                <div class="content-block">
+                    <p>PPD 是從結核桿菌的 culture 中提取並精製的一種蛋白質衍生物；去除了大部分雜質，如脂質和碳水化合物，因此更純淨，較少非特異性反應。</p>
+                    <p>OT (Old tuberculin) 則將結核桿菌加熱滅活，濃縮其細菌培養液而成，因此包含許多非蛋白質成分（如碳水化合物、脂質等）。</p>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>項目</th>
+                                <th>PPD (新式)</th>
+                                <th>舊 Tuberculin (OT)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>製備方式</td>
+                                <td>精製 tuberculin 衍生物</td>
+                                <td>含雜質的結核桿菌培養濃縮物</td>
+                            </tr>
+                            <tr>
+                                <td>純度</td>
+                                <td>高</td>
+                                <td>低</td>
+                            </tr>
+                            <tr>
+                                <td>反應穩定性</td>
+                                <td>高</td>
+                                <td>易受非特異性反應影響</td>
+                            </tr>
+                            <tr>
+                                <td>靈敏性與特異性</td>
+                                <td>高</td>
+                                <td>低</td>
+                            </tr>
+                            <tr>
+                                <td>應用現況</td>
+                                <td>全球標準結核檢測方法</td>
+                                <td>基本被淘汰</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+        
+                <h3>3 - TB 病理上有何特徵？</h3>
+                <div class="content-block">
+                    <p>若為 2° tuberculosis，micro 下常可見 caseating granulomas with central necrosis and Langhans giant cell.</p>
+                    <img src="/assets/images/TB_2micro.png" alt="Secondary TB microscopic view">
+                    <div class="note">
+                        注意 Langhans giant cell 與 Langerhans cell (真皮的 APC) 不同！
+                    </div>
+                    
+                    <p>病程上可參考 First aid 的這張圖。</p>
+                    <ul>
+                        <li>1° Tuberculosis 會有 hilar nodes 和 Ghon focus，合稱 Ghon complex，通常位於中下肺葉。</li>
+                        <li>2° Tuberculosis 則通常發生於上肺葉，因為結核菌為氧氣愛好者 (highly aerobic)。</li>
+                        <li>TB reactivation 常發生於免疫缺乏的病患，包括：HIV、器官移植，以及 TNF-α inhibitor 使用者。</li>
+                        <li>無論是 progressive 1° tuberculosis 或 2° tuberculosis 都會造成菌血症，進而導致 miliary tuberculosis：結核菌藉由血流擴散至全身各處，常見位置包括腦膜、脊椎 (Pott disease)、淋巴結、肺、肝、脾、腎、腎上腺、長骨與關節處。</li>
+                    </ul>
+                    <img src="/assets/images/TB_progression.png" alt="Tuberculosis progression diagram">
+                </div>
+        
+                <h3>4 - 哪些藥物是 TNF-α inhibitor？</h3>
+                <div class="content-block">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Drug</th>
+                                <th>Mechanism</th>
+                                <th>Clinical use</th>
+                                <th>Adverse effects</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Etanercept</td>
+                                <td>Fusion protein produced by recombinant DNA (decoy receptor for TNF-α + IgG1 Fc)</td>
+                                <td>三種關節炎 (RA、PA、AS)</td>
+                                <td rowspan="5">Predisposition to infection, including reactivation of latent TB (TNF is important in granuloma formation and stabilization)</td>
+                            </tr>
+                            <tr>
+                                <td>Infliximab</td>
+                                <td rowspan="4">Anti-TNF-α monoclonal antibody</td>
+                                <td rowspan="4">IBD 以及三種關節炎 (RA、PA、AS)</td>
+                            </tr>
+                            <tr>
+                                <td>Adalimumab</td>
+                            </tr>
+                            <tr>
+                                <td>Certolizumab</td>
+                            </tr>
+                            <tr>
+                                <td>Golimumab</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="mnemonic">
+                        TNF-α inhibitor：阿達 ET go in 洗頭<br>
+                        (<u>Ada</u>limumab, <u>Et</u>anercept, <u>Go</u>limumab, <u>In</u>fliximab, <u>Certo</u>lizumab)
+                    </div>
+                </div>
             </section>
         </main>
     </div>
@@ -42,7 +152,6 @@
     </div>
 
     <script src="/assets/js/script.js"></script>
-    <script src="/assets/js/med_script.js"></script>
     <script src="/assets/js/daily_posts_script.js"></script>
 </body>
 </html>
