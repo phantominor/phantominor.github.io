@@ -24,9 +24,9 @@
             <section class="main-content">      
                 <h1>Tuberculosis</h1>
         
-                <h3>1 - Tuberculosis 的檢驗方式</h3>
+                <h3 id="q1">1 - Tuberculosis 的檢驗方式</h3>
                 <div class="content-block">
-                    <h4>PPD (purified protein derivative)</h4>
+                    <h4><a href=#q2>PPD (purified protein derivative)</a></h4>
                     <ul>
                         <li>PPD(+): 表示感染或過去曾經暴露</li>
                         <li>PPD(-): 無感染，或有感染的 immunocompromised 病患 (especially low CD4+ cell count)</li>
@@ -38,7 +38,7 @@
                     </ul>
                 </div>
         
-                <h3>2 - PPD 怎麼做？跟傳統 OT 有何區別？</h3>
+                <h3 id="q2">2 - PPD 怎麼做？跟傳統 OT 有何區別？</h3>
                 <div class="content-block">
                     <p>PPD 是從結核桿菌的 culture 中提取並精製的一種蛋白質衍生物；去除了大部分雜質，如脂質和碳水化合物，因此更純淨，較少非特異性反應。</p>
                     <p>OT (Old tuberculin) 則將結核桿菌加熱滅活，濃縮其細菌培養液而成，因此包含許多非蛋白質成分（如碳水化合物、脂質等）。</p>
@@ -81,7 +81,7 @@
                     </table>
                 </div>
         
-                <h3>3 - TB 病理上有何特徵？</h3>
+                <h3 id="q3">3 - TB 病理上有何特徵？</h3>
                 <div class="content-block">
                     <p>若為 2° tuberculosis，micro 下常可見 caseating granulomas with central necrosis and Langhans giant cell.</p>
                     <img src="/assets/images/TB_2micro.png" alt="Secondary TB microscopic view" style="max-width: 40%; display: block; margin: 0 auto;">
@@ -99,7 +99,7 @@
                     <img src="/assets/images/TB_progression.png" alt="Tuberculosis progression diagram">
                 </div>
         
-                <h3>4 - 哪些藥物是 TNF-α inhibitor？</h3>
+                <h3 id="q4">4 - 哪些藥物是 TNF-α inhibitor？</h3>
                 <div class="content-block">
                     <table>
                         <thead>
@@ -139,17 +139,61 @@
                         (<u>Ada</u>limumab, <u>Et</u>anercept, <u>Go</u>limumab, <u>In</u>fliximab, <u>Certo</u>lizumab)
                     </div>
                 </div>
+
+                <h3>5 - Granulomatous inflammation</h3>
+                <div class="content-block">
+                    <h4>組織學</h4>
+                    <p>病理切片上會呈現出 epithelioid cells 被一堆淋巴球和多核巨細胞包圍的情況。其中 epithelioid cells 就是充滿粉紅色細胞質的巨噬細胞，而多核巨細胞則是多個 activated 巨噬細胞融合而成。</p>
+                    <p>主要分成兩種形式：</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>形式</th>
+                                <th>特徵</th>
+                                <th>病因</th>
+                                <th>舉例</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Caseating</td>
+                                <td>central necrosis</td>
+                                <td>感染</td>
+                                <td>TB、黴菌</td>
+                            </tr>
+                            <tr>
+                                <td>Noncaseating</td>
+                                <td>no central necrosis</td>
+                                <td>自體免疫</td>
+                                <td>sarcoidosis、Crohn disease</td>
+                            </tr>
+                        </tbody>
+                    </table>
+            
+                    <h4>形成機轉</h4>
+                    <ol>
+                        <li>APC 將抗原呈現給 CD4+ Th cell，同時分泌 IL-12，促進 Th 分化為 Th1 cell。</li>
+                        <li>Th1 cell 分泌 IFN-γ 活化 macrophage。</li>
+                        <li>巨噬細胞分泌 TNF-α 形成 epithelioid macrophages 和 multinucleated giant cells。</li>
+                    </ol>
+                    <p>因此，anti-TNF therapy 會導致原本形成的 granuloma 結構變得鬆散，容易導致 disseminated disease。</p>
+                    
+                    <div class="note">
+                        活化的巨噬細胞內，α-hydroxylase 活性會上升，導致 vitamin D 增加，進而引起高血鈣。
+                    </div>
+                    
+                    <img src="/assets/images/granuloma_formation.png" alt="Granuloma formation process">
+            
+                    <h4>病因列表</h4>
+                    <ul>
+                        <li>感染的原因可能有<strong>細菌</strong> (TB, leprosy, cat scratch disease, granulomatosis infantiseptica, 3° syphilis)、<strong>黴菌</strong> (histoplasmosis)、<strong>寄生蟲</strong> (schistosomiasis)。</li>
+                        <li>非感染的原因可能有<strong>自體免疫</strong> (sarcoidosis, Crohn disease, 1° biliary cholangitis, subacute thyroiditis, vasculitis)、<strong>foreign body</strong> (berylliosis, talcosis, hypersensitivity pneumonitis)。</li>
+                    </ul>
+                </div>
             </section>
         </main>
     </div>
     <div id="footerPage"></div>
-
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div id="modalContent"></div>
-        </div>
-    </div>
 
     <script src="/assets/js/script.js"></script>
     <script src="/assets/js/daily_posts_script.js"></script>
