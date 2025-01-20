@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Posts - Tuberculosis</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/daily_posts_styles.css">
+</head>
+<body>
+    <div id="headerPage"></div>
+    <div class="content">
+        <div id="profileColumnPage"></div>
+        <main>
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <ul>
+                    <li><a href="/">HOME</a></li>
+                    <li><a href="/med.html">MED</a></li>
+                    <li><a href="/med/daily_posts.html">DAILY POSTS</a></li>
+                    <li><a href="/med/daily_posts/20250118.html">20250118</a></li>
+                </ul>
+            </nav>
+            
+            <section class="main-content">      
+                <h1>Thymidine</h1>
+                <!-- Section 1 -->
+                <h3>1 - 細菌若具有攝取並利用外源性胸腺嘧啶（exogenous thymidine）之能力，通常對於哪些抗生素具有抗藥性？</h3>
+                <div class="content-block">
+                    <p>這是 114 年寒考一階醫學 (二) 的第一題，問這個問題之前，得要先了解 thymidine 的合成途徑。若抗生素無法阻止細菌 thymidine 的製造 (即細菌可申請外援提供原料)，那麼抗生素自然是無效了。</p>
+
+                    <h4>Purine 合成途徑有二：de novo 或 salvage pathway。</h4>
+                    <ol>
+                        <li>De novo: Ribose 5-P -> PRPP -> IMP -> AMP or GMP
+                            <ul>
+                                <li>其中 PRPP 的合成需要 PRPP synthetase (磷酸核糖焦磷酸合成酶)。</li>
+                                <li>PRPP 轉變為 IMP 的過程需要五樣原料：<strong>Gly、Asp、Gln、CO2、methyl-THF</strong>，其中 methyl-THF 提供 C2、C8 兩顆碳原子。此過程可以被 <strong>6-MP (或其 prodrug azathioprine)</strong> 抑制。</li>
+                                <li>IMP 轉變為 AMP 與 GMP 的過程<strong>分別需要 Asp、Gln 作為催化劑</strong>，其中 GMP 的生成會被 mycophenolate、ribavirin 抑制。</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <div class="mnemonic">
+                        Cats <strong>purr</strong> until they <strong>GAG</strong> and <strong>cough</strong> on <strong>fur</strong> balls.<br>
+                        Purine 合成需要 <strong>Gly、Asp、Gln、CO2、methyl-THF</strong> 五樣原料
+                    </div>
+
+                    <ol start="2">
+                        <li>Salvage pathway
+                            <ul>
+                                <li>指的是由後續 GMP 與 IMP 合成 guanine 與 hypoxanthine 後，可以再藉由 HGPRT 這個酵素逆向將兩者復原成 GMP 與 IMP。</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <div class="note">
+                        HGPRT 指的是 hypoxanthine guanine phosphoribosyltransferase，全名便寫得很清楚是哪兩個 free bases 可以被逆轉回 nucleotides 的狀態。若先天缺乏此酵素，即為 <strong>Lesch-Nyhan syndrome</strong>，X-linked recessive，會導致代償性的大量走 de novo 的途徑生成 purine，因此會有高尿酸血症。
+                    </div>
+
+                    <h4>Pyrimidine 合成途徑亦有二，但皆是 de novo。</h4>
+                    <ol>
+                        <li>from Ribose 5-P: Ribose 5-P -> PRPP -> UMP -> UDP ---> CTP or dTMP
+                            <ul>
+                                <li>與 purine 的 de novo 途徑相似，同樣由 PRPP 生成，但前驅物從 IMP 改成 UMP，因此後續生成嘧啶。</li>
+                                <li>生成 UMP 的步驟是關鍵，需要 UMP synthase，先天缺乏會導致 <strong><a href="q7">orotic aciduria</a></strong>。</li>
+                                <li>UDP 可直接生成 CTP，但無法直接生成 dTMP。UDP 須先由 ribonucleotide reductase 轉換為 dUDP (去氫)，接著去除一磷酸為 dUMP，再經由亞葉酸 (leucovorin) 與 thymidylate synthase 的催化才能變成最終產物 dTMP。</li>
+                                <li>dTMP 生成所需的關鍵酵素 thymidylate synthase 可被 <strong>5-FU (或其 prodrug capecitabine)</strong> 抑制。</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <div class="note">
+                        通常使用 5-FU 時，會併用 leucovorin stabilizer 以提升療效。
+                    </div>
+
+                    <p>Leucovorin 需要經由葉酸循環產生，而<strong>本題答案 MTX、TMP、pyrimethamine 等正是抑制葉酸循環的藥物</strong>！dTMP 生成的酵素被抑制，便會導致 dTMP 的生成減少，進而使 DNA 複製受阻，此時特別是快速分裂的細胞（如細菌）便會受到極大影響，達到抗生素的效果。</p>
+
+                    <ol start="2">
+                        <li>from glutamine: Gln + CO2 -> carbamoyl phosphate -> orotic acid -> UMP -> ... -> CTP or dTMP
+                            <ul>
+                                <li>Carbamoyl phosphate (胺甲醯磷酸酯) 的生成需要 2 ATP、CPS2 (carbamoyl phosphate synthetase II)，而原料 glutamine 則會被轉變為副產物 glutamate。</li>
+                                <li>從 glutamine 生成的途徑<strong>需要 aspartate</strong>！Carbamoyl phosphate 加 aspartate 便會生成 orotic acid (乳清酸)。而乳清酸經 UMP synthase 便能轉變為 UMP，匯合到第一條路徑之中。因此，若 UMP synthase 不足，上游的乳清酸便會增加，導致乳清酸尿症。</li>
+                                <li>乳清酸的生成可以被 leflunomide 抑制。</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <p>就結論而言，所有 pyrimidine 合成途徑上的抑制劑都可以導致 thymidine 的合成減少，而細菌若能取得外源性的 thymidine 便可繞開這些抗生素的作用範圍，不過，最直接影響 thymidine 合成的抗生素應是抑制葉酸循環的那一群，包括 <strong>MTX、TMP、pyrimethamine</strong> 等。</p>
+
+                    <img src="/assets/images/de_novo_pyrimidine_and_purine_synthesis.png" alt="De novo pyrimidine and purine synthesis pathway">
+                </div>
+                
+                <!-- Section 2 -->
+                <h3>2 - 嘌呤和嘧啶的結構為何？能從合成途徑看出端倪嗎？</h3>
+                <div class="content-block">
+                    <p>欸可以！仔細思考合成途徑加入過的東西，便可大致推出兩者的結構了！</p>
+                    
+                    <img src="/assets/images/purine_and_pyrimidine_structure.png" alt="Purine and pyrimidine structure">
+                    
+                    <ul>
+                        <li>前面說過 <a href="q1">PRPP 轉變為 IMP 的過程需要五樣原料：<strong>Gly、Asp、Gln、CO2、methyl-THF</strong></a>，剛好就是嘌呤基本結構的形成！</li>
+                        <li>嘧啶的合成原料為 carbamoyl phosphate 以及 aspartate，因此結構上即可觀察到這兩個元件。</li>
+                    </ul>
+
+                    <div class="note">
+                        CPS2 存在嘌呤合成途徑之中，因此所有細胞皆有；至於 <a href="q3">CPS1 則僅用於尿素循環</a>，因此多位於肝腎細胞的粒線體。兩者皆為各自路徑的速率決定步驟。
+                    </div>
+                </div>
+
+                <!-- Section 3 -->
+                <h3>3 - CPS1 在尿素循環中扮演什麼角色？</h3>
+                <div class="content-block">
+                    <p>尿素循環 (urea cycle) 的主要功能為代謝掉胺基酸分解所產生的無用廢物：氮。整個循環分為兩部分，一部分在粒線體中進行，另一部分在細胞質中進行。</p>
+                    
+                    <p>CPS1 在尿素循環中扮演重要角色，可以將重碳酸根和水藉由 ATP 合成為 carbamoyl phosphate (胺甲醯磷酸酯)，其中胺甲醯基再藉由 ornithine transcarbamylase 轉換到 ornithine 上，合成 citrulline (瓜胺酸)。</p>
+                    
+                    <img src="/assets/images/urea_cycle.png" alt="Urea cycle diagram">
+                </div>
+
+                <!-- Section 4 -->
+                <h3>4 - 既然 CPS1、CPS2 都催化生成 carbamoyl phosphate，那麼兩途徑間會不會互相影響？</h3>
+                <div class="content-block">
+                    <p>當然是會！若 urea cycle 中 CPS1 正常，但下游的 ornithine transcarbamylase (OT) 缺乏，會導致 carbamoyl phosphate 堆積，無法進入尿素循環。此時，多餘的 carbamoyl phosphate 便只能回去走 pyrimidine synthesis pathway，往下生成 orotic acid 了。這有一種先天性的疾病叫做 <strong><a href="q5">ornithine transcarbamylase deficiency (OTD)</a></strong>，便是因為缺乏 OT 導致血清和尿液中的 orotic acid (乳清酸) 不正常累積，同時也因尿素循環受阻導致高血氮 (氮血症)。</p>
+                </div>
+
+                <!-- Section 5 -->
+                <h3>5 - 鳥胺酸胺甲基轉移酶缺乏症 (OTD)</h3>
+                <div class="content-block">
+                    <p>最常見的 urea cycle disorder，X-linked recessive。</p>
+                    
+                    <div class="note">
+                        其他所有 urea cycle disorder 都是 autosomal recessive，只有 OTD 是性聯遺傳！
+                    </div>
+                    
+                    <ul>
+                        <li>通常症狀會在出生後幾天即產生。</li>
+                        <li>無法進入尿素循環的 carbamoyl phosphate 會走嘧啶生合成途徑併成 orotic acid (乳清酸)。</li>
+                        <li>會發現血與尿中 orotic acid 增加，BUN (尿素氮) 下降，且有明顯 <a href="q6">hyperammonemia 的症狀</a>。</li>
+                        <li>無巨球性貧血！(相對於 <a href="q7">orotic aciduria</a> 會產生巨球性貧血而言。)</li>
+                    </ul>
+                </div>
+
+                <!-- Section 6 -->
+                <h3>6 - 氮血症 (Hyperammonemia) 是什麼？有什麼症狀？</h3>
+                <div class="content-block">
+                    <h4>病因</h4>
+                    <ol>
+                        <li>先天異常：urea cycle enzyme deficiencies (eg. ornithine transcarbamoylase deficiency)。</li>
+                        <li>後天受損：liver diseases (eg. hepatic encephalopathy)。</li>
+                    </ol>
+
+                    <h4>症狀</h4>
+                    <p>大腦水腫、嘔吐、視野模糊、吶吃 (slurring of speech)、嗜睡 (somnolence)、flapping tremor (asterixis)。</p>
+
+                    <h4>機轉</h4>
+                    <ol>
+                        <li>氮會將 α-ketoglutarate (in TCA cycle)、glutamate 合成為 glutamine。</li>
+                        <li>α-ketoglutarate 減少，導致 TCA cycle 被抑制。</li>
+                        <li>Glutamate 減少導致 GABA 的合成減少。</li>
+                        <li>Glutamine 增加導致腦中滲透壓改變，可能引發大腦水腫 (glutamine-induced osmotic shifts)。</li>
+                    </ol>
+
+                    <h4>治療</h4>
+                    <ol>
+                        <li>生活根本上的調整：需減少飲食中胺基酸的攝取。</li>
+                        <li>藥物包括 lactulose (乳果糖，口服以酸化 GI tract 抓住氨根離子，增加排除)、rifaximin (抗生素，減少 ammoniagenic bacteria)、benzoate、phenylacetate 以及 phenylbutyrate (此三者可增加 glutamine 由腎的排除)。</li>
+                    </ol>
+
+                    <img src="/assets/images/hyperammonemia_mechanism.png" alt="Hyperammonemia mechanism">
+                </div>
+
+                <!-- Section 7 -->
+                <h3>7 - 乳清酸尿症 (Orotic aciduria) 為何？</h3>
+                <div class="content-block">
+                    <ul>
+                        <li>病因：UMP synthase deficiency，autosomal recessive。</li>
+                        <li>症狀：無法生長、發育延遲、巨球性貧血 (用葉酸與 vit B12 治療無效)；無氮血症 (與 <a href="q5">ornithine transcarbamylase deficiency</a> 相反)。(後見<a href="q8">兩者鑑別要點</a>)</li>
+                        <li>治療：uridine monophosphate、uridine triacetate (藉此 bypass 突變的基因)。</li>
+                    </ul>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>特徵</th>
+                                <th>OTC缺乏症（Ornithine Transcarbamoylase Deficiency）</th>
+                                <th>原發性乳清酸尿症（Orotic Aciduria）</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>病因</td>
+                                <td>X染色體隱性遺傳的尿素循環障礙，OTC 酶缺乏導致尿素循環無法正常進行。</td>
+                                <td>嘧啶合成途徑中，<strong>UMP合成酶（UMP synthase）</strong>的缺乏。</td>
+                            </tr>
+                            <tr>
+                                <td>主要代謝問題</td>
+                                <td>無法將氨基甲酰磷酸與鳥胺酸（ornithine）結合生成瓜氨酸（citrulline）。</td>
+                                <td>嘧啶合成障礙，UMP無法正常生成，乳清酸累積。</td>
+                            </tr>
+                            <tr>
+                                <td>氨濃度（Ammonia）</td>
+                                <td>高氨血症（Hyperammonemia）： 尿素循環中斷，導致血氨水平升高。</td>
+                                <td>正常氨濃度： 不影響尿素循環，氨濃度不升高。</td>
+                            </tr>
+                            <tr>
+                                <td>乳清酸水平</td>
+                                <td>升高（因氨基甲酰磷酸累積，過度刺激嘧啶合成路徑）。</td>
+                                <td>升高（因UMP合成酶缺陷，乳清酸無法正常轉化）。</td>
+                            </tr>
+                            <tr>
+                                <td>臨床症狀</td>
+                                <td>嚴重高氨血症相關症狀，如嗜睡、嘔吐、腦病變（encephalopathy）。</td>
+                                <td>成長遲緩、貧血（巨紅細胞性貧血，macrocytic anemia），但無高氨血症症狀。</td>
+                            </tr>
+                            <tr>
+                                <td>治療方式</td>
+                                <td>限制蛋白質攝入、服用苯甲酸（benzoate）或苯丁酸（phenylbutyrate）以減少氮負荷；可能需透析。</td>
+                                <td>補充尿苷酸（uridine monophosphate, UMP）作為外源性核苷酸補充。</td>
+                            </tr>
+                            <tr>
+                                <td>遺傳方式</td>
+                                <td>X 染色體隱性遺傳，男性多見。</td>
+                                <td>體染色體隱性遺傳，性別分布無差異。</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Section 8 -->
+                <h3>8 - Orotic aciduria 和 OTD 要如何鑑別？</h3>
+                <div class="content-block">
+                    <ol>
+                        <li>尿中乳清酸水平升高的病因：
+                            <ul>
+                                <li>如果伴隨高氨血症 → OTD。</li>
+                                <li>如果氨血症正常且有巨球性貧血 → 原發性乳清酸尿症。</li>
+                            </ul>
+                        </li>
+                        <li>臨床檢驗輔助：
+                            <ul>
+                                <li>氨濃度測定： 高血氨 → OTD。</li>
+                                <li>紅血球形態學： 巨紅細胞性貧血 → 原發性乳清酸尿症。</li>
+                                <li>基因檢測： 確定何種酵素缺陷或突變。</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+        </main>
+    </div>
+    <div id="footerPage"></div>
+
+    <script src="/assets/js/script.js"></script>
+    <script src="/assets/js/daily_posts_script.js"></script>
+</body>
+</html>

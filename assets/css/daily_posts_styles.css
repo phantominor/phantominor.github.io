@@ -246,3 +246,52 @@ li {
   margin-top: -1rem;
   margin-bottom: 1.5rem;
 }
+
+/* Anchor links */
+/* Base style for all anchor links */
+.main-content a {
+  color: #2c5282;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+  padding-bottom: 2px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Arrow icon before all links */
+.main-content a:before {
+  content: '↗';  /* Unicode arrow character */
+  margin-right: 0.4em;
+  font-size: 0.9em;
+  transition: transform 0.2s ease;
+}
+
+/* Hover effects */
+.main-content a:hover {
+  color: #4299e1;
+}
+
+.main-content a:hover:before {
+  transform: translateY(-1px);
+}
+
+.main-content a:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #4299e1;
+  transition: width 0.3s ease;
+}
+
+.main-content a:hover:after {
+  width: 100%;
+}
+
+/* Optional: If you want the link icon to be smaller in certain contexts */
+.main-content h4 a:before {
+  font-size: 0.8em;
+}
