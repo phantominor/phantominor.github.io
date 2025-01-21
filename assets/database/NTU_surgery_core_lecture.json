@@ -1,0 +1,214 @@
+{
+  "lectures": [
+    {
+      "topic": "胃癌、胃腸道基質瘤、消化道潰瘍",
+      "doctor": "陳炯年",
+      "specialty": "一般外科",
+      "files": [
+        { "url": "https://reurl.cc/qn42x0", "format": "mp4", "duration": "61 min" }
+      ]
+    },
+    {
+      "topic": "Parenteral Nutrition",
+      "doctor": "吳經閔",
+      "specialty": "一般外科",
+      "files": [
+        { "url": "https://reurl.cc/ZZqgRA", "format": "pdf", "duration": "49 pages" }
+      ]
+    },
+    {
+      "topic": "Achalasia",
+      "doctor": "陳克誠",
+      "specialty": "一般外科",
+      "files": [
+        { "url": "https://reurl.cc/ZZqonl", "format": "pptx", "duration": "21 pages", "note": "no preview" }
+      ]
+    },
+    {
+      "topic": "胰臟癌",
+      "doctor": "田郁文",
+      "specialty": "一般外科",
+      "files": [
+        { "url": "https://reurl.cc/jQYe7Z", "format": "mp4", "duration": "61 min" },
+        { "url": "https://reurl.cc/5DZN2q", "format": "pdf", "duration": "195 pages", "note": "need repeatedly reload" }
+      ]
+    },
+    {
+      "topic": "肝內結石",
+      "doctor": "黃明和",
+      "specialty": "一般外科",
+      "files": [
+        { "url": "https://reurl.cc/yD4ae2", "format": "mp4", "duration": "68 min" }
+      ]
+    },
+    {
+      "topic": "病態性肥胖",
+      "doctor": "楊博仁",
+      "specialty": "一般外科",
+      "files": [
+        { "url": "https://reurl.cc/46vM4L", "format": "mp4", "duration": "53 min" }
+      ]
+    },
+    {
+      "topic": "淋巴水腫",
+      "doctor": "官振翔",
+      "specialty": "一般外科",
+      "files": [
+        { "url": "https://reurl.cc/M6LobL", "format": "mp4", "duration": "31 min" }
+      ]
+    },
+    {
+      "topic": "肝衰竭的處置",
+      "doctor": "何承懋",
+      "specialty": "一般外科",
+      "files": [
+        { "url": "https://reurl.cc/V0QoLR", "format": "mp4", "duration": "7 min" }
+      ]
+    },
+    {
+      "topic": "膽管癌、膽囊切除、機器人手術",
+      "doctor": "吳耀銘",
+      "specialty": "一般外科",
+      "files": [
+        { "url": "https://reurl.cc/nq4MO6", "format": "mp4", "duration": "49 min" }
+      ]
+    },
+    {
+      "topic": "Trauma care",
+      "doctor": "楊雅雯",
+      "specialty": "創傷醫學部",
+      "files": [
+        { "url": "https://reurl.cc/mR4Qnl", "format": "mp4", "duration": "31 min" }
+      ]
+    },
+    {
+      "topic": "腹部外傷與超音波應用",
+      "doctor": "許立民",
+      "specialty": "創傷醫學部",
+      "files": [
+        { "url": "https://reurl.cc/xp48EV", "format": "mp4", "duration": "35 min" }
+      ]
+    },
+    {
+      "topic": "氣胸與膿胸",
+      "doctor": "林孟暐",
+      "specialty": "胸腔外科",
+      "files": [
+        { "url": "https://reurl.cc/qn4qOy", "format": "mp4", "duration": "28 min" }
+      ]
+    },
+    {
+      "topic": "吸入性灼傷",
+      "doctor": "郭源松",
+      "specialty": "胸腔外科",
+      "files": [
+        { "url": "https://reurl.cc/46vMpD", "format": "mp4", "duration": "28 min" }
+      ]
+    },
+    {
+      "topic": "氣管疾病之診治",
+      "doctor": "蔡東明",
+      "specialty": "胸腔外科",
+      "files": [
+        { "url": "https://reurl.cc/WAMoDL", "format": "mp4", "duration": "25 min" }
+      ]
+    },
+    {
+      "topic": "肺部腫瘤之診治",
+      "doctor": "郭順文",
+      "specialty": "胸腔外科",
+      "files": [
+        { "url": "https://reurl.cc/ZZqoXM", "format": "mp4", "duration": "32 min" }
+      ]
+    },
+    {
+      "topic": "先天性顱顏畸形",
+      "doctor": "謝孟祥",
+      "specialty": "整形外科",
+      "files": [
+        { "url": "https://reurl.cc/WAMglk", "format": "mp4", "duration": "18 min" }
+      ]
+    },
+    {
+      "topic": "縫合與引流管慢性傷口",
+      "doctor": "鄭乃禎",
+      "specialty": "整形外科",
+      "files": [
+        { "url": "https://reurl.cc/lN4Oo9", "format": "mp4", "duration": "51 min" },
+        { "url": "https://reurl.cc/r34VDr", "format": "pdf", "duration": "12 pages" }
+      ]
+    },
+    {
+      "topic": "手部重建",
+      "doctor": "謝榮賢",
+      "specialty": "整形外科",
+      "files": [
+        { "url": "https://reurl.cc/KdLobq", "format": "mp4", "duration": "33 min" }
+      ]
+    },
+    {
+      "topic": "顯微手術",
+      "doctor": "戴浩志",
+      "specialty": "整形外科",
+      "files": [
+        { "url": "https://reurl.cc/NbLoRk", "format": "mp4", "duration": "32 min" }
+      ]
+    },
+    {
+      "topic": "軟組織感染",
+      "doctor": "戴浩志",
+      "specialty": "整形外科",
+      "files": [
+        { "url": "https://reurl.cc/qn4qZN", "format": "mp4", "duration": "27 min" }
+      ]
+    },
+    {
+      "topic": "乳房重建",
+      "doctor": "黃傑慧",
+      "specialty": "整形外科",
+      "files": [
+        { "url": "https://reurl.cc/lN4OZY", "format": "mp4", "duration": "37 min" }
+      ]
+    },
+    {
+      "topic": "漫談美容外科",
+      "doctor": "林之昀",
+      "specialty": "整形外科",
+      "files": [
+        { "url": "https://reurl.cc/d1loeg", "format": "mp4", "duration": "29 min" }
+      ]
+    },
+    {
+      "topic": "變性手術",
+      "doctor": "黃柏誠",
+      "specialty": "整形外科",
+      "files": [
+        { "url": "https://reurl.cc/gepoQX", "format": "mp4", "duration": "25 min" }
+      ]
+    },
+    {
+      "topic": "血管瘤血管畸形",
+      "doctor": "黃柏誠",
+      "specialty": "整形外科",
+      "files": [
+        { "url": "https://reurl.cc/46vMX2", "format": "mp4", "duration": "22 min" }
+      ]
+    },
+    {
+      "topic": "手外傷",
+      "doctor": "黃慧夫",
+      "specialty": "整形外科",
+      "files": [
+        { "url": "https://reurl.cc/zp4kA6", "format": "mp4", "duration": "32 min" }
+      ]
+    },
+    {
+      "topic": "臉部骨折",
+      "doctor": "陳右昇",
+      "specialty": "整形外科",
+      "files": [
+        { "url": "https://reurl.cc/NbLo0p", "format": "mp4", "duration": "34 min" }
+      ]
+    }
+  ]
+}

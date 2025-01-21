@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Private Notes</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/private_styles.css">
+    <style>
+        .lecture-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .lecture-table th {
+            background-color: #f8f9fa;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid #dee2e6;
+            font-weight: 600;
+        }
+        .lecture-table td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+            vertical-align: top;
+        }
+        .lecture-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        .file-link {
+            display: block;
+            margin: 2px 0;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .file-link:hover {
+            text-decoration: underline;
+        }
+        .file-format {
+            font-size: 12px;
+            color: #666;
+            margin-left: 5px;
+        }
+        #loginOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .login-box {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .error {
+            color: red;
+            display: none;
+            margin: 10px 0;
+        }
+        #passwordInput {
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 8px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="headerPage"></div>
+    <div class="content">
+      <!-- <div id="profileColumnPage"></div> -->
+      <main>
+        <div id="loginOverlay">
+          <div class="login-box">
+              <div id="prompt">Please enter the access key</div>
+              <div class="error" id="error">Incorrect access key. Please try again.</div>
+              <input type="password" id="passwordInput" placeholder="Enter access key">
+              <button onclick="checkAccess()">Submit</button>
+          </div>
+        </div>
+        
+        <table class="lecture-table">
+            <thead>
+                <tr>
+                    <th>主題</th>
+                    <th>主講醫師</th>
+                    <th>次專科別</th>
+                    <th>檔案</th>
+                </tr>
+            </thead>
+            <tbody id="lectureTableBody">
+                <!-- Table content will be populated by JavaScript -->
+            </tbody>
+        </table>
+      </main>
+    </div>
+    <div id="footerPage"></div>
+
+    <script src="/assets/js/script.js"></script>
+    <script>
+        // Simple obfuscation of the password
+        function encodePassword(input, n) {
+            const numToChar = input.split('').map(digit => 
+                String.fromCharCode(65 + parseInt(digit))
+            ).join('');
+            
+            return numToChar.split('').map(char => 
+                String.fromCharCode(((char.charCodeAt(0) - 65 + n) % 26) + 65)
+            ).join('');
+        }
+
+        function decodePassword(encoded) {
+            const unshifted = encoded.split('').map(char => 
+                String.fromCharCode(((char.charCodeAt(0) - 65 - 3 + 26) % 26) + 65)
+            ).join('');
+            
+            return unshifted.split('').map(char => 
+                (char.charCodeAt(0) - 65).toString()
+            ).join('');
+        }
+
+        const ENCODED_PASSWORD = "JGHDL";
+        function checkAccess() {
+            const input = document.getElementById('passwordInput').value;
+            const encodedInput = encodePassword(input, 3);
+            
+            if (encodedInput === ENCODED_PASSWORD) {
+                document.getElementById('loginOverlay').style.display = 'none';
+                loadAndPopulateTable();
+            } else {
+                document.getElementById('error').style.display = 'block';
+            }
+        }
+
+        async function loadAndPopulateTable() {
+            try {
+                const response = await fetch('/assets/database/NTU_surgery_core_lecture.json');
+                const data = await response.json();
+                const lectureData = data.lectures;
+                
+                const tbody = document.getElementById('lectureTableBody');
+                tbody.innerHTML = ''; // Clear existing content
+                
+                lectureData.forEach(lecture => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${lecture.topic}</td>
+                        <td>${lecture.doctor}</td>
+                        <td>${lecture.specialty}</td>
+                        <td>
+                            ${lecture.files.map(file => `
+                                <a href="${file.url}" class="file-link" target="_blank">
+                                    ${file.format.toUpperCase()}
+                                    <span class="file-format">${file.duration}</span>
+                                </a>
+                            `).join('')}
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error loading lecture data:', error);
+                const tbody = document.getElementById('lectureTableBody');
+                tbody.innerHTML = '<tr><td colspan="4">Error loading lecture data. Please try again later.</td></tr>';
+            }
+        }
+
+        // Add event listener for Enter key
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAccess();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -4,7 +4,7 @@ let currentPrompt;
 // Load prompts from JSON file
 async function loadPrompts() {
     try {
-        const response = await fetch('/private/key_prompts.json');
+        const response = await fetch('/assets/database/key_prompts.json');
         const data = await response.json();
         prompts = data.prompts;
         initializePrompt();
