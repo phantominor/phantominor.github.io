@@ -4,7 +4,7 @@ let tableData = [
         date: "2024/01/20",
         topic: "Thymidine",
         url: "/med/daily-posts/20250120.html",  // Add URL for each topic
-        links: 5,
+        links: 8,
         tags: ["biochemistry", "pharmacology"]
     },
     {
@@ -12,7 +12,7 @@ let tableData = [
         topic: "Tuberculosis",
         url: "/med/daily-posts/20250118.html",  // Add URL for each topic
         links: 5,
-        tags: ["microbiology", "pharmacology"]
+        tags: ["microbiology", "pharmacology", "pathology"]
     }
 ];
 

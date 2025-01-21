@@ -148,16 +148,18 @@ body {
   margin-top: 2rem;
   margin-bottom: 1rem;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
+  align-items: stretch;
 }
 
 .main-content h3::before {
   content: "";
-  display: inline-block;
+  /* display: inline-block; */
   width: 4px;
-  height: 1.5rem;
+  /* height: 0.5rem; */
   background: var(--secondary-color);
   margin-right: 0.75rem;
+  align-self: stretch;
 }
 
 /* Tables */
@@ -222,12 +224,51 @@ tr:nth-child(even) {
 }
 
 /* Lists */
-ul {
-  padding-left: 1.5rem;
+
+/* Lists - both ordered and unordered */
+ol, ul {
+  padding-left: 2rem;
+  margin: 1rem 0;
 }
 
+/* All list items */
 li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+/* Nested lists */
+li > ul,
+li > ol {
+  margin: 0.5rem 0 0.75rem 0;
+}
+
+/* Last items in lists don't need bottom margin */
+li:last-child {
+  margin-bottom: 0;
+}
+
+/* Specific styling for ordered lists */
+ol {
+  list-style: decimal;
+}
+
+/* Specific styling for unordered lists */
+ul {
+  list-style: disc;
+}
+
+/* Second level lists */
+ol ol,
+ul ul {
+  list-style: lower-alpha;
+}
+
+/* Third level lists */
+ol ol ol,
+ul ul ul {
+  list-style: lower-roman;
 }
 
 /* Images */
