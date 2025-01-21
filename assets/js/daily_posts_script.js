@@ -3,14 +3,14 @@ let tableData = [
     {
         date: "2024/01/20",
         topic: "Thymidine",
-        url: "/med/daily-posts/20250120.html",  // Add URL for each topic
+        url: "/med/daily_posts/20250120.html",  // Add URL for each topic
         links: 8,
-        tags: ["biochemistry", "pharmacology"]
+        tags: ["biochemistry", "pharmacology", "pathology"]
     },
     {
         date: "2024/01/18",
         topic: "Tuberculosis",
-        url: "/med/daily-posts/20250118.html",  // Add URL for each topic
+        url: "/med/daily_posts/20250118.html",  // Add URL for each topic
         links: 5,
         tags: ["microbiology", "pharmacology", "pathology"]
     }

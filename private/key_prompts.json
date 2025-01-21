@@ -13,13 +13,12 @@
       "type": "charCount"
     },
     {
-      "text": "The key is in your hand, but you don't know how to use it.",
+      "text": "The key is in your hand, but you don't know how to use it",
       "type": "charCount"
     },
     {
-      "text": "Say ALOHOMORA for opening the door",
-      "type": "custom",
-      "key": "138674288"
+      "text": "Password, why not pass excel?",
+      "type": "wordLength"
     }
   ]
 }

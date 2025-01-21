@@ -1,3 +1,22 @@
+/* Before table styling */
+h1 {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin: 0 0 1rem;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  text-align: justify;
+  /* margin-bottom: 3rem; */
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* Table Styles */
 .table-container {
   background: white;
@@ -226,48 +245,48 @@ tr:nth-child(even) {
 /* Lists */
 
 /* Lists - both ordered and unordered */
-ol, ul {
+.main-content ol, ul {
   padding-left: 2rem;
   margin: 1rem 0;
 }
 
 /* All list items */
-li {
+.main-content li {
   margin-bottom: 0.75rem;
   line-height: 1.6;
   color: var(--text-color);
 }
 
 /* Nested lists */
-li > ul,
-li > ol {
+.main-content li > ul,
+.main-content li > ol {
   margin: 0.5rem 0 0.75rem 0;
 }
 
 /* Last items in lists don't need bottom margin */
-li:last-child {
+.main-content li:last-child {
   margin-bottom: 0;
 }
 
 /* Specific styling for ordered lists */
-ol {
+.main-content ol {
   list-style: decimal;
 }
 
 /* Specific styling for unordered lists */
-ul {
+.main-content ul {
   list-style: disc;
 }
 
 /* Second level lists */
-ol ol,
-ul ul {
+.main-content ol ol,
+.main-content ul ul {
   list-style: lower-alpha;
 }
 
 /* Third level lists */
-ol ol ol,
-ul ul ul {
+.main-content ol ol ol,
+.main-content ul ul ul {
   list-style: lower-roman;
 }
 
