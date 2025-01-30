@@ -1,32 +1,46 @@
 {
   "recentUpdates": [
 		{
+			"date": "2025/01/30",
+			"category": "[Yanjtlt]",
+			"title": "Self-drawn map of highway system in Taiwan",
+			"link": "/yanjtlt/台灣國道、省道快速公路.html",
+			"remarks": "Useful map for traffic problems."
+		},
+		{
+			"date": "2025/01/20",
+			"category": "[Med]",
+			"title": "Daily Posts",
+			"link": "/med/daily_posts.html",
+			"remarks": "Posts whenever I got topics."
+		},
+		{
 			"date": "2025/01/18",
 			"category": "[Home]",
 			"title": "Private",
-			"link": "private.html",
-			"remarks": "private notes"
+			"link": "/private.html",
+			"remarks": "Private pages, don't peek at it."
 		},
     {
 			"date": "2024/12/08",
 			"category": "[Lingo]",
 			"title": "Me Gustas Tu",
-			"link": "lingo/me_gustas_tu.html",
-			"remarks": "Newly started Korean learning program"
+			"link": "/lingo/me_gustas_tu.html",
+			"remarks": "Newly started Korean learning program, far from done."
     },
     {
 			"date": "2024/07/04",
 			"category": "[Games]",
 			"title": "Random Drug Classification Practice",
-			"link": "games/pharmaDex.html",
-			"remarks": "Pharmacology memorizing challenge"
+			"link": "/games/pharmaDex.html",
+			"remarks": "Pharmacology memorizing challenge."
     },
     {
 			"date": "2024/06/27",
 			"category": "[Games]",
 			"title": "Drugs Suffix Quiz",
-			"link": "games/suffiRx.html",
-			"remarks": "Interactive drug classification memory assistant"
+			"link": "/games/suffiRx.html",
+			"remarks": "Interactive drug classification memory assistant."
     }
   ]
 }

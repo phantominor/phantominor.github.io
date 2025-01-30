@@ -1,16 +1,22 @@
 {
-  "popularContent": [
-      {
-          "category": "[Novels]",
-          "title": "Example 1",
-          "link": "#",
-          "remarks": "most read this month"
-      },
-      {
-          "category": "[Music]",
-          "title": "Example 2",
-          "link": "#",
-          "remarks": "Top listened music collection"
-      }
-  ]
+    "popularContent": [
+        {
+            "category": "[Med]",
+            "title": "Daily Posts",
+            "link": "/med/daily_posts.html",
+            "remarks": "Posts whenever I got topics."
+        },
+        {
+            "category": "[Others]",
+            "title": "伊心凡特姆的無聊小調查",
+            "link": "/others/xinwucha.html",
+            "remarks": "Some interesting investigation hosted by AP."
+        },
+        {
+            "category": "[Games]",
+            "title": "PharmaDex",
+            "link": "/games/pharmaDex.html",
+            "remarks": "Test yourself of your pharmability!"
+        }
+    ]
 }
