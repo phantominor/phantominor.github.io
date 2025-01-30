@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid black; padding: 8px; text-align: left; }
+    </style>
+</head>
+<body>
+    <div id="stockTable"></div>
+    <script>
+        const SPREADSHEET_ID = '1Anwo9ePyXyubJnT51h_QUYXzXoolWwUBagtuVApplvU';
+        const API_KEY = 'AIzaSyBCtki_DIp5sUt1C_mOrNjNvywkeUxRQqw';
+        const RANGE = '收盤!A1:O100'; // Adjust range as needed
+
+        function fetchStockData() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`;
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const values = data.values;
+                    displayTable(values);
+                    analyzeData(values);
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function displayTable(values) {
+            let html = '<table>';
+            values.forEach((row, index) => {
+                html += '<tr>';
+                row.forEach(cell => {
+                    html += index === 0 ? `<th>${cell}</th>` : `<td>${cell}</td>`;
+                });
+                html += '</tr>';
+            });
+            html += '</table>';
+            document.getElementById('stockTable').innerHTML = html;
+        }
+
+        function analyzeData(values) {
+            // Remove header row
+            const data = values.slice(1);
+            
+            // Calculate daily changes
+            const latestRow = data[0];
+            const previousRow = data[1];
+            
+            if (latestRow && previousRow) {
+                let changes = [];
+                for (let i = 1; i < latestRow.length; i++) {
+                    const change = ((latestRow[i] - previousRow[i]) / previousRow[i] * 100).toFixed(2);
+                    changes.push(`${latestRow[i]} (${change}%)`);
+                }
+                // Add analysis display code here
+            }
+        }
+
+        // Fetch data every 5 minutes
+        fetchStockData();
+        setInterval(fetchStockData, 300000);
+    </script>
+</body>
+</html>
