@@ -101,9 +101,9 @@
         const RANGE = '收盤!A1:O100'; // Adjust range as needed
 
         const companies = [
-            '幻境遊戲', '華興集團', '紫杉資本', '藍翔教育', 'S1影視', 
-            '少林控股', '色芒TV', 'SpaceY', '尉萊電車', 'N卡礦業', 
-            '拳頭公司', 'EDG', '醬香科技', '愛女僕LEX'
+            '幻境遊戲', '華興集團', '紫杉資本', '藍翔教育', 'S1 影視', 
+            '少林控股', '色芒 TV', 'SpaceY', '尉萊電車', 'N 卡礦業', 
+            '拳頭公司', 'EDG', '醬香科技', '愛女僕 LEX'
         ];
 
         const timeRanges = [
@@ -154,13 +154,15 @@
 
         function formatData(values) {
             const headers = values[0];
-            return values.slice(1).map(row => ({
+            const formattedData = values.slice(1).map(row => ({
                 date: row[0],
                 ...Object.fromEntries(headers.slice(1).map((header, i) => [
                     header,
                     parseFloat(row[i + 1])
                 ]))
             }));
+            // Reverse the array to show data from past to present
+            return formattedData.reverse();
         }
 
         function filterDataByTimeRange(data) {
@@ -178,7 +180,6 @@
             document.getElementById('chartSection').classList.add('visible');
             updateChart();
         }
-
 
         function selectTimeRange(range) {
             selectedTimeRange = range;
