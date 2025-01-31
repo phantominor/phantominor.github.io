@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>龑的交通月台</title>
     <link rel="stylesheet" href="/assets/css/styles.css">
-    <link rel="stylesheet" href="/assets/css/yanltjt_styles.css">
+    <link rel="stylesheet" href="/yanltjt/test.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.3.2/jsencrypt.min.js"></script>
 </head>
 <body>
@@ -33,15 +33,15 @@
                 </div>
 
                 <div class="map-description">
-                    <h2>關於本地圖</h2>
-                    <p>此互動式地圖展示了台灣完整的省道與國道快速公路網絡系統。您可以在地圖上查看：</p>
-                    <p>• 主要省道路線與編號<br>
-                        • 國道快速公路網絡<br>
-                        • 重要交通樞紐與連接點<br>
-                        • 即時路況更新 (通過 Google Maps 整合)</p>
-                    <p>點擊地圖上的各個路段可查看詳細資訊。您可以使用滾輪或手勢進行縮放，拖曳以平移地圖視角。</p>
-                    <p><strong>注意：</strong>本地圖內容受版權保護，未經授權不得複製或轉載。</p>
-                </div>
+                  <h2>關於本地圖</h2>
+                  <p>此互動式地圖展示了台灣完整的省道與國道快速公路網絡系統。您可以在地圖上查看：</p>
+                  <p>• 主要省道路線與編號<br>
+                      • 國道快速公路網絡<br>
+                      • 重要交通樞紐與連接點<br>
+                      • 即時路況更新 (通過 Google Maps 整合)</p>
+                  <p>點擊地圖上的各個路段可查看詳細資訊。您可以使用滾輪或手勢進行縮放，拖曳以平移地圖視角。</p>
+                  <p><strong>注意：</strong>本地圖內容受版權保護，未經授權不得複製或轉載。</p>
+              </div>
             </section>
         </main>
     </div>
@@ -75,24 +75,6 @@
                 throw new Error('Failed to assemble private key');
             }
         }
-        
-        function updateExpandButton(isExpanded) {
-            const expandButton = document.querySelector('.expand-button');
-            const buttonText = expandButton.querySelector('span:not(.expand-arrow)');
-            const arrow = expandButton.querySelector('.expand-arrow');
-            
-            if (isExpanded) {
-                buttonText.textContent = '收合地圖';
-                arrow.classList.add('rotated');
-                expandButton.onclick = handleCollapse;
-            } else {
-                buttonText.textContent = '展開地圖';
-                arrow.classList.remove('rotated');
-                expandButton.onclick = handleExpand;
-            }
-            expandButton.style.display = 'flex';
-            expandButton.style.opacity = '1';
-        }
 
         async function handleExpand() {
             const wrapper = document.getElementById('map-wrapper');
@@ -112,7 +94,10 @@
                     if (decrypted) {
                         document.getElementById('encrypted-content').innerHTML = decrypted;
                         wrapper.classList.add('expanded');
-                        updateExpandButton(true);
+                        expandButton.style.opacity = '0';
+                        setTimeout(() => {
+                            expandButton.style.display = 'none';
+                        }, 300);
                     } else {
                         throw new Error('Decryption failed');
                     }
@@ -125,42 +110,6 @@
                 }
             }
         }
-
-        function handleCollapse() {
-            const wrapper = document.getElementById('map-wrapper');
-            const expandButton = document.querySelector('.expand-button');
-            
-            if (wrapper.classList.contains('expanded')) {
-                wrapper.classList.remove('expanded');
-                updateExpandButton(false);
-            }
-        }
-        
-        // function decryptContent() {
-        //     const privateKey = document.getElementById('private-key').value;
-        //     const decrypt = new JSEncrypt();
-        //     decrypt.setPrivateKey(privateKey);
-            
-        //     try {
-        //         const decrypted = decrypt.decrypt(encryptedContent);
-        //         if (decrypted) {
-        //             document.getElementById('encrypted-content').innerHTML = decrypted;
-        //             document.getElementById('key-input').style.display = 'none';
-        //             document.getElementById('map-wrapper').style.display = 'block';
-        //         } else {
-        //             alert('Invalid private key!');
-        //         }
-        //     } catch (e) {
-        //         alert('Decryption failed. Please check your private key.');
-        //     }
-        // }
-    
-        // // Add enter key support for the input field
-        // document.getElementById('private-key').addEventListener('keypress', function(e) {
-        //     if (e.key === 'Enter') {
-        //         decryptContent();
-        //     }
-        // });
     </script>
 </body>
 </html>

@@ -83,49 +83,93 @@
   pointer-events: all;
 }
 
-/* Add/update these styles in your CSS */
-#key-input {
-  background: #f5f5f5;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 2rem 0;
+/* Expand control pad */
+.expand-control {
   text-align: center;
+  margin: 20px 0;
+  position: relative;
 }
 
-#private-key {
-  width: 100%;
-  max-width: 400px;
-  padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
-  border: 2px solid #e0e0e0;
-  border-radius: 4px;
-  font-size: 1rem;
-  transition: border-color 0.2s;
+.expand-line {
+  height: 1px;
+  background: linear-gradient(to right, transparent, #2e312f, transparent);
+  position: relative;
+  transition: all 0.3s ease;
 }
 
-#private-key:focus {
-  outline: none;
-  border-color: #2e312f;
-}
-
-#key-input button {
-  background: #2e312f;
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 4px;
-  font-size: 1rem;
+.expand-button {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 0 15px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.3s ease;
 }
 
-#key-input button:hover {
-  background: #3e413f;
+.expand-arrow {
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #2e312f;
+  transition: transform 0.3s ease;
 }
 
-#map-wrapper {
-  display: none; /* Hidden by default */
+.expand-arrow.rotated {
+  transform: rotate(180deg);
+}
+
+.expand-button {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 0 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.expand-button:hover .expand-arrow:not(.rotated) {
+  transform: translateY(2px);
+}
+
+.expand-button:hover .expand-arrow.rotated {
+  transform: rotate(180deg) translateY(-2px);
+}
+
+.map-wrapper {
+  height: 0;
+  overflow: hidden;
+  transition: all 0.5s ease-in-out;
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.map-wrapper.expanded {
+  height: auto;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.loading-indicator {
+  display: none;
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+
+.loading-indicator.active {
+  display: block;
 }
 
 /* Media queries */
