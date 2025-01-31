@@ -1,0 +1,28 @@
+{
+	"questionnaires": [
+		{
+			"number": 1,
+			"startTime": "2024/02/01",
+			"title": "MBTI 與星座、血型",
+			"analysisLink": "/others/xinwucha/mbti_study.html",
+			"formLink": "https://forms.gle/g2ViR2gvKJzMfh5i8",
+			"spreadsheetID": "1JG_TicbDNWlwb13zcMfSt0vpCGtARRZREiH3yOhHcws",
+			"estimatedTime": 30,
+			"endTime": "--",
+			"keywords": ["心理測驗", "MBTI", "性格"],
+			"researchCategory": "心理學"
+		},
+		{
+			"number": 2,
+			"startTime": "2024/02/10",
+			"title": "直覺的隨機性測試",
+			"analysisLink": "/others/xinwucha/intuition_study.html",
+			"formLink": "https://forms.gle/ukA64BUL8pVfCaav7",
+			"spreadsheetID": "1KUY1dpLvLFEubt1EHoulkkleLBHDlm4pwOcf0gE4YSk",
+			"estimatedTime": 40,
+			"endTime": "--",
+			"keywords": ["心理研究", "決策", "隨機性"],
+			"researchCategory": "認知科學"
+		}
+	]
+}
