@@ -14,7 +14,7 @@
         <main>
             <section class="map-section">
                 <h1 class="map-title">台灣國道、省道快速公路</h1>
-                <div class="reference-line">Thanks to contribution of @yanltjtii</div>
+                <div class="reference-line"><br>Thanks to contribution of @yanltjtii</div>
                 
                 <div class="expand-control">
                     <div class="expand-line"></div>
@@ -55,9 +55,19 @@
             try {
                 const response = await fetch(`/assets/database/${filename}`);
                 const data = await response.json();
-                return data.keys[0].pv;
+                
+                // Search through the keys to find the one matching the encrypted content
+                const matchingKey = data.keys.find(key => 
+                    key.ec === encryptedContent
+                );
+                
+                if (!matchingKey) {
+                    throw new Error(`No matching key found in ${filename}`);
+                }
+                
+                return matchingKey.pv; // Return the private key for the matched encrypted content
             } catch (error) {
-                console.error(`Error fetching ${filename}:`, error);
+                console.error(`Error fetching or processing ${filename}:`, error);
                 throw error;
             }
         }
@@ -75,7 +85,7 @@
                 throw new Error('Failed to assemble private key');
             }
         }
-        
+
         function updateExpandButton(isExpanded) {
             const expandButton = document.querySelector('.expand-button');
             const buttonText = expandButton.querySelector('span:not(.expand-arrow)');
