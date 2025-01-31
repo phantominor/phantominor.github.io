@@ -7,37 +7,59 @@
     <link rel="stylesheet" href="/assets/css/styles.css">
     <style>
         :root {
-            --primary-color: #3a6ea5;
-            --secondary-color: #f0f4f8;
-            --text-color: #333;
-            --border-color: #ddd;
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary-color: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-color: #334155;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
 
         .questionnaire-table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
             background-color: white;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-md);
+            margin: 1.5rem 0;
+            overflow: hidden;
+            font-size: 0.875rem;
         }
 
         .questionnaire-table th {
             background-color: var(--primary-color);
             color: white;
-            padding: 12px 15px;
+            padding: 0.875rem 1rem;
             text-align: left;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.2s ease;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .questionnaire-table th:after {
+            content: "↕";
+            position: absolute;
+            right: 8px;
+            opacity: 0.5;
         }
 
         .questionnaire-table th:hover {
-            background-color: #2c5694;
+            background-color: var(--primary-hover);
         }
 
         .questionnaire-table td {
-            padding: 12px 15px;
+            padding: 1rem;
             border-bottom: 1px solid var(--border-color);
+            color: var(--text-color);
             vertical-align: middle;
+        }
+
+        .questionnaire-table tr:last-child td {
+            border-bottom: none;
         }
 
         .questionnaire-table tr:nth-child(even) {
@@ -45,47 +67,73 @@
         }
 
         .questionnaire-table tr:hover {
-            background-color: #e6f2ff;
+            background-color: #f1f5f9;
+            transition: background-color 0.2s ease;
         }
 
         .form-link, .analysis-link {
             text-decoration: none;
             color: var(--primary-color);
-            font-weight: bold;
-            transition: color 0.3s;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            display: inline-block;
         }
 
         .form-link:hover, .analysis-link:hover {
-            color: #1a4a7a;
-            text-decoration: underline;
+            color: var(--primary-hover);
+            background-color: #dbeafe;
         }
 
         .platform-links {
             display: flex;
-            gap: 10px;
+            gap: 0.75rem;
+            align-items: center;
         }
 
         .platform-btn {
-            display: inline-block;
-            padding: 5px 10px;
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 0.75rem;
             background-color: var(--primary-color);
             color: white;
             text-decoration: none;
-            border-radius: 4px;
-            font-size: 0.8em;
-            transition: background-color 0.3s;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
         }
 
         .platform-btn:hover {
-            background-color: #2c5694;
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
         }
 
         @media (max-width: 768px) {
             .questionnaire-table {
-                font-size: 0.9em;
+                font-size: 0.8125rem;
+                border-radius: 6px;
             }
+
+            .questionnaire-table th,
+            .questionnaire-table td {
+                padding: 0.75rem;
+            }
+
             .platform-links {
                 flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            /* Make table scrollable horizontally on mobile */
+            .content main {
+                overflow-x: auto;
+                padding-bottom: 1rem;
+            }
+            
+            .questionnaire-table {
+                min-width: 800px;
             }
         }
     </style>
