@@ -1,0 +1,39 @@
+<!-- encryptor.html - Use this page to encrypt your content -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Content Encryptor</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.3.2/jsencrypt.min.js"></script>
+    <style>
+        body { max-width: 800px; margin: 20px auto; padding: 0 20px; }
+        textarea { width: 100%; height: 200px; margin: 10px 0; }
+        button { padding: 10px 20px; }
+    </style>
+</head>
+<body>
+    <h2>Content Encryptor</h2>
+    <p>Enter your content to encrypt:</p>
+    <textarea id="content"></textarea>
+    <br>
+    <button onclick="generateAndEncrypt()">Encrypt Content</button>
+    <h3>Encrypted Content:</h3>
+    <textarea id="encrypted" readonly></textarea>
+
+    <script>
+        function generateAndEncrypt() {
+            const encrypt = new JSEncrypt({default_key_size: 2048});
+            const publicKey = encrypt.getPublicKey();
+            const privateKey = encrypt.getPrivateKey();
+            
+            console.log("Public Key:", publicKey);
+            console.log("Private Key:", privateKey);
+            
+            const content = document.getElementById('content').value;
+            const encrypted = encrypt.encrypt(content);
+            document.getElementById('encrypted').value = encrypted;
+            
+            alert('Check console for public and private keys');
+        }
+    </script>
+</body>
+</html>

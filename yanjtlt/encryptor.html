@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RSA Key Generator & Content Encryptor</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.3.2/jsencrypt.min.js"></script>
+    <style>
+        body { padding: 20px; font-family: Arial, sans-serif; }
+        textarea { width: 100%; height: 200px; margin: 10px 0; }
+        button { margin: 10px 0; padding: 5px 10px; }
+        .key { margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>RSA Key Generator & Content Encryptor</h1>
+    
+    <button onclick="generateKeys()">Generate New Key Pair</button>
+    
+    <div class="key">
+        <h3>Private Key (Save this securely and delete it from here!):</h3>
+        <textarea id="privateKey" readonly></textarea>
+    </div>
+    
+    <div class="key">
+        <h3>Public Key:</h3>
+        <textarea id="publicKey" readonly></textarea>
+    </div>
+
+    <div>
+        <h3>Content to Encrypt:</h3>
+        <textarea id="content">
+<iframe src="https://www.google.com/maps/d/u/0/embed?mid=17hrH7ti781-1XIXQBE8jYEz9Y-SODK0&ehbc=2E312F"></iframe>
+        </textarea>
+    </div>
+
+    <button onclick="encryptContent()">Encrypt Content</button>
+
+    <div>
+        <h3>Encrypted Content (Use this in your main page):</h3>
+        <textarea id="encryptedContent" readonly></textarea>
+    </div>
+
+    <script>
+        function generateKeys() {
+            const crypt = new JSEncrypt({default_key_size: 2048});
+            document.getElementById('privateKey').value = crypt.getPrivateKey();
+            document.getElementById('publicKey').value = crypt.getPublicKey();
+        }
+
+        function encryptContent() {
+            const content = document.getElementById('content').value;
+            const publicKey = document.getElementById('publicKey').value;
+            
+            const crypt = new JSEncrypt();
+            crypt.setPublicKey(publicKey);
+            
+            const encrypted = crypt.encrypt(content);
+            document.getElementById('encryptedContent').value = encrypted;
+        }
+    </script>
+
+    <div style="margin-top: 20px;">
+        <h3>Test Decryption:</h3>
+        <textarea id="testEncrypted" placeholder="Paste encrypted content here"></textarea>
+        <textarea id="testPrivateKey" placeholder="Paste private key here"></textarea>
+        <button onclick="testDecrypt()">Test Decrypt</button>
+        <div id="decryptResult"></div>
+    </div>
+
+    <script>
+        function testDecrypt() {
+            const encrypted = document.getElementById('testEncrypted').value;
+            const privateKey = document.getElementById('testPrivateKey').value;
+            
+            const decrypt = new JSEncrypt();
+            decrypt.setPrivateKey(privateKey);
+            
+            const decrypted = decrypt.decrypt(encrypted);
+            document.getElementById('decryptResult').innerHTML = decrypted || 'Decryption failed!';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!-- protected.html - This is your protected page -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RSA Protected Content</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.3.2/jsencrypt.min.js"></script>
+    <style>
+        body {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+            font-family: Arial, sans-serif;
+        }
+        
+        .password-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        
+        .content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        input {
+            margin: 10px 0;
+            padding: 8px;
+            width: 300px;
+        }
+        
+        button {
+            padding: 8px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .error-message {
+            color: red;
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="password-container" id="passwordProtection">
+        <h2>RSA Protected Content</h2>
+        <p>Please enter the private key to decrypt this content:</p>
+        <textarea id="privateKeyInput" rows="5" placeholder="Enter private key here"></textarea>
+        <br>
+        <button onclick="decryptContent()">Decrypt</button>
+        <p id="errorMessage" class="error-message">Decryption failed. Please check the private key.</p>
+    </div>
+
+    <div id="protectedContent" class="content"></div>
+
+    <script>
+        // Replace this with your encrypted content from the encryptor
+        const encryptedContent = "fIgTxRH/2DKEzxrufhfGXIImRVCjhLrLgNNGQhlWnHBDnXf7Bhy05gWu0kfzsy/t1td/x7BC48dUaF93YeZJRv7KDLnu/+pQD87rLqxRzMvjGrT505bVotibhqnUvzYfGhDttrI4Iq0zVRnEwuIfToIbvaC0XGsYWKNc75nZ1O6GtpMHhtWJBOSoTlzuLIVnJCOh7eul2ld03XbB9FQh61v34iUYxcapVCn28fDd5AmMGYhNnNG1zpMXNjEPh/b5bB9vjcyjvLdg457wuOTFnel0YHBbyfZzyEhr3CSzcB4ODnO3y04dbxFudT0FXR2jhDIqNT4f83RSfESLDrB7Fg==";
+        
+        function decryptContent() {
+            const decrypt = new JSEncrypt();
+            const privateKey = document.getElementById('privateKeyInput').value;
+            decrypt.setPrivateKey(privateKey);
+            
+            try {
+                const decrypted = decrypt.decrypt(encryptedContent);
+                if (decrypted) {
+                    document.getElementById('protectedContent').innerHTML = decrypted;
+                    document.getElementById('protectedContent').style.display = 'block';
+                    document.getElementById('passwordProtection').style.display = 'none';
+                    sessionStorage.setItem("privateKey", privateKey);
+                } else {
+                    throw new Error('Decryption failed');
+                }
+            } catch (e) {
+                document.getElementById('errorMessage').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('errorMessage').style.display = 'none';
+                }, 3000);
+            }
+        }
+        
+        // Check if user has previously decrypted the content
+        window.onload = function() {
+            const savedKey = sessionStorage.getItem("privateKey");
+            if (savedKey) {
+                document.getElementById('privateKeyInput').value = savedKey;
+                decryptContent();
+            }
+        }
+    </script>
+</body>
+</html>

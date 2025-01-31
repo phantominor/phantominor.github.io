@@ -3,35 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phantom's Haven - Novels</title>
+    <title>龑的交通月台</title>
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="/assets/css/yanjtlt_styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.3.2/jsencrypt.min.js"></script>
 </head>
 <body>
-    <div id="headerPage"></div> <!-- Placeholder for the header -->
+    <div id="headerPage"></div>
     <div class="content">
-      <main>
-        <section class="map-section">
-            <h1 class="map-title">台灣國道、省道快速公路</h1>
-            <p></p>
-            <div class="map-container">
-                <iframe src="https://www.google.com/maps/d/u/0/embed?mid=17hrH7ti781-1XIXQBE8jYEz9Y-SODK0&ehbc=2E312F"></iframe>
-            </div>
-            <div class="map-description">
-                <h2>關於本地圖</h2>
-                <p>此互動式地圖展示了台灣完整的省道與國道快速公路網絡系統。您可以在地圖上查看：</p>
-                <p>• 主要省道路線與編號<br>
-                   • 國道快速公路網絡<br>
-                   • 重要交通樞紐與連接點<br>
-                   • 即時路況更 (通過 Google Maps 整合)</p>
-                <p>點擊地圖上的各個路段可查看詳細資訊。您可以使用滾輪或手勢進行縮放，拖曳以平移地圖視角。</p>
-                <p><strong>注意：</strong>本地圖內容受版權保護，未經授權不得複製或轉載。</p>
-            </div>
-        </section>
-    </main>
+        <main>
+            <section class="map-section">
+                <h1 class="map-title">台灣國道、省道快速公路</h1>
+                <div class="reference-line">Thanks to contribution of @someone</div>
+                
+                <!-- Key input shown first -->
+                <div id="key-input">
+                    <input type="password" id="private-key" placeholder="Enter private key">
+                    <button onclick="decryptContent()">Decrypt Map</button>
+                </div>
+            
+                <!-- Map container hidden initially -->
+                <div id="map-wrapper" style="display: none;">
+                    <div class="map-container">
+                        <div id="encrypted-content"></div>
+                    </div>
+                    <div class="map-description">
+                        <h2>關於本地圖</h2>
+                        <p>此互動式地圖展示了台灣完整的省道與國道快速公路網絡系統。您可以在地圖上查看：</p>
+                        <p>• 主要省道路線與編號<br>
+                            • 國道快速公路網絡<br>
+                            • 重要交通樞紐與連接點<br>
+                            • 即時路況更新 (通過 Google Maps 整合)</p>
+                        <p>點擊地圖上的各個路段可查看詳細資訊。您可以使用滾輪或手勢進行縮放，拖曳以平移地圖視角。</p>
+                        <p><strong>注意：</strong>本地圖內容受版權保護，未經授權不得複製或轉載。</p>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
-    <div id="footerPage"></div> <!-- Placeholder for the footer -->
+    <div id="footerPage"></div>
 
     <script src="/assets/js/script.js"></script>
+    <script>
+        const encryptedContent = "jpgKhnaEpLxf3170jIebwppRNSgZ8otn3YVjWLB+eDECMJtju+EOy8obAp7kzmU4L+HLKJrf0UY3J9gdkNROy6Gf8M9MZnGW8obdhBNABsRUn4tjVTO9SzSzyxS7/cma9ciNuUQKztlNWZZ7haC0UGDpRrSBZFZvJ1k4E3+9SAA7kgUhs7XUjKUzH+SOaEkrpjfPiQYO3I/N0nwYhzjhoH+JJg6P4RMRGaEcOiH7jBpM7XSrkKUsSaQgR0A7Xw4hF5KDQ5buQaatnO5fCXkcWnjqY16QjpUopFNOzbaB8eAuEcPEY2YMbLlOVYfoELQgWsQNOkg9K2aPwa9xkQaxRg==";
+        
+        function decryptContent() {
+            const privateKey = document.getElementById('private-key').value;
+            const decrypt = new JSEncrypt();
+            decrypt.setPrivateKey(privateKey);
+            
+            try {
+                const decrypted = decrypt.decrypt(encryptedContent);
+                if (decrypted) {
+                    document.getElementById('encrypted-content').innerHTML = decrypted;
+                    document.getElementById('key-input').style.display = 'none';
+                    document.getElementById('map-wrapper').style.display = 'block';
+                } else {
+                    alert('Invalid private key!');
+                }
+            } catch (e) {
+                alert('Decryption failed. Please check your private key.');
+            }
+        }
+    
+        // Add enter key support for the input field
+        document.getElementById('private-key').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                decryptContent();
+            }
+        });
+    </script>
 </body>
 </html>
