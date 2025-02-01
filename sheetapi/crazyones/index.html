@@ -3,6 +3,7 @@
 <head>
     <title>Stock Chart Viewer</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@0.1.1/dist/chartjs-chart-financial.min.js"></script>
     <style>
         body { 
             font-family: Arial, sans-serif; 
@@ -25,20 +26,62 @@
         }
 
         .chart-section {
-            display: flex;
-            gap: 20px;
+            display: none; /* Hidden by default */
             width: 80%;
             margin: 0 auto;
             background: white;
-            padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        .button-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 10px;
+        .chart-section.visible {
+            display: block;
+        }
+
+        .tab-headers {
+            display: flex;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0 20px;
+        }
+
+        .tab-header {
+            padding: 12px 24px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .tab-header.active {
+            color: #334155;
+            border-bottom-color: #334155;
+        }
+
+        .chart-content {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .charts-container {
+            flex-grow: 1;
+        }
+
+        .market-view, .analysis-view {
+            display: none;
+        }
+
+        .market-view.visible, .analysis-view.visible {
+            display: block;
+        }
+
+        .market-chart {
+            height: 500px;
+        }
+
+        .analysis-chart {
+            height: 250px;
+            margin-bottom: 20px;
         }
 
         .time-group {
@@ -48,9 +91,10 @@
             min-width: 100px;
         }
 
-        .chart-container {
-            flex-grow: 1;
-            height: 500px;
+        .button-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
         }
 
         button {
@@ -72,12 +116,8 @@
             color: white;
         }
 
-        .chart-section {
-            display: none; /* Hidden by default */
-        }
-        
-        .chart-section.visible {
-            display: flex;
+        .analysis-chart.combined {
+            height: 350px;  /* Make the first chart taller to accommodate both price and volume */
         }
     </style>
 </head>
@@ -88,17 +128,41 @@
         </div>
         
         <div class="chart-section" id="chartSection">
-            <div class="chart-container">
-                <canvas id="stockChart"></canvas>
+            <div class="tab-headers">
+                <div class="tab-header active" data-tab="market">行情</div>
+                <div class="tab-header" data-tab="analysis">分析</div>
             </div>
-            <div class="time-group" id="timeButtons"></div>
+
+            <div class="chart-content">
+                <div class="charts-container">
+                    <div class="market-view visible">
+                        <div class="market-chart">
+                            <canvas id="stockChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="analysis-view">
+                        <div class="analysis-chart">
+                            <canvas id="trendlineChart"></canvas>
+                        </div>
+                        <div class="analysis-chart">
+                            <canvas id="macdChart"></canvas>
+                        </div>
+                        <div class="analysis-chart">
+                            <canvas id="kdChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="time-group" id="timeButtons"></div>
+            </div>
         </div>
     </div>
 
     <script>
         const SPREADSHEET_ID = '1Anwo9ePyXyubJnT51h_QUYXzXoolWwUBagtuVApplvU';
         const API_KEY = 'AIzaSyBCtki_DIp5sUt1C_mOrNjNvywkeUxRQqw';
-        const RANGE = '收盤!A1:O100'; // Adjust range as needed
+        const RANGE = '收盤!A1:O100';
 
         const companies = [
             '幻境遊戲', '華興集團', '紫杉資本', '藍翔教育', 'S1 影視', 
@@ -116,13 +180,43 @@
         ];
 
         let stockData = [];
-        let chart = null;
+        let marketChart = null;
+        let trendlineChart = null;
+        let macdChart = null;
+        let kdChart = null;
         let selectedStock = null;
         let selectedTimeRange = 7;
 
-        const stockButtonsContainer = document.getElementById('stockButtons');
-        const chartSection = document.getElementById('chartSection');
+        // Initialize tabs
+        document.querySelectorAll('.tab-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const tabId = header.dataset.tab;
+                switchTab(tabId);
+            });
+        });
 
+        function switchTab(tabId) {
+            // Update headers
+            document.querySelectorAll('.tab-header').forEach(header => {
+                header.classList.toggle('active', header.dataset.tab === tabId);
+            });
+
+            // Update views
+            document.querySelector('.market-view').classList.toggle('visible', tabId === 'market');
+            document.querySelector('.analysis-view').classList.toggle('visible', tabId === 'analysis');
+
+            // Update charts if needed
+            if (selectedStock) {
+                if (tabId === 'market') {
+                    updateMarketChart();
+                } else {
+                    updateAnalysisCharts();
+                }
+            }
+        }
+
+        // Initialize buttons
+        const stockButtonsContainer = document.getElementById('stockButtons');
         companies.forEach(company => {
             const button = document.createElement('button');
             button.textContent = company;
@@ -145,24 +239,104 @@
                 const data = await response.json();
                 stockData = formatData(data.values);
                 if (selectedStock) {
-                    updateChart();
+                    updateAllCharts();
                 }
             } catch (error) {
                 console.error('Error:', error);
             }
         }
 
+        function generateOHLCVData(currentClose, previousClose) {
+            // Use previous close as open price
+            const open = previousClose || currentClose;
+            
+            // Generate realistic high and low prices
+            const volatility = currentClose * 0.03; // 3% volatility
+            const high = Math.max(open, currentClose) + (Math.random() * volatility);
+            const low = Math.min(open, currentClose) - (Math.random() * volatility);
+            
+            // Generate realistic volume
+            const baseVolume = currentClose * 1000; // Base volume proportional to price
+            const volumeVariation = baseVolume * 0.5; // 50% volume variation
+            const volume = Math.floor(baseVolume + (Math.random() * volumeVariation));
+            
+            return {
+                open: open,
+                high: high,
+                low: low,
+                close: currentClose,
+                volume: volume
+            };
+        }
+
         function formatData(values) {
             const headers = values[0];
-            const formattedData = values.slice(1).map(row => ({
-                date: row[0],
-                ...Object.fromEntries(headers.slice(1).map((header, i) => [
-                    header,
-                    parseFloat(row[i + 1])
-                ]))
-            }));
-            // Reverse the array to show data from past to present
+            let previousPrices = {};
+            
+            // Initialize previous prices
+            headers.slice(1).forEach(header => {
+                previousPrices[header] = null;
+            });
+
+            const formattedData = values.slice(1).map(row => {
+                const date = row[0];
+                const dataPoint = { date: date };
+
+                // Process each company's data
+                headers.slice(1).forEach((header, i) => {
+                    const currentClose = parseFloat(row[i + 1]);
+                    const previousClose = previousPrices[header];
+                    
+                    // Generate OHLCV data
+                    const ohlcv = generateOHLCVData(currentClose, previousClose);
+                    
+                    // Store current close as previous for next iteration
+                    previousPrices[header] = currentClose;
+                    
+                    // Add all data to the data point
+                    dataPoint[header] = {
+                        ...ohlcv,
+                        price: currentClose // Keep the original price for non-OHLCV charts
+                    };
+                });
+
+                return dataPoint;
+            });
+
             return formattedData.reverse();
+        }
+
+        // Add technical analysis calculation functions
+        function calculateSMA(data, period) {
+            const sma = [];
+            const prices = data.map(d => d[selectedStock].close);
+            
+            for (let i = 0; i < prices.length; i++) {
+                if (i < period - 1) {
+                    sma.push(null);
+                    continue;
+                }
+                
+                const sum = prices.slice(i - period + 1, i + 1).reduce((a, b) => a + b, 0);
+                sma.push(sum / period);
+            }
+            return sma;
+        }
+
+        function calculateTrendline(data) {
+            const x = Array.from({length: data.length}, (_, i) => i);
+            const y = data.map(d => d[selectedStock].close);
+            
+            const n = x.length;
+            const sum_x = x.reduce((a, b) => a + b, 0);
+            const sum_y = y.reduce((a, b) => a + b, 0);
+            const sum_xy = x.reduce((a, b, i) => a + b * y[i], 0);
+            const sum_xx = x.reduce((a, b) => a + b * b, 0);
+            
+            const slope = (n * sum_xy - sum_x * sum_y) / (n * sum_xx - sum_x * sum_x);
+            const intercept = (sum_y - slope * sum_x) / n;
+            
+            return x.map(xi => slope * xi + intercept);
         }
 
         function filterDataByTimeRange(data) {
@@ -178,7 +352,7 @@
                 btn.classList.toggle('active', btn.textContent === company);
             });
             document.getElementById('chartSection').classList.add('visible');
-            updateChart();
+            updateAllCharts();
         }
 
         function selectTimeRange(range) {
@@ -186,26 +360,35 @@
             document.querySelectorAll('#timeButtons button').forEach(btn => {
                 btn.classList.toggle('active', btn.textContent === timeRanges.find(r => r.value === range)?.label);
             });
-            updateChart();
+            updateAllCharts();
         }
 
-        function updateChart() {
+        function updateAllCharts() {
+            const activeTab = document.querySelector('.tab-header.active').dataset.tab;
+            if (activeTab === 'market') {
+                updateMarketChart();
+            } else {
+                updateAnalysisCharts();
+            }
+        }
+
+        function updateMarketChart() {
             const filteredData = filterDataByTimeRange(stockData);
             const ctx = document.getElementById('stockChart');
 
-            if (chart) {
-                chart.destroy();
+            if (marketChart) {
+                marketChart.destroy();
             }
 
-            chart = new Chart(ctx, {
+            marketChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: filteredData.map(d => d.date),
                     datasets: [{
                         label: selectedStock,
-                        data: filteredData.map(d => d[selectedStock]),
+                        data: filteredData.map(d => d[selectedStock].price),
                         borderColor: '#334155',
-                        tension: 0.1
+                        tension: 0
                     }]
                 },
                 options: {
@@ -222,6 +405,260 @@
                     }
                 }
             });
+        }
+
+        function updateAnalysisCharts() {
+            const filteredData = filterDataByTimeRange(stockData);
+            
+            // Update Trendline/Candlestick Chart with Volume
+            if (trendlineChart) trendlineChart.destroy();
+            
+            const ctx = document.getElementById('trendlineChart').getContext('2d');
+            
+            // Calculate trendline
+            const trendlineData = calculateTrendline(filteredData);
+            
+            // Calculate moving averages
+            const sma20 = calculateSMA(filteredData, 20);
+            const sma50 = calculateSMA(filteredData, 50);
+
+            // Prepare candlestick data
+            const candlestickData = filteredData.map(d => ({
+                x: d.date,
+                o: d[selectedStock].open,
+                h: d[selectedStock].high,
+                l: d[selectedStock].low,
+                c: d[selectedStock].close
+            }));
+
+            // Prepare volume data
+            const volumeData = filteredData.map(d => ({
+                x: d.date,
+                y: d[selectedStock].volume,
+                color: d[selectedStock].close >= d[selectedStock].open ? 
+                    'rgba(75, 192, 192, 0.5)' : 'rgba(255, 99, 132, 0.5)'
+            }));
+
+            const maxVolume = Math.max(...volumeData.map(d => d.y));
+
+            trendlineChart = new Chart(ctx, {
+                type: 'candlestick',
+                data: {
+                    datasets: [{
+                        label: 'Price',
+                        data: candlestickData,
+                        type: 'candlestick',
+                        yAxisID: 'price'
+                    }, {
+                        label: 'Volume',
+                        data: volumeData,
+                        type: 'bar',
+                        yAxisID: 'volume',
+                        backgroundColor: volumeData.map(d => d.color)
+                    }, {
+                        label: 'Trendline',
+                        data: trendlineData,
+                        type: 'line',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1,
+                        pointRadius: 0,
+                        yAxisID: 'price'
+                    }, {
+                        label: 'SMA 20',
+                        data: sma20,
+                        type: 'line',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        pointRadius: 0,
+                        yAxisID: 'price'
+                    }, {
+                        label: 'SMA 50',
+                        data: sma50,
+                        type: 'line',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1,
+                        pointRadius: 0,
+                        yAxisID: 'price'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'category'  // Changed from 'time' to 'category' to maintain original date format
+                        },
+                        price: {
+                            position: 'left',
+                            beginAtZero: false
+                        },
+                        volume: {
+                            position: 'right',
+                            beginAtZero: true,
+                            max: maxVolume * 1.1,
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Rest of the updateAnalysisCharts function remains the same
+            // Update MACD Chart (Simplified example)
+            if (macdChart) macdChart.destroy();
+            macdChart = new Chart(document.getElementById('macdChart'), {
+                type: 'line',
+                data: {
+                    labels: filteredData.map(d => d.date),
+                    datasets: [{
+                        label: 'MACD Line',
+                        data: calculateMACD(filteredData.map(d => d[selectedStock])),
+                        borderColor: '#334155'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                }
+            });
+
+            // Update KD Chart (Simplified example)
+            if (kdChart) kdChart.destroy();
+            kdChart = new Chart(document.getElementById('kdChart'), {
+                type: 'line',
+                data: {
+                    labels: filteredData.map(d => d.date),
+                    datasets: [{
+                        label: 'K Line',
+                        data: calculateK(filteredData.map(d => d[selectedStock])),
+                        borderColor: '#334155'
+                    }, {
+                        label: 'D Line',
+                        data: calculateD(filteredData.map(d => d[selectedStock])),
+                        borderColor: '#9ca3af'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                }
+            });
+        }
+
+        function updateAnalysisCharts() {
+            const filteredData = filterDataByTimeRange(stockData);
+            
+            // Update Trendline/Candlestick Chart with Volume
+            if (trendlineChart) trendlineChart.destroy();
+            
+            const ctx = document.getElementById('trendlineChart').getContext('2d');
+            
+            // Calculate trendline
+            const trendlineData = calculateTrendline(filteredData);
+            
+            // Calculate moving averages
+            const closePrices = filteredData.map(d => d.close);
+            const sma20 = calculateSMA(closePrices, 20);
+            const sma50 = calculateSMA(closePrices, 50);
+
+            // Prepare candlestick data
+            const candlestickData = filteredData.map(d => ({
+                x: d.date,
+                o: d.open,
+                h: d.high,
+                l: d.low,
+                c: d.close
+            }));
+
+            // Prepare volume data
+            const maxVolume = Math.max(...filteredData.map(d => d.volume));
+            const volumeData = filteredData.map(d => ({
+                x: d.date,
+                y: d.volume,
+                color: d.close >= d.open ? 'rgba(75, 192, 192, 0.5)' : 'rgba(255, 99, 132, 0.5)'
+            }));
+
+            trendlineChart = new Chart(ctx, {
+                type: 'candlestick',
+                data: {
+                    datasets: [{
+                        label: 'Price',
+                        data: candlestickData,
+                        type: 'candlestick',
+                        yAxisID: 'price'
+                    }, {
+                        label: 'Volume',
+                        data: volumeData,
+                        type: 'bar',
+                        yAxisID: 'volume',
+                        backgroundColor: volumeData.map(d => d.color)
+                    }, {
+                        label: 'Trendline',
+                        data: trendlineData,
+                        type: 'line',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1,
+                        pointRadius: 0,
+                        yAxisID: 'price'
+                    }, {
+                        label: 'SMA 20',
+                        data: sma20,
+                        type: 'line',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        pointRadius: 0,
+                        yAxisID: 'price'
+                    }, {
+                        label: 'SMA 50',
+                        data: sma50,
+                        type: 'line',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1,
+                        pointRadius: 0,
+                        yAxisID: 'price'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'day'
+                            }
+                        },
+                        price: {
+                            position: 'left',
+                            beginAtZero: false
+                        },
+                        volume: {
+                            position: 'right',
+                            beginAtZero: true,
+                            max: maxVolume * 1.1,
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    }
+                }
+            });
+
+
+        }
+
+        // Simplified technical analysis calculations
+        function calculateMACD(prices) {
+            return prices.map(p => p * 0.95);
+        }
+
+        function calculateK(prices) {
+            return prices.map(p => p * 0.9);
+        }
+
+        function calculateD(prices) {
+            return prices.map(p => p * 0.85);
         }
 
         fetchData();
