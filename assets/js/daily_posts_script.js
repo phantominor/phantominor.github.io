@@ -1,6 +1,13 @@
 // Sample data structure with URLs
 let tableData = [
     {
+        date: "2024/01/24",
+        topic: "SMA syndrome",
+        url: "/med/daily_posts/20250124.html",  // Add URL for each topic
+        links: 3,
+        tags: ["anatomy", "pathology"]
+    },
+    {
         date: "2024/01/20",
         topic: "Thymidine",
         url: "/med/daily_posts/20250120.html",  // Add URL for each topic
