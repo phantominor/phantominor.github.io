@@ -4,7 +4,7 @@
 			"number": 1,
 			"startTime": "2024/11/22",
 			"title": "MBTI 與星座、血型",
-			"analysisLink": "/others/xinwucha/mbti_study.html",
+			"analysisLink": "/others/xinwucha/1_mbtiStudy.html",
 			"formLink": "https://forms.gle/g2ViR2gvKJzMfh5i8",
 			"spreadsheetID": "1JG_TicbDNWlwb13zcMfSt0vpCGtARRZREiH3yOhHcws",
 			"estimatedTime": 30,
@@ -16,13 +16,25 @@
 			"number": 2,
 			"startTime": "2024/12/18",
 			"title": "直覺的隨機性測試",
-			"analysisLink": "/others/xinwucha/intuition_study.html",
+			"analysisLink": "/others/xinwucha/2_intuitionStudy.html",
 			"formLink": "https://forms.gle/ukA64BUL8pVfCaav7",
 			"spreadsheetID": "1KUY1dpLvLFEubt1EHoulkkleLBHDlm4pwOcf0gE4YSk",
 			"estimatedTime": 40,
 			"endTime": "--",
 			"keywords": ["心理研究", "決策", "隨機性"],
 			"researchCategory": "認知科學"
+		},
+		{
+			"number": 3,
+			"startTime": "2025/02/05",
+			"title": "偏食調查",
+			"analysisLink": "/others/xinwucha/3_unbalancedDiet.html",
+			"formLink": "https://forms.gle/tTVX4n1CzAE8VTLQ8",
+			"spreadsheetID": "1pzfAEgQn8J-p6LuNpvyd2Lhg9c5fSzJp5LJkI7UXK_s",
+			"estimatedTime": 180,
+			"endTime": "--",
+			"keywords": ["飲食習慣", "偏好", "性別"],
+			"researchCategory": "行為科學"
 		}
 	]
 }
