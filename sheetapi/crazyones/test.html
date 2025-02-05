@@ -173,12 +173,15 @@
         let selectedTimeRange = 7;
 
         function calculateMA(data, period) {
-            return data.map((item, index) => {
-                const startIndex = Math.max(0, index - period + 1);
-                const slice = data.slice(startIndex, index + 1);
-                const average = slice.reduce((sum, curr) => sum + curr, 0) / slice.length;
-                return average;
-            });
+            const result = new Array(data.length).fill(null);
+            
+            // Start calculating MA only when we have enough data points
+            for (let i = period - 1; i < data.length; i++) {
+                const slice = data.slice(i - period + 1, i + 1);
+                result[i] = slice.reduce((sum, curr) => sum + curr, 0) / period;
+            }
+            
+            return result;
         }
 
         // Create vertical line plugin
@@ -249,11 +252,24 @@
             return formattedData.reverse();
         }
 
+        function parseDate(dateStr) {
+            // Assuming date format is "YYYY/MM/DD"
+            const [year, month, day] = dateStr.split('/').map(num => parseInt(num));
+            return new Date(year, month - 1, day);
+        }
+
+        // Modified filterDataByTimeRange to use the custom date parser
         function filterDataByTimeRange(data) {
             if (selectedTimeRange === 'all') return data;
-            const cutoffDate = new Date();
+            
+            // Get the most recent date from the data
+            const mostRecentDate = parseDate(data[0].date);
+            
+            // Calculate the cutoff date based on the most recent date in the data
+            const cutoffDate = new Date(mostRecentDate);
             cutoffDate.setDate(cutoffDate.getDate() - selectedTimeRange);
-            return data.filter(d => new Date(d.date) >= cutoffDate);
+            
+            return data.filter(d => parseDate(d.date) >= cutoffDate);
         }
 
         function selectStock(company) {
@@ -299,8 +315,10 @@
                             borderWidth: 2,
                             tension: 0,
                             order: 1,
-                            pointRadius: 0,
+                            pointRadius: 3,  // Changed from 0 to show all points
                             pointHoverRadius: 6,
+                            pointBackgroundColor: '#334155', // Added to show points
+                            pointBorderColor: '#fff',  // Added to show points
                             pointHoverBackgroundColor: '#334155',
                             pointHoverBorderColor: '#fff',
                             pointHoverBorderWidth: 2
