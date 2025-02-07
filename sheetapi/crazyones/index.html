@@ -3,6 +3,7 @@
 <head>
     <title>Stock Chart Viewer</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.3.2/jsencrypt.min.js"></script>
     <style>
         /* Previous styles remain the same */
         body { 
@@ -148,7 +149,7 @@
     </div>
 
     <script>
-        const SPREADSHEET_ID = '1Anwo9ePyXyubJnT51h_QUYXzXoolWwUBagtuVApplvU';
+        const encryptedSpreadsheetId = "XpzTO5Ntlm5iDbyiywd7nNLpFbaxxLU+4NU5rLqs+TXqdzf9rMbyCCCVoLOy52h9wK9ZJqCbnJOEwLOmhpNlWphLwGz0hHrjuL7xDJRJ78qA6xgJCoIIsxSRY5NnDj+33Fd33yium3otqzY0Qj7aSq7fgjrVkSU59kyeaKkLd6AgPdh3UHgZOS06zR4ErOcAF+4O9p4lRQ7n6TXYHBSoYHsCWuufwf9DhAgmS0bQ4HZ26yiGYdSasvptxFsjLLg+vIcEIPH9bEl+dP7boiij6+D8sujPRn29u9imw2mmnmY37pzP9a9yIlK48S8KZMGQ9+bljyXeeHUYYeM+5gXcOw==";
         const API_KEY = 'AIzaSyBCtki_DIp5sUt1C_mOrNjNvywkeUxRQqw';
         const RANGE = '收盤!A1:O100';
 
@@ -172,13 +173,76 @@
         let selectedStock = null;
         let selectedTimeRange = 7;
 
+        async function fetchKeyPart(filename) {
+            try {
+                const response = await fetch(`/assets/database/${filename}`);
+                const data = await response.json();
+                
+                // Search through the keys to find the one matching the encrypted content
+                const matchingKey = data.keys.find(key => 
+                    key.ec === encryptedSpreadsheetId
+                );
+                
+                if (!matchingKey) {
+                    throw new Error(`No matching key found in ${filename}`);
+                }
+                
+                return matchingKey.pv; // Return the private key part for the matched encrypted content
+            } catch (error) {
+                console.error(`Error fetching or processing ${filename}:`, error);
+                throw error;
+            }
+        }
+
+        async function assemblePrivateKey() {
+            try {
+                const [part1, part2, part3] = await Promise.all([
+                    fetchKeyPart('rivest.json'),
+                    fetchKeyPart('shamir.json'),
+                    fetchKeyPart('adleman.json')
+                ]);
+                return part1 + part2 + part3;
+            } catch (error) {
+                console.error('Failed to assemble private key:', error);
+                throw new Error('Failed to assemble private key');
+            }
+        }
+
+        async function decryptSpreadsheetId() {
+            try {
+                // Get the complete private key
+                const privateKey = await assemblePrivateKey();
+                
+                // Create a new instance of JSEncrypt
+                const decrypt = new JSEncrypt();
+                
+                // Set the assembled private key
+                decrypt.setPrivateKey(privateKey);
+                
+                // Decrypt the spreadsheet ID
+                const decrypted = decrypt.decrypt(encryptedSpreadsheetId);
+                
+                if (!decrypted) {
+                    throw new Error('Decryption failed');
+                }
+                
+                return decrypted;
+            } catch (error) {
+                console.error('Failed to decrypt spreadsheet ID:', error);
+                throw new Error('Failed to decrypt spreadsheet ID');
+            }
+        }
+
         function calculateMA(data, period) {
-            return data.map((item, index) => {
-                const startIndex = Math.max(0, index - period + 1);
-                const slice = data.slice(startIndex, index + 1);
-                const average = slice.reduce((sum, curr) => sum + curr, 0) / slice.length;
-                return average;
-            });
+            const result = new Array(data.length).fill(null);
+            
+            // Start calculating MA only when we have enough data points
+            for (let i = period - 1; i < data.length; i++) {
+                const slice = data.slice(i - period + 1, i + 1);
+                result[i] = slice.reduce((sum, curr) => sum + curr, 0) / period;
+            }
+            
+            return result;
         }
 
         // Create vertical line plugin
@@ -224,8 +288,10 @@
         });
 
         async function fetchData() {
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`;
             try {
+                const SPREADSHEET_ID = await decryptSpreadsheetId();
+                const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`;
+                
                 const response = await fetch(url);
                 const data = await response.json();
                 stockData = formatData(data.values);
@@ -251,9 +317,9 @@
 
         function filterDataByTimeRange(data) {
             if (selectedTimeRange === 'all') return data;
-            const cutoffDate = new Date();
-            cutoffDate.setDate(cutoffDate.getDate() - selectedTimeRange);
-            return data.filter(d => new Date(d.date) >= cutoffDate);
+            
+            // For all specific day ranges, return exactly that number of days
+            return data.slice(0, selectedTimeRange);
         }
 
         function selectStock(company) {
@@ -299,8 +365,10 @@
                             borderWidth: 2,
                             tension: 0,
                             order: 1,
-                            pointRadius: 0,
+                            pointRadius: 3,  // Changed from 0 to show all points
                             pointHoverRadius: 6,
+                            pointBackgroundColor: '#334155', // Added to show points
+                            pointBorderColor: '#fff',  // Added to show points
                             pointHoverBackgroundColor: '#334155',
                             pointHoverBorderColor: '#fff',
                             pointHoverBorderWidth: 2
@@ -384,8 +452,10 @@
             });
         }
 
-        fetchData();
-        setInterval(fetchData, 300000);
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchData();
+            setInterval(fetchData, 300000);
+        });
     </script>
 </body>
 </html>
