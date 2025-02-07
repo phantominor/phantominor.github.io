@@ -252,24 +252,11 @@
             return formattedData.reverse();
         }
 
-        function parseDate(dateStr) {
-            // Assuming date format is "YYYY/MM/DD"
-            const [year, month, day] = dateStr.split('/').map(num => parseInt(num));
-            return new Date(year, month - 1, day);
-        }
-
-        // Modified filterDataByTimeRange to use the custom date parser
         function filterDataByTimeRange(data) {
             if (selectedTimeRange === 'all') return data;
             
-            // Get the most recent date from the data
-            const mostRecentDate = parseDate(data[0].date);
-            
-            // Calculate the cutoff date based on the most recent date in the data
-            const cutoffDate = new Date(mostRecentDate);
-            cutoffDate.setDate(cutoffDate.getDate() - selectedTimeRange);
-            
-            return data.filter(d => parseDate(d.date) >= cutoffDate);
+            // For all specific day ranges, return exactly that number of days
+            return data.slice(0, selectedTimeRange);
         }
 
         function selectStock(company) {
