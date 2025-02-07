@@ -153,11 +153,7 @@
         const API_KEY = 'AIzaSyBCtki_DIp5sUt1C_mOrNjNvywkeUxRQqw';
         const RANGE = '收盤!A1:O100';
 
-        const companies = [
-            '幻境遊戲', '華興集團', '紫杉資本', '藍翔教育', 'S1 影視', 
-            '少林控股', '色芒 TV', 'SpaceY', '尉萊電車', 'N 卡礦業', 
-            '拳頭公司', 'EDG', '醬香科技', '愛女僕 LEX'
-        ];
+        const companies = ['幻境遊戲', '華興集團', '紫杉資本', '藍翔教育', 'S1 影視', '少林控股', '色芒 TV', 'SpaceY', '尉萊電車', 'N 卡礦業', '拳頭公司', 'EDG', '醬香科技', '愛女僕 LEX'];
 
         const timeRanges = [
             { label: '7D', value: 7 },
@@ -172,7 +168,8 @@
         let chart = null;
         let selectedStock = null;
         let selectedTimeRange = 7;
-
+        
+        //RSA encryption in js: fetchKey, assembleKey, decrypt, fetchData, addEventListener
         async function fetchKeyPart(filename) {
             try {
                 const response = await fetch(`/assets/database/${filename}`);
