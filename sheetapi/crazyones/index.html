@@ -5,8 +5,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.3.2/jsencrypt.min.js"></script>
     <style>
-        /* Previous styles remain the same */
-        body { 
+            body { 
             font-family: Arial, sans-serif; 
             padding: 20px;
             background: #f8f9fa;
@@ -154,7 +153,6 @@
         const RANGE = '收盤!A1:O100';
 
         const companies = ['幻境遊戲', '華興集團', '紫杉資本', '藍翔教育', 'S1 影視', '少林控股', '色芒 TV', 'SpaceY', '尉萊電車', 'N 卡礦業', '拳頭公司', 'EDG', '醬香科技', '愛女僕 LEX'];
-
         const timeRanges = [
             { label: '7D', value: 7 },
             { label: '1M', value: 30 },
@@ -167,9 +165,9 @@
         let stockData = [];
         let chart = null;
         let selectedStock = null;
-        let selectedTimeRange = 7;
+        let selectedTimeRange = 'all';
         
-        //RSA encryption in js: fetchKey, assembleKey, decrypt, fetchData, addEventListener
+        // RSA encryption in js: fetchKey, assembleKey, decrypt, fetchData, addEventListener
         async function fetchKeyPart(filename) {
             try {
                 const response = await fetch(`/assets/database/${filename}`);
@@ -230,10 +228,11 @@
             }
         }
 
+        // Draw average lines
         function calculateMA(data, period) {
             const result = new Array(data.length).fill(null);
             
-            // Start calculating MA only when we have enough data points
+            // Calculate MA for the complete dataset
             for (let i = period - 1; i < data.length; i++) {
                 const slice = data.slice(i - period + 1, i + 1);
                 result[i] = slice.reduce((sum, curr) => sum + curr, 0) / period;
@@ -280,10 +279,15 @@
         timeRanges.forEach(range => {
             const button = document.createElement('button');
             button.textContent = range.label;
+            // Set initial active state for 'ALL' button
+            if (range.value === 'all') {
+                button.classList.add('active');
+            }
             button.onclick = () => selectTimeRange(range.value);
             timeButtonsContainer.appendChild(button);
         });
 
+        //Fetch data from sheet
         async function fetchData() {
             try {
                 const SPREADSHEET_ID = await decryptSpreadsheetId();
@@ -299,7 +303,8 @@
                 console.error('Error:', error);
             }
         }
-
+        
+        // Draw price line corresponding to selected time range
         function formatData(values) {
             const headers = values[0];
             const formattedData = values.slice(1).map(row => ({
@@ -309,16 +314,23 @@
                     parseFloat(row[i + 1])
                 ]))
             }));
-            return formattedData.reverse();
+            // Data is already in newest-to-oldest order, no need to reverse
+            return formattedData;
         }
 
         function filterDataByTimeRange(data) {
-            if (selectedTimeRange === 'all') return data;
+            if (selectedTimeRange === 'all') {
+                // For 'all', reverse the complete dataset to show oldest to newest
+                return [...data].reverse();
+            }
             
-            // For all specific day ranges, return exactly that number of days
-            return data.slice(0, selectedTimeRange);
+            // First, take the most recent N days
+            const recentData = data.slice(0, selectedTimeRange);
+            // Then reverse them to display from oldest to newest
+            return recentData.reverse();
         }
 
+        // Choose company to show
         function selectStock(company) {
             selectedStock = company;
             document.querySelectorAll('#stockButtons button').forEach(btn => {
@@ -328,6 +340,7 @@
             updateChart();
         }
 
+        // Choose time range to show
         function selectTimeRange(range) {
             selectedTimeRange = range;
             document.querySelectorAll('#timeButtons button').forEach(btn => {
@@ -336,13 +349,36 @@
             updateChart();
         }
 
+        // Generate the chart
         function updateChart() {
-            const filteredData = filterDataByTimeRange(stockData);
-            const prices = filteredData.map(d => d[selectedStock]);
-            
-            const ma5 = calculateMA(prices, 5);
-            const ma10 = calculateMA(prices, 10);
-            const ma20 = calculateMA(prices, 20);
+            // First, get the complete dataset and calculate MAs
+            const completeData = [...stockData].reverse(); // Reverse to get oldest to newest
+            const completePrices = completeData.map(d => d[selectedStock]);
+
+            // Calculate MAs on complete dataset
+            const completeMA5 = calculateMA(completePrices, 5);
+            const completeMA10 = calculateMA(completePrices, 10);
+            const completeMA20 = calculateMA(completePrices, 20);
+
+            // Then filter the data for display
+            let displayData;
+            if (selectedTimeRange === 'all') {
+                displayData = completeData;
+            } else {
+                // Take the most recent N days and reverse them
+                displayData = stockData.slice(0, selectedTimeRange).reverse();
+            }
+
+            // Find the indices in the complete dataset that correspond to our display range
+            const displayDates = new Set(displayData.map(d => d.date));
+            const displayIndices = completeData.map((d, i) => ({ date: d.date, index: i }))
+                .filter(item => displayDates.has(item.date))
+                .map(item => item.index);
+
+            // Filter the MA data to match our display range
+            const displayMA5 = displayIndices.map(i => completeMA5[i]);
+            const displayMA10 = displayIndices.map(i => completeMA10[i]);
+            const displayMA20 = displayIndices.map(i => completeMA20[i]);
 
             const ctx = document.getElementById('stockChart');
 
@@ -353,11 +389,11 @@
             chart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: filteredData.map(d => d.date),
+                    labels: displayData.map(d => d.date),
                     datasets: [
                         {
                             label: 'Price',
-                            data: prices,
+                            data: displayData.map(d => d[selectedStock]),
                             borderColor: '#334155',
                             borderWidth: 2,
                             tension: 0,
@@ -372,7 +408,7 @@
                         },
                         {
                             label: 'MA5',
-                            data: ma5,
+                            data: displayMA5,
                             borderColor: '#FFB74D',
                             borderWidth: 1.5,
                             tension: 0,
@@ -382,7 +418,7 @@
                         },
                         {
                             label: 'MA10',
-                            data: ma10,
+                            data: displayMA10,
                             borderColor: '#64B5F6',
                             borderWidth: 1.5,
                             tension: 0,
@@ -392,7 +428,7 @@
                         },
                         {
                             label: 'MA20',
-                            data: ma20,
+                            data: displayMA20,
                             borderColor: '#9575CD',
                             borderWidth: 1.5,
                             tension: 0,
@@ -416,6 +452,12 @@
                         tooltip: {
                             mode: 'index',
                             intersect: false,
+                            backgroundColor: 'rgba(0, 0, 0, 0.5)',  // Make tooltip semi-transparent (the lower, the more transparent)
+                            titleColor: 'rgba(255, 255, 255, 0.9)',
+                            bodyColor: 'rgba(255, 255, 255, 0.9)',
+                            padding: 10,
+                            position: 'nearest',  // This will try to find the best position
+                            caretPadding: 10,     // Add some padding between tooltip and point
                             callbacks: {
                                 label: function(context) {
                                     let label = context.dataset.label || '';
@@ -427,7 +469,11 @@
                                     }
                                     return label;
                                 }
-                            }
+                            },
+                            // Custom tooltip positioning
+                            position: 'nearest',  // 'average', 'nearest', or custom function
+                            xAlign: 'center',     // 'left', 'center', or 'right'
+                            yAlign: 'bottom',     // 'top', 'center', or 'bottom'
                         },
                         verticalLine: true
                     },
