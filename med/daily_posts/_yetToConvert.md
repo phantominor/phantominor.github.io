@@ -3,6 +3,7 @@
 - abc: 條列式
 1. 也是條列式
 直接打字會是 <p>
+^...^-(link to #?)
 + table: []
 + note: []
 + mnemonic: []
@@ -10,52 +11,6 @@
  style="max-width: 70%; display: block; margin: 0 auto;"
 
 =======================================================================================
-
-# 1 - SMA syndrome
-解剖學有學到，上腸繫膜動脈 (superior mesentery artery, SMA) 從腹主動脈前方鑽出來後，便直接向下走去供給中腸的氧氣和養分。此時 SMA 與 aorta 之間夾著一塊脂肪墊和**兩個重要構造：duodenum、^left renal vein^-(link to #2)**。
-- 倘若 SMA 與 aorta 的夾角 (aortomesentery angle, AOM angle，又稱 take-off angle) 小於 22°，則會對 transverse duodenum 造成壓迫，導致症狀產生。
-- 症狀：間歇性腸阻塞症狀 (通常表現為餐後腹痛 postprandial pain)
-- 病因：為 diminished mesenteric fat 所致，最常見於兩族群：
-	1. 術後的脂肪流失 (如 scoliosis、aortic aneurysm 或其他 GI surgery)
-	2. 快速體重減輕 (癌症、減重手術)
-	其他風險因子包括：lean female、short ligament of Treitz、low take off of SMA。
-	彎曲膝蓋、趴姿或左側躺可以緩解症狀。
-- 診斷：所有 upper GI 影像學都可以直接觀察到近端十二指腸，於 SMA 切跡以上的膨大，而 CT 可以計算 AOM angle (<22°/28°~65°)與 AOM distance (<8/10~20mm) 的窄縮。
-- 治療：增重 (先把脂肪吃回來)、姿勢緩解控制。若無法緩解或症狀嚴重可考慮手術 (duodenojejunostomy)。
-+ note: [
-	Severe gastroparesis with weight loss can be a risk factor for development of SMA syndrome.
-	Therefore, caution is advised prior to surgical management of SMA syndrome in patients with a previous history of gastroparesis.
-]
-
-# 2 - 假如 SMA 夾到 left renal vein 會怎樣呢？
-剛剛提到 SMA 與 aorta 之間包夾的構造^除了 transverse duodenum 還有 left renal vein^-(link to #3)。
-- 若 left renal vein 被 AOM angle 擠壓導致回流不暢，導致左腎靜脈高壓，則稱 **胡桃鉗症候群 (Nutcracker syndrome)**。
-- 症狀：flank pain, gross hematuria (from rupture of thin-walled renal varicosities)、left-sided varicocele。
-- 分類：左腎靜脈受壓主要發生在兩個解剖位置
-	1. 前胡桃鉗症候群 (經典)：發生在主動脈 SMA 的分支處
-	2. 後胡桃鉗症候群 (較罕見)：主動脈後左腎靜脈在主動脈和椎骨之間受壓
-- 影像：
-	- 主要 collateral pathway 為 left gonadal vein，因此可以在此觀察到 portal venous phase 的 early enhancement。
-	- 可以計算壓縮比 (compression ratio, CR)，高於 2.25 時對胡桃鉗症候群的敏感度和特異度都很高。
-	+ note: [compression ratio (CR) given by the anteroposterior diameter of the precompressed vein (P) divided by that of the compressed vein (C); namely, CR = P/C]
-	+ image: [SMA_syndrome.png]
-- 治療：症狀 (hematuria、flank pain) 出現時即須治療。
-	1. 血管轉位術：左腎靜脈轉位、性腺靜脈轉位、腸繫膜上動脈轉位。
-	2. 血管支架：血管外支架置入術、血管內支架植入術
-	3. 腎臟移除：腎臟切除術、自體腎臟移植
-
-# 3 - SMA syndrome 會和 nutcracker syndrome 一起發生嗎？
-The coexistence of both SMA and Nutcracker syndrome has **rarely been reported** and their clinical diagnosis remains challenging. Management for both conditions starts with conservative management. For SMA syndrome, focus on weight regain is the priority: duodenal and gastric decompression for symptom relief, fluid resuscitation, and correction of electrolyte imbalances, with aims of optimizing nutrition via either enteral jejunal feed, TPN, or a combination of both. Surgical options as a last resort include gastrojejunostomy, duodenojejunostomy, or Strong's operation. Invasive options for nutcracker syndrome include stent placement in the left renal vein for relief of obstruction.
-
-Due to similar pathophysiology involving compression between the SMA and the aorta, **coexistence of SMA and nutcracker syndrome should be considered based on imaging findings**, in appropriate patients.
-
-簡單來說就是兩者的發生率都不低，但同時發生的 case 卻極少，原因不明...。
-+ note: [
-	1. MJ. Oh, Superior mesenteric artery syndrome combined with renal nutcracker syndrome in a young male: a case report, Korean J Gastroenterol, 70 (6) (2017), p. 312
-	2. R Nunn, J Henry, AA Slesser, R Fernando, N. Behar, A model example: coexisting superior mesenteric artery syndrome and the nutcracker phenomenon, Case Rep Surg, 2015 (2015), Article 649469, 10.1155/2015/649469
-	3. P Vulliamy, V Hariharan, J Gutmann, D. Mukherjee, Superior mesenteric artery syndrome and the ’nutcracker phenomenon, MJ Case Rep, 2013 (2013), 10.1136/bcr-2013-008734
-]
-+ reference: [https://www.sciencedirect.com/science/article/pii/S1930043322002370#bib0010]
 
 # 4 - ileus 原因？
 
@@ -69,6 +24,146 @@ Due to similar pathophysiology involving compression between the SMA and the aor
 
 # 1 - Aphthous ulcer if chronic?
 
-# 1 - 
+# 1 - 關節盤是什麼？會在哪裡出現？20250208
+
+前情提要：
+一位 37 歲男性患者，主要病史為：
+
+- ^末期腎病（自2001年起洗腎）^-(link to #1)
+- 膀胱癌術後（2013年）
+- 高血壓
+
+近期病史：
+過去三個月內，病人因左前臂舊廔管處感染已進出醫院數次：
+
+2024/11/4-11/12：首次因蜂窩性組織炎住院，使用Unasyn治療後改善
+2025/1/16：因傷口處水泡破裂至急診，予傷口護理後出院
+2025/1/19：因傷口處紅腫再次就醫，使用Curam後出院
+2025/1/20-1/28：因發燒入院，傷口培養為MSSA，使用抗生素治療後改善
+
+本次入院：
+病人因左前臂反覆性蜂窩性組織炎，安排住院進行傷口清創手術。目前使用左上臂人工血管（2023/5/29建立）進行透析。
+
+# 1 - 何謂 ESRD？常見影響為何？
+ESRD 指的是腎臟功能惡化至 無法維持體內正常代謝與水分平衡 的狀態，患者需要透析（hemodialysis, HD）或腎移植來維持生命。ESRD 病患長期透析會導致許多血管相關的問題，包括：
+
+1. 血管鈣化（Vascular Calcification）
+因為慢性腎病（CKD）會導致 次發性甲狀旁腺功能亢進（Secondary Hyperparathyroidism, SHPT），造成 高磷、低鈣、維生素 D 代謝異常，這會導致血管鈣化。
+透析液中的鈣濃度調控不當，也可能加速鈣化。
+2. 動脈硬化與血管狹窄
+由於長期高血壓、發炎、氧化壓力，導致血管內皮損傷，使得血管彈性下降，狹窄甚至閉塞。
+3. 出血與感染風險增加
+透析患者免疫力較低，加上頻繁穿刺，容易形成血腫（hematoma）或感染（abscess）。
+4. 瘻管/人工血管的併發症
+長期使用可能導致瘤樣擴張（Aneurysmal dilation）、鈣化硬塊（calcified mass）、狹窄（stenosis） 或 閉塞（occlusion）。
+這位病患 年輕就發病，透析時間長達 20+ 年，所以出現血管鈣化與局部硬塊是相當常見的。
+
+# 2 - AVF 與 Graft 是什麼？
+**動靜脈瘻管（Arteriovenous Fistula, AVF）** 和 **人工血管（Arteriovenous Graft, AVG）** 是兩種常見的血管通路，主要用來提供足夠的血流進行透析。
+
+## **(1) AVF（動靜脈瘻管）**
+- 由 **病人自身的動脈與靜脈直接吻合**，最常見於 **前臂（radiocephalic AVF, RCAVF）或上臂（brachiocephalic AVF, BCAVF）**。
+- 優點：
+  - **血管通路存活時間長**（10 年以上的存活率較高）。
+  - **併發症較少**，如感染、血栓形成機率較低。
+- 缺點：
+  - 初期需要數週至數月來「成熟」，讓靜脈擴張增厚，以便透析使用。
+  - **可能會出現瘤樣擴張（aneurysm formation）**，即局部血管過度擴張，變得脆弱，容易破裂或形成血栓。
+
+## **(2) AVG（人工血管）**
+- **當病患本身靜脈狀況不佳時**，會改用 **人工血管（通常是ePTFE, expanded polytetrafluoroethylene）**，在動脈與靜脈之間形成橋接。
+- 優點：
+  - **可較快使用**（約2週內）。
+  - 適合靜脈條件不良（如糖尿病患者、長期透析患者）。
+- 缺點：
+  - **壽命較短**（約2-3年需更換）。
+  - **容易發生血栓、狹窄、感染**。
+  - **鈣化風險更高**。
+
+這位病人可能是因為 **AVF/AVG 長期使用，導致鈣化、感染或血栓**，形成隆起的大硬塊，需要手術切除。
+
++ note: [
+1. **AVF/AVG 的鈣化硬塊（Calcified Mass）**
+- CT 看到的鈣化可能是長期透析造成的血管鈣化、血栓或感染後的纖維化
+- 鈣化的區塊可能影響透析血流，甚至導致狹窄或閉塞
+- 如果是感染（abscess），則可能與透析針穿刺、免疫功能低下有關
+
+2. **需要避免影響上臂血管**
+- 如果上臂有新的透析通路（AVF or AVG），手術時要小心不要影響它，否則會導致透析困難
+- 如果鈣化或血栓影響血管流量，可能會影響整體透析效率
+]
+
+**此情況下，可能的手術處理方式有以下三種**
+- **切除鈣化組織（Excision of calcified segment）**：  
+  - 若沒有嚴重感染，可只移除鈣化的部分，避免影響正常血管。**本案例採之。**
+- **改造瘻管（Reconstruction of AVF/AVG）**：
+  - 若該段血管過度狹窄或無法使用，可能需要更換新的人工血管或創建新的 AVF。
+- **血管介入治療（Endovascular Treatment）**：
+  - 若有狹窄，可考慮氣球擴張術（PTA, Percutaneous Transluminal Angioplasty）或放置支架。
+
+# 3 - 低血鈣會造成血管鈣化嗎？
+**單純的低血鈣本身不會直接導致血管鈣化**，但在 **慢性腎病（CKD）和末期腎病（ESRD）** 的病理生理機轉下，**低血鈣會刺激一連串的代償機制，最終反而加速血管鈣化**。而這可以概略分為兩個討論點：^ESRD 往往導致鈣磷代謝異常而促成血管鈣化^-(link to #4)，而此情況下^低血鈣反而可能促進血管鈣化^-(link to #5)。
 
 
+# 4 - 為什麼 ESRD 會導致血管鈣化？
+在慢性腎病（CKD）進展到末期腎病（ESRD）時，患者會有 **鈣磷代謝異常（CKD-MBD, CKD-related Mineral and Bone Disorder）**，其中三個關鍵因素促成血管鈣化：
+
+1. 高磷（Hyperphosphatemia）是主因
+- 腎功能下降 → 排磷能力變差 → 高血磷（hyperphosphatemia）
+- 高磷會促進血管平滑肌細胞（VSMC, Vascular Smooth Muscle Cells）轉變為**類成骨細胞（osteoblast-like cells）**→ 這些細胞開始沉積鈣化物質，導致血管硬化。
+
+2. 低血鈣（Hypocalcemia）與繼發性甲狀旁腺亢進（Secondary Hyperparathyroidism, SHPT）
+- 腎功能衰退後，活化維生素 D（1,25-(OH)₂D₃，活性維生素 D）**合成減少**，導致 **腸道吸收鈣的能力下降**，造成低血鈣。  
+- 低血鈣會刺激 **副甲狀腺（parathyroid gland）大量分泌 PTH（Parathyroid Hormone, 甲狀旁腺素）**，以提高血鈣：
+  1. **PTH 促進骨質分解**（釋放骨鈣進入血液）
+  2. **PTH 促進腎臟磷排泄**（但 ESRD 病人腎功能已衰退，磷仍無法有效排出）
+- **結果是：**
+  - 短期內血鈣可能回升，但仍無法有效控制磷。
+  - **高磷 + 高 PTH 反而促進異常的鈣磷沉積，導致血管鈣化**。
+
+3. 維生素 D 代謝異常
+- 活性維生素 D（calcitriol, 1,25-(OH)₂D₃）不足 → 無法正常調節鈣磷平衡，導致高 PTH、骨鈣釋放、血管鈣化。
+- 部分透析患者補充「活性維生素 D 類似物」過量 → 可能過度提高血鈣，加劇鈣磷沉積。
+
+# 5 - 為什麼低血鈣反而可能促進血管鈣化？
+1. 鈣磷乘積（Calcium-Phosphate Product, Ca × P）
+- 血管鈣化的真正驅動因素是 **血磷過高，導致鈣磷乘積（Ca × P）過高**，而不是單純的高血鈣或低血鈣。
+- **當低血鈣合併高血磷，身體會試圖補償，最終可能反而導致異常的鈣磷沉積在血管壁上，形成鈣化**。
+
+2. 低血鈣刺激的 PTH 分泌會促進骨鈣釋放
+- ^低血鈣時，PTH 上升，導致**骨質流失（骨鈣釋放到血液中）**^-(link to #6)，但這些鈣可能與高磷結合，沉積在血管中。
+- **結果：反而促進血管鈣化！**
+
+3. 血管平滑肌的轉分化（Phenotypic Transition）
+- **高磷環境 + 低血鈣/高 PTH 促進血管平滑肌細胞轉變為類成骨細胞**。
+- 這些細胞開始表現出 **骨鈣化相關蛋白（如 Runx2, Osteopontin），導致血管鈣化**。
+
++ note: [
+總結：為什麼低血鈣可能會導致血管鈣化？
+- 單純的低血鈣不會直接導致血管鈣化，但它會刺激一連串的代償反應（高 PTH、高磷、高鈣磷乘積），這些因素才是血管鈣化的真正原因。
+- 在 ESRD 病人身上，真正需要控制的是「血磷」和「鈣磷乘積」，而不是單純補鈣。
+- 血管鈣化是一種「類骨化」的過程，由血管平滑肌細胞轉變為成骨樣細胞所驅動，而這通常是受到高磷、高 PTH 影響，而不是單純的高鈣或低鈣。
+]
+
+# 6 - PTH 為什麼同時能夠分解骨質和促進骨生成？
+PTH（副甲狀腺素）在不同條件下確實會產生截然不同的影響。關鍵在於 PTH 作用的「方式」和「時間模式」，也就是持續分泌 vs. 間歇性給予，這兩者的生理效應完全不同。
+## PTH 的作用：
+1. 持續性高 PTH（慢性分泌，如 CKD、原發性甲狀旁腺亢進） → 促進骨質流失
+2. 間歇性 PTH（低劑量、間歇性給予，如治療骨鬆的 Teriparatide） → 促進骨質形成
+這兩種效應主要來自 PTH 如何影響造骨細胞（Osteoblasts）和破骨細胞（Osteoclasts）。
+## 慢性 PTH 升高（如 CKD、甲狀旁腺功能亢進） → 骨質流失
+當 PTH 持續分泌時（慢性高 PTH，如 CKD、原發性甲狀旁腺機能亢進），會發生：
+1. 刺激破骨細胞（Osteoclasts）活化 → 骨質流失（Resorption 增加）：這是因為 PTH 會誘導造骨細胞分泌 RANKL（Receptor Activator of Nuclear Factor Kappa-B Ligand），RANKL 會活化破骨細胞。
+2. 同時抑制 OPG（Osteoprotegerin，抑制破骨細胞的因子）：這導致 骨質流失（尤其是皮質骨，Trabecular Bone 也受影響）。
+在 ESRD 患者，這種持續性高 PTH 會導致腎性骨病（Renal Osteodystrophy），其中可能包括高翻轉性骨病（High-turnover bone disease）。
++ note: [慢性 PTH 升高（如 CKD、甲亢）= 骨質流失，因為破骨細胞長期活化，骨質持續被吸收。]
+## 低劑量「間歇性 PTH 給予」（如 Teriparatide）→ 骨生成增加
+在骨質疏鬆治療中，使用 PTH 類似物（如 Teriparatide, PTH (1-34)，也就是 PTH 的活性片段），但關鍵是：**低劑量、短時間、間歇性給予**，會產生完全不同的作用：
+1. 間歇性 PTH 刺激造骨細胞（Osteoblasts）增殖 & 活化：同時不會長時間激活破骨細胞（Osteoclasts）
+2. 使骨質形成>骨質分解 → 增加骨密度：主要增加的是 海綿骨（Trabecular Bone），例如脊椎的骨密度增加最明顯
++ note: [間歇性 PTH（如骨鬆治療）= 促進骨形成，因為短暫的 PTH 刺激造骨細胞，而不會長時間活化破骨細胞。]
++ table: [
+PTH 作用模式	  作用機轉  	結果
+慢性 PTH 升高（如 CKD, 甲狀旁腺亢進）  	持續刺激破骨細胞活化 → 骨質流失	  骨質疏鬆、腎性骨病、高翻轉骨病
+間歇性 PTH 給予（如 Teriparatide）  	促進造骨細胞存活 & 活化 → 骨質形成  	骨質密度增加、治療骨質疏鬆
+]
