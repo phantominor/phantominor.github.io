@@ -1,0 +1,48 @@
+{
+  "units": [
+    {
+      "id": "1",
+      "title": "Basic Sentence Structure",
+      "description": "Learn the fundamentals of Korean sentences",
+      "lessons": [
+        {
+          "id": "1-1",
+          "title": "Lesson 1: Subject + Object + Verb",
+          "url": "/index.html"
+        },
+        {
+          "id": "1-2",
+          "title": "Lesson 2: Particles 은/는 vs 이/가",
+          "url": "/lessons/basic-sentence-structure/particles-eun-neun-i-ga.html"
+        },
+        {
+          "id": "1-3",
+          "title": "Lesson 3: Basic Verbs and Conjugation",
+          "url": "/lessons/basic-sentence-structure/basic-verb-conjugation.html"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Past Tense",
+      "description": "Express actions that happened in the past",
+      "lessons": [
+        {
+          "id": "2-1",
+          "title": "Lesson 1: Regular Verb Past Tense",
+          "url": "/lessons/past-tense/regular-verbs.html"
+        },
+        {
+          "id": "2-2",
+          "title": "Lesson 2: Irregular Verb Past Tense",
+          "url": "/lessons/past-tense/irregular-verbs.html"
+        },
+        {
+          "id": "2-3",
+          "title": "Lesson 3: Past Tense Practice",
+          "url": "/lessons/past-tense/practice.html"
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,27 @@
 // Sample data structure with URLs
 let tableData = [
     {
+        date: "2024/02/14",
+        topic: "Air in abdomen",
+        url: "/med/daily_posts/20250214.html",  // Add URL for each topic
+        links: 2,
+        tags: ["radiology"]
+    },
+    {
+        date: "2024/02/12",
+        topic: "Flap and dressings",
+        url: "/med/daily_posts/20250212.html",  // Add URL for each topic
+        links: 5,
+        tags: ["osteology", "plastic surgery"]
+    },
+    {
+        date: "2024/02/10",
+        topic: "AVF removal",
+        url: "/med/daily_posts/20250210.html",  // Add URL for each topic
+        links: 7,
+        tags: ["physiology", "pathology", "plastic surgery"]
+    },
+    {
         date: "2024/01/24",
         topic: "SMA syndrome",
         url: "/med/daily_posts/20250124.html",  // Add URL for each topic
