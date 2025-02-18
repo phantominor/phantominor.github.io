@@ -4,7 +4,7 @@ let tableData = [
         date: "2024/02/16",
         topic: "Pancreatitis",
         url: "/med/daily_posts/20250216.html",  // Add URL for each topic
-        links: 4,
+        links: 5,
         tags: ["pathology"]
     },
     {
