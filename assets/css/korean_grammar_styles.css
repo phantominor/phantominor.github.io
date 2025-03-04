@@ -15,24 +15,14 @@
     --receiver-bubble: #f1f1f1;
 }
 
-.lesson-container {
-    max-width: 800px;
-    margin: 0 auto;
-    background: var(--unit-bg);
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px var(--shadow-color);
-    position: relative;
-}
-
-.lesson-container h1 {
+main h1 {
     color: var(--primary-dark);
     border-bottom: 2px solid var(--primary-light);
     padding-bottom: 0.5rem;
     margin-top: 3rem;
 }
 
-.lesson-container h2 {
+main h2 {
     color: var(--primary-color);
     margin-top: 2rem;
 }
@@ -340,67 +330,67 @@
 }
 
 /* Table Styles */
-.lesson-container table {
+main table {
     border-collapse: collapse;
     width: 100%;
     margin: 1.5rem 0;
 }
 
-.lesson-container table, th, td {
+main table, th, td {
     border: 1px solid var(--border-color);
 }
 
-.lesson-container th, td {
+main th, td {
     padding: 0.75rem;
     text-align: left;
 }
 
-.lesson-container th {
+main th {
     background-color: #f1f5f9;
     font-weight: 600;
 }
 
 /* Improved List Styles */
-.lesson-container ul, ol {
+main ul, ol {
     padding-left: 1.8rem;
     margin: 1rem 0;
 }
 
-.lesson-container li {
+main li {
     margin-bottom: 0.8rem;
     position: relative;
 }
 
-.lesson-container ul ul, ol ol, ul ol, ol ul {
+main ul ul, ol ol, ul ol, ol ul {
     margin: 0.8rem 0 0.4rem 0;
 }
 
 /* Nested list styling */
-.lesson-container ul li {
+main ul li {
     list-style-type: disc;
 }
 
-.lesson-container ul li li {
+main ul li li {
     list-style-type: circle;
 }
 
-.lesson-container ul li li li {
+main ul li li li {
     list-style-type: square;
 }
 
-.lesson-container ol li {
+main ol li {
     padding-left: 0.5rem;
 }
 
-.lesson-container ol ol {
+main ol ol {
     counter-reset: item;
 }
 
-.lesson-container ol ol li {
+main ol ol li {
     display: block;
 }
 
-.lesson-container ol ol li:before {
+main ol ol li:before {
     content: counters(item, ".") ". ";
     counter-increment: item;
 }
