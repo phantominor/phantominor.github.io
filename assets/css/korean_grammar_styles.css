@@ -1,0 +1,406 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        
+:root {
+    --primary-color: #3b82f6;
+    --primary-light: #60a5fa;
+    --primary-dark: #2563eb;
+    --accent-color: #f59e0b;
+    --bg-color: #f8fafc;
+    --unit-bg: #ffffff;
+    --text-color: #1e293b;
+    --border-color: #e2e8f0;
+    --shadow-color: rgba(51, 65, 85, 0.1);
+    --highlight-color: #f87171;
+    --sender-bubble: #dcf8c6;
+    --receiver-bubble: #f1f1f1;
+}
+
+.lesson-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--unit-bg);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    position: relative;
+}
+
+.lesson-container h1 {
+    color: var(--primary-dark);
+    border-bottom: 2px solid var(--primary-light);
+    padding-bottom: 0.5rem;
+    margin-top: 3rem;
+}
+
+.lesson-container h2 {
+    color: var(--primary-color);
+    margin-top: 2rem;
+}
+
+/* Navigation Buttons */
+.kg-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    background: var(--unit-bg);
+    z-index: 100;
+    border-radius: 12px 12px 0 0;
+}
+
+.kg-nav-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.kg-nav-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.2s;
+    text-decoration: none;
+}
+
+.kg-nav-button:hover {
+    background-color: var(--primary-dark);
+}
+
+.kg-nav-home {
+    background-color: var(--accent-color);
+}
+
+.kg-nav-home:hover {
+    background-color: #e68a00;
+}
+
+
+/* Example Sentences Section */
+.example-section {
+    margin-bottom: 2rem;
+}
+
+.sentence-group {
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.8rem 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+}
+
+.korean-text {
+    font-size: 1.2rem;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.chinese-text {
+    color: #64748b;
+    padding-left: 1rem;
+    border-left: 3px solid var(--border-color);
+}
+
+/* Grammar Analysis Section */
+.grammar-section {
+    background: #f1f5f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.highlight {
+    color: var(--highlight-color);
+    font-weight: 500;
+}
+
+.bold {
+    font-weight: 700;
+}
+
+/* Conversation Section - Simplified Chat Room Style */
+.conversation-section {
+    background: #f5f7fb;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    border: 1px solid #e4e9f2;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.chat-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #e4e9f2;
+    margin-bottom: 15px;
+}
+
+.chat-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.chat-participants {
+    color: #7a8194;
+    font-size: 0.9rem;
+    margin-left: auto;
+}
+
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.message {
+    display: flex;
+    margin-bottom: 12px;
+}
+
+.message-left {
+    justify-content: flex-start;
+}
+
+.message-right {
+    justify-content: flex-end;
+}
+
+.message-content {
+    max-width: 75%;
+}
+
+.message-content-left {
+    margin-right: auto;
+}
+
+.message-content-right {
+    margin-left: auto;
+}
+
+.message-bubble {
+    padding: 10px 15px;
+    border-radius: 18px;
+    position: relative;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    margin-bottom: 4px;
+    word-break: break-word;
+}
+
+.bubble-left {
+    background-color: var(--receiver-bubble);
+    border-bottom-left-radius: 5px;
+}
+
+.bubble-right {
+    background-color: var(--sender-bubble);
+    border-bottom-right-radius: 5px;
+    text-align: right;
+}
+
+.message-meta {
+    display: flex;
+    font-size: 0.75rem;
+    color: #7a8194;
+    margin-bottom: 4px;
+}
+
+.meta-left {
+    justify-content: flex-start;
+}
+
+.meta-right {
+    justify-content: flex-end;
+}
+
+.message-time {
+    margin: 0 5px;
+}
+
+.message-name {
+    font-weight: 600;
+}
+
+.translation {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-top: 4px;
+    padding: 0 5px;
+}
+
+.translation-right {
+    text-align: right;
+}
+
+/* Chat input styling with tooltip */
+.chat-input {
+    display: flex;
+    border-top: 1px solid #e4e9f2;
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+.chat-input-field {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #e4e9f2;
+    border-radius: 20px;
+    background: white;
+    color: #999;
+    font-size: 0.9rem;
+}
+
+.chat-send-button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+    position: relative;
+}
+
+.chat-send-button:hover::before {
+    content: "回到首頁？";
+    position: absolute;
+    bottom: 50px;
+    right: -10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.chat-send-button:hover::after {
+    content: '';
+    position: absolute;
+    bottom: 45px;
+    right: 10px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+}
+
+/* Improved Sticky Note Alert Section */
+.alert-section {
+    background: #fff9c4;
+    padding: 1.5rem 1.5rem 1.5rem 3rem;
+    border-radius: 3px;
+    margin: 2rem 0;
+    position: relative;
+    box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.2);
+    transform: rotate(0.5deg);
+    background-image: 
+        linear-gradient(180deg, #fffde7 0%, #fff9c4 100%);
+}
+
+.alert-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 25px 25px 0;
+    border-color: transparent #e0e0e0 transparent transparent;
+    box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.alert-title {
+    color: #e65100;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+}
+
+.alert-title::before {
+    content: "💡";
+    margin-right: 10px;
+    font-size: 1.4rem;
+}
+
+/* Table Styles */
+.lesson-container table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1.5rem 0;
+}
+
+.lesson-container table, th, td {
+    border: 1px solid var(--border-color);
+}
+
+.lesson-container th, td {
+    padding: 0.75rem;
+    text-align: left;
+}
+
+.lesson-container th {
+    background-color: #f1f5f9;
+    font-weight: 600;
+}
+
+/* Improved List Styles */
+.lesson-container ul, ol {
+    padding-left: 1.8rem;
+    margin: 1rem 0;
+}
+
+.lesson-container li {
+    margin-bottom: 0.8rem;
+    position: relative;
+}
+
+.lesson-container ul ul, ol ol, ul ol, ol ul {
+    margin: 0.8rem 0 0.4rem 0;
+}
+
+/* Nested list styling */
+.lesson-container ul li {
+    list-style-type: disc;
+}
+
+.lesson-container ul li li {
+    list-style-type: circle;
+}
+
+.lesson-container ul li li li {
+    list-style-type: square;
+}
+
+.lesson-container ol li {
+    padding-left: 0.5rem;
+}
+
+.lesson-container ol ol {
+    counter-reset: item;
+}
+
+.lesson-container ol ol li {
+    display: block;
+}
+
+.lesson-container ol ol li:before {
+    content: counters(item, ".") ". ";
+    counter-increment: item;
+}

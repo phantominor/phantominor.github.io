@@ -4,346 +4,279 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1 - 現在時制 A/V-(스)ㅂ니다</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
-        
-        :root {
-            --primary-color: #3b82f6;
-            --primary-light: #60a5fa;
-            --primary-dark: #2563eb;
-            --accent-color: #f59e0b;
-            --bg-color: #f8fafc;
-            --unit-bg: #ffffff;
-            --text-color: #1e293b;
-            --border-color: #e2e8f0;
-            --shadow-color: rgba(51, 65, 85, 0.1);
-            --highlight-color: #f87171;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Noto Sans TC', 'Noto Sans KR', sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .lesson-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: var(--unit-bg);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px var(--shadow-color);
-        }
-        
-        h1 {
-            color: var(--primary-dark);
-            border-bottom: 2px solid var(--primary-light);
-            padding-bottom: 0.5rem;
-        }
-        
-        h2 {
-            color: var(--primary-color);
-            margin-top: 2rem;
-        }
-
-        /* Example Sentences Section */
-        .example-section {
-            margin-bottom: 2rem;
-        }
-
-        .sentence-group {
-            border-bottom: 1px solid var(--border-color);
-            padding: 0.8rem 0;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.3rem;
-        }
-
-        .korean-text {
-            font-size: 1.2rem;
-            font-family: 'Noto Sans KR', sans-serif;
-        }
-
-        .chinese-text {
-            color: #64748b;
-            padding-left: 1rem;
-            border-left: 3px solid var(--border-color);
-        }
-
-        /* Grammar Analysis Section */
-        .grammar-section {
-            background: #f1f5f9;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-        }
-
-        .highlight {
-            color: var(--highlight-color);
-            font-weight: 500;
-        }
-
-        .bold {
-            font-weight: 700;
-        }
-
-        /* Conversation Section */
-        .conversation-section {
-            background: #f0f9ff;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-        }
-        
-        .conversation-pair {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            border-bottom: 1px dashed var(--border-color);
-            padding-bottom: 1rem;
-        }
-        
-        .conversation-pair:last-child {
-            border-bottom: none;
-        }
-
-        /* Sticky Note Alert Section */
-        .alert-section {
-            background: #fffbeb;
-            padding: 1.5rem;
-            border-radius: 3px;
-            margin: 2rem 0;
-            position: relative;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
-            border-left: 4px solid var(--accent-color);
-        }
-
-        .alert-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 0 20px 20px 0;
-            border-color: transparent #f8e3b9 transparent transparent;
-        }
-
-        .alert-title {
-            color: var(--accent-color);
-            font-weight: bold;
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-        }
-
-        /* Table Styles */
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin: 1.5rem 0;
-        }
-        
-        table, th, td {
-            border: 1px solid var(--border-color);
-        }
-        
-        th, td {
-            padding: 0.75rem;
-            text-align: left;
-        }
-        
-        th {
-            background-color: #f1f5f9;
-            font-weight: 600;
-        }
-        
-        /* List Styles */
-        ul, ol {
-            padding-left: 1.5rem;
-        }
-        
-        li {
-            margin-bottom: 0.5rem;
-        }
-        
-        /* Utility Classes */
-        .structured-list {
-            padding-left: 1.5rem;
-        }
-
-        .structured-list li {
-            margin-bottom: 1rem;
-        }
-    </style>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/korean_grammar_styles.css">
+    
+    <!-- JavaScript for confirmation dialog -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sendButton = document.querySelector('.chat-send-button');
+            sendButton.addEventListener('click', function() {
+                // if (confirm('確定要回到首頁嗎？')) {
+                    window.location.href = '/lingo/korean_grammar.html';
+                // }
+            });
+        });
+    </script>
 </head>
 <body>
-    <div class="lesson-container">
-        <h1>1 - 現在時制 A/V-(스)ㅂ니다</h1>
-        
-        <!-- Example Sentences -->
-        <div class="example-section">
-            <div class="sentence-group">
-                <div class="korean-text"><span class="highlight">안녕하십니까</span>?</div>
-                <div class="chinese-text">您好嗎？</div>
-                <div class="korean-text">9시 뉴스<span class="highlight">입니다</span>.</div>
-                <div class="chinese-text">這是9點新聞。</div>
-            </div>
-            <div class="sentence-group">
-                <div class="korean-text">질문 <span class="highlight">있습니까</span>?</div>
-                <div class="chinese-text">有問題嗎？</div>
-            </div>
-            <div class="sentence-group">
-                <div class="korean-text">A: 이것을 어떻게 <span class="highlight">생각합니까</span>?</div>
-                <div class="chinese-text">A: 你怎麼看這個？</div>
-                <div class="korean-text">B: <span class="highlight">좋습니다</span>.</div>
-                <div class="chinese-text">B: 很好。</div>
-            </div>
-        </div>
+    <div id="headerPage"></div>
+	<div class="content">
+        <!-- <div id="profileColumnPage"></div> -->
+		<main>
+			<nav class="breadcrumb" aria-label="Breadcrumb">
+                <ul>
+                    <li><a href="/">HOME</a></li>
+                    <li><a href="/lingo.html">LINGO</a></li>
+                    <li><a href="/lingo/korean_grammar.html">KOREAN GRAMMAR</a></li>
+                    <li><a href="/lingo/korean_grammar/unit_01/1_present_tense.html">1 - Present Tense</a></li>
+                </ul>
+            </nav>
+            <div class="lesson-container">
+                <!-- Navigation Buttons with links -->
+                <div class="kg-navigation">
+                    <div class="kg-nav-buttons">
+                        <a href="/lingo/korean_grammar/unit_01/0_get_started.html" class="kg-nav-button">
+                            <span>&#8592;</span> 上一課
+                        </a>
+                        <a href="/lingo/korean_grammar/unit_01/2_past_tense.html" class="kg-nav-button">
+                            下一課 <span>&#8594;</span>
+                        </a>
+                    </div>
+                    <a href="/lingo/korean_grammar.html" class="kg-nav-button kg-nav-home">
+                        <span>&#8962;</span> 返回首頁
+                    </a>
+                </div>
+                
+                <h1>1 - 現在時制 A/V-(스)ㅂ니다</h1>
+                
+                <!-- Example Sentences -->
+                <div class="example-section">
+                    <div class="sentence-group">
+                        <div class="korean-text"><span class="highlight">안녕하십니까</span>?</div>
+                        <div class="chinese-text">您好嗎？</div>
+                        <div class="korean-text">9시 뉴스<span class="highlight">입니다</span>.</div>
+                        <div class="chinese-text">這是9點新聞。</div>
+                    </div>
+                    <div class="sentence-group">
+                        <div class="korean-text">질문 <span class="highlight">있습니까</span>?</div>
+                        <div class="chinese-text">有問題嗎？</div>
+                    </div>
+                    <div class="sentence-group">
+                        <div class="korean-text">A: 이것을 어떻게 <span class="highlight">생각합니까</span>?</div>
+                        <div class="chinese-text">A: 你怎麼看這個？</div>
+                        <div class="korean-text">B: <span class="highlight">좋습니다</span>.</div>
+                        <div class="chinese-text">B: 很好。</div>
+                    </div>
+                </div>
 
-        <!-- Grammar Analysis -->
-        <h2>文法重點</h2>
-        <div class="grammar-section">
-            <p>韓語格式體尊待形的現在時制為 <span class="highlight">-(스)ㅂ니다</span>，此型態主要用在正式或公眾場合，如軍隊、新聞播報、簡報、會議與演講等場合。</p>
-            <ul>
-                <li>若語幹以<span class="bold">母音</span>結束，用 <span class="highlight">-ㅂ니다</span> 結尾；若語幹以<span class="bold">子音</span>結束，則用 <span class="highlight">-습니다</span> 結尾。</li>
-                <li>若為疑問句，니다 需改成 <span class="highlight">니까</span>。</li>
-            </ul>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>類型</th>
-                        <th>原形</th>
-                        <th>中文</th>
-                        <th>陳述句</th>
-                        <th>疑問句</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td rowspan="5">語幹以母音結束 + ㅂ니다/ㅂ니까</td>
-                        <td>자다</td>
-                        <td>睡</td>
-                        <td>잡니다</td>
-                        <td>잡니까?</td>
-                    </tr>
-                    <tr>
-                        <td>에쁘다</td>
-                        <td>漂亮的</td>
-                        <td>에쁩니다</td>
-                        <td>에쁩니까?</td>
-                    </tr>
-                    <tr>
-                        <td>이다</td>
-                        <td>是...</td>
-                        <td>입니다</td>
-                        <td>입니까?</td>
-                    </tr>
-                    <tr>
-                        <td>아니다</td>
-                        <td>不是...</td>
-                        <td>아닙니다</td>
-                        <td>아닙니까?</td>
-                    </tr>
-                    <tr>
-                        <td><span class="highlight">만들다</span></td>
-                        <td><span class="highlight">製作</span></td>
-                        <td>만듭니다</td>
-                        <td>만듭니까?</td>
-                    </tr>
-                    <tr>
-                        <td rowspan="4">語幹以子音結束 + -습니다/습니까</td>
-                        <td>읽다</td>
-                        <td>讀</td>
-                        <td>읽습니다</td>
-                        <td>읽습니까?</td>
-                    </tr>
-                    <tr>
-                        <td>작다</td>
-                        <td>小的</td>
-                        <td>작습니다</td>
-                        <td>작습니까?</td>
-                    </tr>
-                    <tr>
-                        <td>있다</td>
-                        <td>有、在</td>
-                        <td>있습니다</td>
-                        <td>있습니까?</td>
-                    </tr>
-                    <tr>
-                        <td>없다</td>
-                        <td>沒有、不在</td>
-                        <td>없습니다</td>
-                        <td>없습니까?</td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <p>註：만들다 (製作) 為不規則變化。</p>
-        </div>
-
-        <!-- Conversation Section -->
-        <h2>會話</h2>
-        <div class="conversation-section">
-            <div class="conversation-pair">
-                <div>
-                    <div class="korean-text">A: 학교에 갑니까?</div>
-                    <div class="chinese-text">A: 你去學校嗎？</div>
-                </div>
-                <div>
-                    <div class="korean-text">B: 네, 학교에 갑니다.</div>
-                    <div class="chinese-text">B: 是的，我去學校。</div>
-                </div>
-            </div>
-            
-            <div class="conversation-pair">
-                <div>
-                    <div class="korean-text">A: 아침을 먹습이까?</div>
-                    <div class="chinese-text">A: 你吃早餐嗎？</div>
-                </div>
-                <div>
-                    <div class="korean-text">B: 네, 먹습니다.</div>
-                    <div class="chinese-text">B: 是的，我吃早餐。</div>
-                </div>
-            </div>
-            
-            <div class="conversation-pair">
-                <div>
-                    <div class="korean-text">A: 운동을 합니까?</div>
-                    <div class="chinese-text">A: 你運動嗎？</div>
-                </div>
-                <div>
-                    <div class="korean-text">B: 네, 운동을 합니다.</div>
-                    <div class="chinese-text">B: 是的，我運動。</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Notice Section -->
-        <div class="alert-section">
-            <div class="alert-title">注意！</div>
-            <p>現在時制的特點</p>
-            <ol>
-                <li>在韓語，現在時制不只包含現在時制，還包含了現在進行時制，以及說明事情將會發生的未來時制。
+                <!-- Grammar Analysis -->
+                <h2>文法重點</h2>
+                <div class="grammar-section">
+                    <p>韓語格式體尊待形的現在時制為 <span class="highlight">-(스)ㅂ니다</span>，此型態主要用在正式或公眾場合，如軍隊、新聞播報、簡報、會議與演講等場合。</p>
                     <ul>
-                        <li>現在時制</li>
-                        <li>現在進行時制</li>
-                        <li>未來時制</li>
+                        <li>若語幹以<span class="bold">母音</span>結束，用 <span class="highlight">-ㅂ니다</span> 結尾；若語幹以<span class="bold">子音</span>結束，則用 <span class="highlight">-습니다</span> 結尾。</li>
+                        <li>若為疑問句，니다 需改成 <span class="highlight">니까</span>。</li>
                     </ul>
-                </li>
-                <li>現在時制也用來表示真理，以及描述規律發生的事情。
-                    <ul>
-                        <li>지구는 태양 주위를 돌아요. 地球繞著太陽轉。</li>
-                        <li>저는 아침마다 달리기를 해요. 我每天早晨跑步。</li>
-                    </ul>
-                </li>
-            </ol>
-        </div>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>類型</th>
+                                <th>原形</th>
+                                <th>中文</th>
+                                <th>陳述句</th>
+                                <th>疑問句</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="5">語幹以母音結束 + ㅂ니다/ㅂ니까</td>
+                                <td>자다</td>
+                                <td>睡</td>
+                                <td>잡니다</td>
+                                <td>잡니까?</td>
+                            </tr>
+                            <tr>
+                                <td>에쁘다</td>
+                                <td>漂亮的</td>
+                                <td>에쁩니다</td>
+                                <td>에쁩니까?</td>
+                            </tr>
+                            <tr>
+                                <td>이다</td>
+                                <td>是...</td>
+                                <td>입니다</td>
+                                <td>입니까?</td>
+                            </tr>
+                            <tr>
+                                <td>아니다</td>
+                                <td>不是...</td>
+                                <td>아닙니다</td>
+                                <td>아닙니까?</td>
+                            </tr>
+                            <tr>
+                                <td><span class="highlight">만들다</span></td>
+                                <td><span class="highlight">製作</span></td>
+                                <td>만듭니다</td>
+                                <td>만듭니까?</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="4">語幹以子音結束 + -습니다/습니까</td>
+                                <td>읽다</td>
+                                <td>讀</td>
+                                <td>읽습니다</td>
+                                <td>읽습니까?</td>
+                            </tr>
+                            <tr>
+                                <td>작다</td>
+                                <td>小的</td>
+                                <td>작습니다</td>
+                                <td>작습니까?</td>
+                            </tr>
+                            <tr>
+                                <td>있다</td>
+                                <td>有、在</td>
+                                <td>있습니다</td>
+                                <td>있습니까?</td>
+                            </tr>
+                            <tr>
+                                <td>없다</td>
+                                <td>沒有、不在</td>
+                                <td>없습니다</td>
+                                <td>없습니까?</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <p>註：만들다 (製作) 為不規則變化。</p>
+                </div>
+
+                <!-- Conversation Section - Simplified Chat Room Style without avatars -->
+                <h2>會話示例</h2>
+                <div class="conversation-section">
+                    <div class="chat-header">
+                        <div class="chat-title">韓文討論群組</div>
+                        <div class="chat-participants">獨子、秀英、尚雅、智慧</div>
+                    </div>
+                    
+                    <div class="chat-messages">
+                        <!-- Conversation 1 -->
+                        <div class="message message-left">
+                            <div class="message-content message-content-left">
+                                <div class="message-meta meta-left">
+                                    <span class="message-name">智慧</span>
+                                    <span class="message-time">10:24</span>
+                                </div>
+                                <div class="message-bubble bubble-left">
+                                    <div class="korean-text">학교에 갑니까?</div>
+                                </div>
+                                <div class="translation">你去學校嗎？</div>
+                            </div>
+                        </div>
+                        
+                        <div class="message message-right">
+                            <div class="message-content message-content-right">
+                                <div class="message-meta meta-right">
+                                    <span class="message-time">10:25</span>
+                                    <span class="message-name">獨子</span>
+                                </div>
+                                <div class="message-bubble bubble-right">
+                                    <div class="korean-text">네, 학교에 갑니다.</div>
+                                </div>
+                                <div class="translation translation-right">是的，我去學校。</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Conversation 2 -->
+                        <div class="message message-left">
+                            <div class="message-content message-content-left">
+                                <div class="message-meta meta-left">
+                                    <span class="message-name">秀英</span>
+                                    <span class="message-time">10:26</span>
+                                </div>
+                                <div class="message-bubble bubble-left">
+                                    <div class="korean-text">레몬 막대사탕을 먹습니까?</div>
+                                </div>
+                                <div class="translation">你吃檸檬棒棒糖嗎？</div>
+                            </div>
+                        </div>
+                        
+                        <div class="message message-right">
+                            <div class="message-content message-content-right">
+                                <div class="message-meta meta-right">
+                                    <span class="message-time">10:27</span>
+                                    <span class="message-name">獨子</span>
+                                </div>
+                                <div class="message-bubble bubble-right">
+                                    <div class="korean-text">네, 먹습니다.</div>
+                                </div>
+                                <div class="translation translation-right">是的，我吃。</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Conversation 3 -->
+                        <div class="message message-left">
+                            <div class="message-content message-content-left">
+                                <div class="message-meta meta-left">
+                                    <span class="message-name">尚雅</span>
+                                    <span class="message-time">10:28</span>
+                                </div>
+                                <div class="message-bubble bubble-left">
+                                    <div class="korean-text">술을 마십니까?</div>
+                                </div>
+                                <div class="translation">你喝酒嗎？</div>
+                            </div>
+                        </div>
+                        
+                        <div class="message message-right">
+                            <div class="message-content message-content-right">
+                                <div class="message-meta meta-right">
+                                    <span class="message-time">10:29</span>
+                                    <span class="message-name">智慧</span>
+                                </div>
+                                <div class="message-bubble bubble-right">
+                                    <div class="korean-text">네, 술을 마십니다.</div>
+                                </div>
+                                <div class="translation translation-right">是的，我喝酒。</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chat input for navigation with tooltip -->
+                    <div class="chat-input">
+                        <div class="chat-input-field">輸入訊息...</div>
+                        <button class="chat-send-button">&#10148;</button>
+                    </div>
+                </div>
+
+                <!-- Improved Sticky Note Section with light bulb -->
+                <div class="alert-section">
+                    <div class="alert-title">注意！</div>
+                    <p>現在時制的特點</p>
+                    <ol>
+                        <li>
+                            在韓語，現在時制不只包含現在時制，還包含了現在進行時制，以及說明事情將會發生的未來時制。
+                            <ul>
+                                <li>現在時制</li>
+                                <li>現在進行時制</li>
+                                <li>未來時制</li>
+                            </ul>
+                        </li>
+                        <li>
+                            現在時制也用來表示真理，以及描述規律發生的事情。
+                            <ul>
+                                <li>지구는 태양 주위를 돌아요. 地球繞著太陽轉。</li>
+                                <li>저는 아침마다 달리기를 해요. 我每天早晨跑步。</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </main>
     </div>
+    <div id="footerPage"></div> <!-- Placeholder for the footer -->
+
+    <script src="/assets/js/script.js"></script>
 </body>
 </html>
