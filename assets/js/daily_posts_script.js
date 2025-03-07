@@ -1,6 +1,20 @@
 // Sample data structure with URLs
 let tableData = [
     {
+        date: "2024/03/06",
+        topic: "Precocious puberty",
+        url: "/med/daily_posts/20250306.html",
+        links: 4,
+        tags: ["reproductive", "clinical medicine"]
+    },
+    {
+        date: "2024/03/05",
+        topic: "Assisted reproductive technique",
+        url: "/med/daily_posts/20250305.html",  // Add URL for each topic
+        links: 7,
+        tags: ["reproductive endocrinology", "clinical medicine", "pharmacology"]
+    },
+    {
         date: "2024/03/03",
         topic: "TVOR",
         url: "/med/daily_posts/20250303.html",  // Add URL for each topic
