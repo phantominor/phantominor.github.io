@@ -361,6 +361,17 @@ main th {
     top: 0; /* Makes headers sticky for horizontal scrolling */
 }
 
+/* .alert-section table, th, td {
+    border: 1px solid rgba(196, 160, 0, 0.76);
+} */
+
+.alert-section th {
+    background-color: rgb(250, 229, 166);
+    font-weight: 600;
+    position: sticky;
+    top: 0; /* Makes headers sticky for horizontal scrolling */
+}
+
 /* Improved List Styles */
 main ul, ol {
     padding-left: 1.8rem;
