@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1 - Sentence Structure</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/korean_grammar_styles.css">
+    
+    <!-- JavaScript for confirmation dialog -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sendButton = document.querySelector('.chat-send-button');
+            sendButton.addEventListener('click', function() {
+                    window.location.href = '/lingo/korean_grammar.html';
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="headerPage"></div>
+	<div class="content">
+		<main>
+			<nav class="breadcrumb" aria-label="Breadcrumb">
+                <ul>
+                    <li><a href="/">HOME</a></li>
+                    <li><a href="/lingo.html">LINGO</a></li>
+                    <li><a href="/lingo/korean_grammar.html">KOREAN GRAMMAR</a></li>
+                    <li><a href="/lingo/korean_grammar/unit_00/1_sentence_structure.html">1 - Sentence Structure</a></li>
+                </ul>
+            </nav>
+            <!-- Navigation Buttons with links -->
+            <div class="kg-navigation">
+                <div class="kg-nav-buttons">
+                    <a href="/lingo/korean_grammar/unit_00/2_.html" class="kg-nav-button">
+                        下一課 <span>&#8594;</span>
+                    </a>
+                </div>
+                <a href="/lingo/korean_grammar.html" class="kg-nav-button kg-nav-home">
+                    <span>&#8962;</span> 返回目錄
+                </a>
+            </div>
+            <h1>1 - 韓語的句子結構</h1>
+
+            <!-- Grammar Analysis -->
+            <h2>基本句構</h2>
+            <div class="grammar-section">
+                <strong>主語</strong> (+ 受詞) + <strong>述語(動詞)</strong>
+            </div>
+            
+            <!-- Example Sentences -->
+            <div class="example-section">
+                <div class="sentence-group">
+                    <div class="korean-text">캐럴이(主語) 가요(動詞).</div>
+                    <div class="chinese-text">凱蘿去。</div>
+                </div>
+                <div class="sentence-group">
+                    <div class="korean-text">캐럴이(主語) 자요(動詞).</div>
+                    <div class="chinese-text">凱蘿睡覺。</div>
+                </div>
+                <div class="sentence-group">
+                    <div class="korean-text">에릭이(主語) 사과를(受詞) 먹어요(動詞).</div>
+                    <div class="chinese-text">艾瑞克吃蘋果。</div>
+                </div>
+                <div class="sentence-group">
+                    <div class="korean-text">에릭이(主語) 도서관에서(副詞語) 책을(受詞) 읽어요(動詞).</div>
+                    <div class="chinese-text">艾瑞克在圖書館讀書。</div>
+                </div>
+            </div>
+            
+            <!-- Grammar Note 1 -->
+            <h2>助詞的作用</h2>
+            <div class="grammar-section">
+                <p>韓語的助詞附加在單詞後，表明其在句子中的角色：</p>
+                <ul>
+                    <li><span class="bold">主語助詞：</span> 이/가</li>
+                    <li><span class="bold">受詞助詞：</span> 을/를</li>
+                    <li><span class="bold">副詞助詞：</span> 에/에서</li>
+                </ul>
+                
+                <p>韓語的句子順序可變，但助詞能確保語意不變，例如：</p>
+                <ul>
+                    <li>사과<span class="highlight">를</span> 에릭<span class="highlight">이</span> 먹어요. = 에릭<span class="highlight">이</span> 사과<span class="highlight">를</span> 먹어요. (艾瑞克吃蘋果)</li>
+                    <li>책<span class="highlight">을</span> 도서관<span class="highlight">에서</span> 에릭<span class="highlight">이</span> 읽어요. = 에릭<span class="highlight">이</span> 도서관<span class="highlight">에서</span> 책<span class="highlight">을</span> 읽어요. (艾瑞克在圖書館讀書)</li>
+                </ul>
+            </div>
+            
+            <!-- Conversation Section - Simplified Chat Room Style -->
+            <h2>主語的省略</h2>
+            <div class="conversation-section">
+                <div class="chat-header">
+                    <div class="chat-title">火車進站嘍</div>
+                    <div class="chat-participants">雪、O、咖啡、小綠、里尼科、飯糰豬、班納魚、龑</div>
+                </div>
+                
+                <div class="chat-messages">
+                    <!-- Conversation 1 -->
+                    <div class="message message-left">
+                        <div class="message-content message-content-left">
+                            <div class="message-meta meta-left">
+                                <span class="message-name">飯糰豬</span>
+                                <span class="message-time">09:15</span>
+                            </div>
+                            <div class="message-bubble bubble-left">
+                                <div class="korean-text">에릭이 뭐 해요?</div>
+                            </div>
+                            <div class="translation">艾瑞克在做什麼？</div>
+                        </div>
+                    </div>
+                    
+                    <div class="message message-right">
+                        <div class="message-content message-content-right">
+                            <div class="message-meta meta-right">
+                                <span class="message-time">09:16</span>
+                                <span class="message-name">里尼科</span>
+                            </div>
+                            <div class="message-bubble bubble-right">
+                                <div class="korean-text">(에릭이) 사과를 먹어요.</div>
+                            </div>
+                            <div class="translation translation-right">(艾瑞克) 在吃蘋果。</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Conversation 2 -->
+                    <div class="message message-left">
+                        <div class="message-content message-content-left">
+                            <div class="message-meta meta-left">
+                                <span class="message-name">飯糰豬</span>
+                                <span class="message-time">09:18</span>
+                            </div>
+                            <div class="message-bubble bubble-left">
+                                <div class="korean-text">어디에 가요?</div>
+                            </div>
+                            <div class="translation">(你) 要去哪裡？</div>
+                        </div>
+                    </div>
+                    
+                    <div class="message message-right">
+                        <div class="message-content message-content-right">
+                            <div class="message-meta meta-right">
+                                <span class="message-time">09:19</span>
+                                <span class="message-name">班納魚</span>
+                            </div>
+                            <div class="message-bubble bubble-right">
+                                <div class="korean-text">학교에 가요.</div>
+                            </div>
+                            <div class="translation translation-right">(我) 要去學校。</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Chat input for navigation with tooltip -->
+                <div class="chat-input">
+                    <div class="chat-input-field">輸入訊息...</div>
+                    <button class="chat-send-button">&#10148;</button>
+                </div>
+            </div>
+            
+            <!-- Alert Section - Not needed for this content -->            
+        </main>
+    </div>
+    <div id="footerPage"></div> <!-- Placeholder for the footer -->
+
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>
