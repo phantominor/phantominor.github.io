@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radiology</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/daily_posts_styles.css">
+</head>
+<body>
+    <div id="headerPage"></div> <!-- Placeholder for the header -->
+    
+    <div class="content">        
+        <main>
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <ul>
+                    <li><a href="/">HOME</a></li>
+                    <li><a href="/med.html">MED</a></li>
+                    <li><a href="/med/notes.html">NOTES</a></li>
+                    <li><a href="/med/notes/radiology.html">Radiology</a></li>
+                </ul>
+            </nav>
+            <section class="main-content">
+                <h3 id="q1">1 - 肝臟 CT</h3>
+                <div class="content-block">
+                    <h4>1.1 - CT 影像相位</h4>
+                    <p>CT 影像的獲取分為四個主要相位，依照顯影劑的動態變化來分析肝臟病變：</p>
+                    <ol>
+                        <li><strong>Pre-contrast phase (PC, 無顯影劑)</strong>：可顯示結石或鈣化，這些結構會顯得明亮。</li>
+                        <li><strong>Arterial phase (A, 動脈期)</strong>：顯示動脈結構，適用於偵測多血管腫瘤 (如 HCC) 或急性出血。</li>
+                        <li><strong>Portal venous phase (PV, 門靜脈期)</strong>：診斷最常用的相位，可篩檢感染、少血管腫瘤 (如轉移癌)。</li>
+                        <li><strong>Delayed phase (D, 延遲期)</strong>：顯影劑排入腎臟與泌尿系統時，適用於泌尿系統影像分析。</li>
+                    </ol>
+                
+                    <div class="note">
+                        <ul>
+                            <li>顯影劑流速過快 (超過 3~3.5 mL/sec) 可能導致顯影劑外滲 (contrast extravasation)。</li>
+                            <li><strong>Couinaud 分葉法</strong>：
+                                <ul>
+                                    <li>肝靜脈將肝臟分為左、右兩部分。</li>
+                                    <li>肝門靜脈則將肝臟進一步分為上、下。</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                
+                    <h4>1.2 - 肝臟病變影像學分析</h4>
+                    <p>以下表格比較不同肝臟病變在四個 CT 相位的影像表現，並總結其影像學鑑別方式。</p>
+                
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>病變類型</th>
+                                <th>Pre-contrast (PC)</th>
+                                <th>Arterial (A)</th>
+                                <th>Portal Venous (PV)</th>
+                                <th>Delayed (D)</th>
+                                <th>鑑別診斷特徵</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Cyst (囊腫)</strong></td>
+                                <td>Hypodense (均一暗)</td>
+                                <td>Hypodense</td>
+                                <td>Hypodense</td>
+                                <td>Hypodense</td>
+                                <td>良性，邊界清晰，所有 phase 影像一致</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Hemangioma (血管瘤)</strong></td>
+                                <td>Hypodense</td>
+                                <td>外圍亮 (peripheral nodular enhancement)</td>
+                                <td>Centripetal filling in</td>
+                                <td>完全填充 (isoattenuating)</td>
+                                <td>最常見良性病變，外圍先增強，內部後續填充</td>
+                            </tr>
+                            <tr>
+                                <td><strong>HCC (肝細胞癌)</strong></td>
+                                <td>Hypodense</td>
+                                <td>明顯增強 (hypervascular)</td>
+                                <td>Washout (變暗)</td>
+                                <td>邊緣增強 (rim enhancement)</td>
+                                <td>多血管，A 期增強，PV 期 washout</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Metastatic carcinoma (轉移癌)</strong></td>
+                                <td>Hypodense</td>
+                                <td>少血管者無顯著增強</td>
+                                <td>Hypodense</td>
+                                <td>Target sign (周圍增強)</td>
+                                <td>來自乳癌、結腸癌等，hypervascular 轉移包括胰臟 NET、黑色素瘤等</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Adenoma (腺瘤)</strong></td>
+                                <td>Hypodense</td>
+                                <td>明顯增強</td>
+                                <td>無 washout</td>
+                                <td>仍增強</td>
+                                <td>多血管但無 PV washout，可能有脂肪或出血</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Focal nodular hyperplasia (FNH, 局灶性結節增生)</strong></td>
+                                <td>Hypodense</td>
+                                <td>明顯增強</td>
+                                <td>等密度</td>
+                                <td>邊緣增強</td>
+                                <td>良性，類似 HCC，但 1/3 具 central scar (需 MRI 確認)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Liver abscess (肝膿瘍)</strong></td>
+                                <td>Hypodense</td>
+                                <td>壁增強，內部低密度</td>
+                                <td>Hypodense</td>
+                                <td>外圍增強</td>
+                                <td>壁厚、分葉，周圍發炎充血</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Liver parenchymal disease (肝實質病變)</strong></td>
+                                <td>依類型不同</td>
+                                <td>依類型不同</td>
+                                <td>依類型不同</td>
+                                <td>依類型不同</td>
+                                <td>Focal fat-sparing、脂肪肝、血鐵沉積症等</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                
+                    <h4>1.3 - 肝實質病變 (Liver Parenchymal Disease)</h4>
+                
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>病變</th>
+                                <th>HU 值 (Hounsfield Unit)</th>
+                                <th>特徵</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>正常肝</strong></td>
+                                <td>45-65 HU</td>
+                                <td>與脾臟 HU 值相近</td>
+                            </tr>
+                            <tr>
+                                <td><strong>脂肪肝 (Fatty Liver)</strong></td>
+                                <td>~25 HU</td>
+                                <td>低密度，比脾臟更暗</td>
+                            </tr>
+                            <tr>
+                                <td><strong>血鐵沉積症 (Hemochromatosis)</strong></td>
+                                <td>80-90 HU</td>
+                                <td>因過多輸血導致鐵沉積，肝密度增加</td>
+                            </tr>
+                            <tr>
+                                <td><strong>藥物影響 (Amiodarone, 碘含量藥物)</strong></td>
+                                <td>~100 HU</td>
+                                <td>超高密度肝，明顯亮度增加</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                
+                    <h4>1.4 - HCC 補充說明</h4>
+                
+                    <p><strong>HCC 變異型 (HCC Variants)</strong></p>
+                    <ol>
+                        <li><strong>Atypical HCC (非典型 HCC)</strong>：無 Arterial 期增強，需 MRI 或切片診斷。</li>
+                        <li><strong>Infiltrative HCC (瀰漫性 HCC)</strong>：邊界不明，可能侵犯 PV，導致 PV thrombosis。
+                            <ul>
+                                <li>造成 <strong>cavernous transformation</strong> (肝門靜脈周圍血管擴張形成側枝循環)。</li>
+                            </ul>
+                        </li>
+                    </ol>
+                
+                    <p><strong>HCC 治療方式</strong></p>
+                    <ol>
+                        <li><strong>手術切除</strong> (Resection)</li>
+                        <li><strong>局部消融治療</strong> (Ablation)：
+                            <ul>
+                                <li><strong>PEI (Percutaneous Ethanol Injection, 經皮酒精注射)</strong></li>
+                                <li><strong>RFA (Radiofrequency Ablation, 射頻消融)</strong></li>
+                                <li><strong>WMA (Microwave Ablation, 微波消融)</strong></li>
+                            </ul>
+                        </li>
+                        <li><strong>TACE (Transarterial Chemoembolization, 經動脈化療栓塞術)</strong></li>
+                        <li><strong>RT (Radiotherapy, 放射治療)</strong></li>
+                    </ol>
+                </div>
+                <h3 id="q2">2 - 膽囊 CT</h3>
+
+                <div class="content-block">
+                    <h4>2.1 - 膽囊炎 (Cholecystitis) 的影像學特徵與分類</h4>
+                    
+                    <p>📌 <strong>影像學特徵：</strong></p>
+                    <ul>
+                        <li><strong>膽囊壁異常 (GB wall abnormality)</strong>：壁不連續 (破裂)、局部增厚 (thickening)</li>
+                        <li><strong>動脈期增強 (Arterial enhancement)</strong></li>
+                        <li><strong>鄰近肝臟充血 (Adjacent liver hyperemia)</strong></li>
+                        <li><strong>膽囊周圍脂肪浸潤 (Pericholecystic fat stranding)</strong></li>
+                    </ul>
+                
+                    <p>📌 <strong>分類：</strong></p>
+                    <ol>
+                        <li><strong>Calculous cholecystitis</strong> (結石性膽囊炎)：
+                            <ul>
+                                <li>由膽結石引起的膽囊炎，常伴隨膽道阻塞</li>
+                            </ul>
+                        </li>
+                        <li><strong>Mild cholecystitis</strong> (輕度膽囊炎)：
+                            <ul>
+                                <li>可能無明顯結石，但有膽囊壁增厚和局部發炎徵象</li>
+                            </ul>
+                        </li>
+                        <li><strong>Severe cholecystitis</strong>：
+                            <ul>
+                                <li>可能出現壞疽性膽囊炎 (gangrenous cholecystitis) 或穿孔 (perforation)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                
+                    <p>📌 <strong>治療考量：</strong></p>
+                    <ul>
+                        <li>根據 <a href="https://www.researchgate.net/figure/TG18-flowchart-for-the-management-of-acute-cholangitis-Cited-and-modified-from-Miura-et_fig1_320005035">Tokyo guideline (東京指南)</a> 分級決定治療策略</li>
+                    </ul>
+                    
+                    <h4>2.2 - 膽結石與膽道阻塞 (Gallstones & Biliary Obstruction)</h4>
+                    
+                    <p>📌 <strong>影像學特徵：</strong></p>
+                    <ul>
+                        <li><strong>膽結石 (Gall stones)</strong>：
+                            <ul>
+                                <li>在 <strong>non-contrast CT</strong> 下可依密度區分結石或腫瘤</li>
+                                <li>IHD (肝內膽管)、CHD (肝總膽管)、CBD (總膽管) 膨脹，提示 <strong>biliary obstruction (膽道阻塞)</strong></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <h4>2.3 - 膽囊癌 (GB Cancer) 的影像學特徵</h4>
+                    
+                    <p>📌 <strong>影像學特徵：</strong></p>
+                    <ul>
+                        <li><strong>US (超音波) 下膽囊內腫塊</strong>：
+                            <ul>
+                                <li><strong>Polyp > 1 cm</strong> 需高度懷疑</li>
+                                <li>初期通常 <strong>無症狀</strong></li>
+                            </ul>
+                        </li>
+                        <li><strong>進展期可能侵犯肝臟 (Direct liver invasion)</strong></li>
+                    </ul>
+                    
+                    <h4>2.4 - 膽道造影 (Cholangiography) 方法與比較</h4>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th><strong>造影方式</strong></th>
+                                <th><strong>方法</strong></th>
+                                <th><strong>優點</strong></th>
+                                <th><strong>缺點</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>ERCP</strong> (內視鏡逆行性膽胰攝影)</td>
+                                <td>內視鏡導管打顯影劑進入膽管</td>
+                                <td>可 <strong>同時診斷與治療</strong> (取石、放支架)</td>
+                                <td>侵入性高，可能導致 <strong>急性胰臟炎</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>MRCP</strong> (磁振膽道攝影)</td>
+                                <td>MRI 影像，無需打顯影劑</td>
+                                <td>唯一 <strong>非侵入性</strong>，適合診斷膽道阻塞</td>
+                                <td>只能診斷，無法治療</td>
+                            </tr>
+                            <tr>
+                                <td><strong>PTC</strong> (經皮穿肝膽道攝影)</td>
+                                <td>皮膚穿刺進入膽道打顯影劑</td>
+                                <td>適合 <strong>膽道嚴重阻塞</strong> 無法 ERCP 成功者</td>
+                                <td><strong>高度侵入性</strong>，可能引起膽汁外漏、感染</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="https://radiopaedia.org/articles/liver-lesions?lang=us">ref 1 - Radiopaedia 2025: Liver lesions</a><br>
+                    <a href="https://radiologyassistant.nl/abdomen/liver/characterisation-of-liver-masses">ref 2 - Radiology assistant: characterization of liver masses</a>
+                </div>
+
+            </section>         
+        </main>
+    </div>
+    
+    <div id="footerPage"></div> <!-- Placeholder for the footer -->
+
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>
