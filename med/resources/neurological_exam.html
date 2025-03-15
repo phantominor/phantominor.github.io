@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phantom's Haven - Template page</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .code-container {
+            position: relative;
+            background: #f0f0f0;
+            border-radius: 8px;
+            padding: 12px;
+            font-family: "SF Mono", "Consolas", "Courier New", monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+
+        .code-header {
+            font-size: 12px;
+            background: #e0e0e0;
+            color: #333;
+            padding: 6px 10px;
+            border-radius: 6px 6px 0 0;
+            font-weight: bold;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 12px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .copy-btn:hover {
+            color: #000;
+        }
+
+        pre {
+            margin: 0;
+            padding: 10px;
+            border-radius: 0 0 6px 6px;
+            background: #fafafa;
+            color: #333;
+        }
+
+        code {
+            white-space: pre-wrap;
+            word-break: break-word;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="headerPage"></div> <!-- Placeholder for the header -->
+    
+    <div class="content">        
+        <main>
+            <div class="code-container">
+                <div class="code-header">Neurological Examination</div>
+                <button class="copy-btn">📋 Copy</button>
+                <pre><code>
+#. E4V5M6, alert and aware
+#. NIHSS: {000 000 0000 00000} = 0
+
+--- Cognition ---
+
+#. High cortical function
+    - Catagory naming: fair
+    - Luria test: fair
+    - Letter number sequencing: fair
+    - Primitive reflex: glabellar (-), rooting (-), sucking (-), 
+                        snouting (-), grasping (-), palmomental (-)
+#. Language
+    - Fluency:         fair, without dysarthria
+    - Comprehension:   could obey 3-step orders by oral command
+    - Reading:         "台大醫院神經科" correctly read aloud
+    - Naming:          fine with pen, phone, watch
+    - Repeating:       fine with "黑紙真正寫白字"
+#. Neglect
+    - no neglect to visual, tactile, auditory stimuli
+
+--- Cranial Nerves ---
+
+#. CN I: Smell unchecked
+#. CN II: 
+    - Visual field: intact by confrontation test
+    - Pupil: isocoric, size 3mm/3mm
+    - Light reflex: L/R (+/+)
+#. CN III, IV, VI:
+    - EOM: intact, no gaze limitation
+    - Nystagmus (-)
+    - Ptosis (-)
+    - Saccade: intact
+    - Pursuit: smooth
+    - Convergence: intact
+                0                0
+                |                | 
+        0 --- 0 --- 0    0 --- 0 --- 0
+                |                | 
+                0                0
+#. CN V:
+    - Corneal reflex: L/R (+/+)
+    - Facial sensation: symmetrical, intact bilaterally
+    - Masseter: symmetrical, palpable contraction
+    - Temporalis: symmetrical, palpable contraction
+#. CN VII: symmetrical, no facial palsy
+    - Eye closure: symmetrical
+    - Nasolabial fold: symmetrical, no shallowing
+#. CN VIII:
+    - Hearing: bilaterally intact
+    - Finger rubbing test: symmetrical, no neglect
+    - Weber test: midline
+    - Rinne test: AC > BC bilaterally
+#. CN IX, X:
+    - Gag reflex (+/+)
+    - Uvula deviation(-), palate elevation: symmetrical
+    - Dysarthria (-), dysphagia (-)
+#. CN XI:
+    - Trapezius & SCM strength: symmetrical, 5/5
+#. CNXII:
+    - Tongue protrusion: midline, no deviation
+
+--- Motor ---
+
+#. Motor inspection: muscle wasting(-), fasciculation(-)
+#. Muscle tone: normal, spasticity (-), rigidity (-)
+#. Muscle strength:
+    - Shoulder abduction (C5):    5/5
+    - Elbow flexion (C6):         5/5
+    - Elbow extension (C7):       5/5
+    - Wrist flexion (C7):         5/5
+    - Wrist extension (C6):       5/5
+    - Pinky abduction (C8-T1):    5/5
+    - Thumb abduction (C8-T1):    5/5
+    - Grasping (C8):              5/5
+    
+    - Hip flexion (L2):           5/5
+    - Knee flexion (L4-S3):       5/5
+    - Knee extension (L3):        5/5
+    - Ankle dorsiflexion (L4):    5/5
+    - Ankle plantarflexion (S1):  5/5
+
+--- Reflex ---
+
+#. Deep tendon reflex : (R/L)
+    - Biceps(C5/6):               ++/++
+    - Triceps(C7):                ++/++
+    - Brachioradialis(C5/6):      ++/++
+    - Knee(L4):                   ++/++
+    - Ankle(S1):                  ++/++
+    
+    - Babinski sign:              flexor/flexor
+    - Hoffman sign:               -/-
+    - Tromner sign:               -/-
+
+--- Sensory ---
+
+#. Small fiber:
+    - Light touch and pinprick sensation: intact
+#. Large fiber:
+    - Proprioception (joint position): intact over bilateral index fingers and toes
+    - Vibration: thumb (8/8), 1st toe (8/8)
+
+--- Coordination ---
+
+#. Finger-nose-finger: fair, no dysmetria
+#. Heel-knee-shin: fair bilaterally, no dysmetria and zigzag
+
+#. Rapid alternating movement: fair, no dysdiadochokinesia
+#. Stewart Holmes rebound test (-)
+#. Past pointing test (-)
+#. RAM finger tapping test (-)
+#. Truncal titubation (-)
+#. Fukuda test (-)
+
+--- Posture/Gait ---
+
+#. Posture:
+    - Romberg's test (-)
+    - Mann's test (-)
+#. Gait:
+    - Narrow-based gait, able to walk steadily without assistance
+    - Tandem gait (-)
+    
+--- Extrapyramidal system (EPS) ---
+
+#. Mask face (-), decreased arm swing (-)
+#. Tremor:
+    - Resting (-), action (-), posture (-, over RUE, LUE, RLE, LLE)
+    - Rigidity (-): cogwheel (-), truncal (-)
+    - Bradykinesia (-, over RUE, LUE, RLE, LLE)
+    - Postural instability: pulling test (-)
+    - Gait: initiation difficulty (-), freezing (-), 
+                    shuffling (-), en bloc turning (-), festination (-)
+
+--- Autonomic ---
+
+#. Sphincters: urinary incontinence (-), stool incontinence (-)
+#. Postural dizziness (-), orthostatic hypotension (-)
+#. Palpitation (-)
+#. Excessive sweating (-), less sweating (-)
+                </code></pre>
+            </div>
+        </main>
+    </div>
+    <h2>ChatGPT Style Code Box</h2>
+
+    
+
+    <script>
+        document.querySelectorAll('.code-container').forEach(container => {
+            const copyButton = container.querySelector('.copy-btn');
+            const codeElement = container.querySelector('pre code');
+
+            copyButton.addEventListener('click', () => {
+                navigator.clipboard.writeText(codeElement.innerText).then(() => {
+                    copyButton.innerText = '✅ Copied!';
+                    setTimeout(() => copyButton.innerText = '📋 Copy', 2000);
+                }).catch(err => console.error('Failed to copy:', err));
+            });
+        });
+    </script>
+    <div id="footerPage"></div> <!-- Placeholder for the footer -->
+
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>
