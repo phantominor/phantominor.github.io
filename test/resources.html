@@ -77,6 +77,12 @@
             gap: 15px;
         }
 
+        #minorCategoryFilters {
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+            margin-top: 5px;
+        }
+
         .filter-row {
             display: flex;
             flex-wrap: wrap;
@@ -126,7 +132,16 @@
         .minor-category {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            margin-bottom: 20px;
+            margin-bottom: 0; /* Change from 20px to 0 */
+            border-top: none; /* Remove top border for all except the first */
+        }
+        
+        .minor-category:first-of-type {
+            border-top: 1px solid var(--border-color); /* Add top border only to first minor category */
+        }
+
+        .minor-category:last-of-type {
+            margin-bottom: 20px; /* Add margin to the last one */
         }
 
         .minor-category-header {
