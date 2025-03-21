@@ -1,0 +1,61 @@
+<header class="site-header">
+    <div class="header-container">
+        <!-- Left part: Logo and Title -->
+        <div class="header-logo-section">
+            <a href="/index.html" class="site-logo-link">
+                <img src="/assets/images/Quill_drawing_a_line_icon.png" alt="Phantom's Haven Logo" class="site-logo-image">
+                <span class="site-title">Phantom's Haven</span>
+            </a>
+        </div>
+        
+        <!-- Middle part: Navigation Links -->
+        <nav class="header-navigation">
+            <ul class="nav-links-list">
+                <li class="nav-item"><a href="/index.html" class="nav-link">HOME</a></li>
+                <li class="nav-item"><a href="/med.html" class="nav-link">MED</a></li>
+                <li class="nav-item"><a href="/lingo.html" class="nav-link">LINGO</a></li>
+                <li class="nav-item"><a href="/games.html" class="nav-link">GAMES</a></li>
+                <li class="nav-item"><a href="/others.html" class="nav-link">OTHERS</a></li>
+                <li class="nav-item">
+                    <a href="/private.html" class="nav-link private-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="lock-icon">
+                            <style>
+                              .lock-body { fill: #334155; transition: fill 0.3s ease; }
+                              .lock-shackle { fill: none; stroke: #334155; transition: all 0.4s ease; transform-origin: 50px 40px; }
+                              .keyhole { fill: none; stroke: #94a3b8; stroke-width: 4; transition: stroke 0.3s ease; }
+                              svg:hover .lock-body { fill: #0ea5e9; }
+                              svg:hover .lock-shackle { stroke: #0ea5e9; transform: rotate(-30deg) translate(2px, -2px); }
+                              svg:hover .keyhole { stroke: #e2e8f0; }
+                            </style>
+                            
+                            <!-- Lock Body -->
+                            <rect class="lock-body" x="25" y="45" width="50" height="40" rx="6" />
+                            
+                            <!-- Lock Shackle -->
+                            <path class="lock-shackle" 
+                                  d="M35,45 L35,30 C35,20 65,20 65,30 L65,45" 
+                                  stroke-width="8" 
+                                  stroke-linecap="round" />
+                            
+                            <!-- Keyhole (simplified) -->
+                            <circle class="keyhole" cx="50" cy="60" r="5" />
+                            <rect class="keyhole" x="48" y="65" width="4" height="8" rx="1" />
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <!-- Right part: Search -->
+        <div class="header-search-section">
+            <button class="search-toggle-button" id="searchToggle" aria-label="Toggle search">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="search-icon">
+                    <path class="search-icon-path" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                </svg>
+            </button>
+            <div class="search-input-container" id="searchInputContainer">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search...">
+            </div>
+        </div>
+    </div>
+</header>
