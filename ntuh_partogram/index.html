@@ -1,718 +1,403 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>藍單中幫手</title>
-    <meta charset="utf-8">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
-    <style type="text/css">
-        .container {
-            margin-top: 40px;
-        }
-        .btn-primary {
-            width: 100%;
-        }
-        .panel-heading{
-            font-weight: bold;
-        }
-        .nav-tabs > li > a{
-            font-size: medium;
-        }
-        .table tbody tr td, .table thead th {
-            text-align: center;
-            vertical-align: middle;
-        }
-        #conversionTable td:last-child {
-            text-align: left;
-        }
-        #timePanel .badge{
-            font-size: medium;
-            display:inline-block; 
-            width:170px;
-        }
-        .partogram-container {
-            margin: 20px 0;
-            overflow-x: auto;
-        }
-        #partogramCanvas {
-            background-color: #fff;
-            border: 1px solid #ddd;
-        }
-    </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript">
-    </script>
-    <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js" type="text/javascript">
-    </script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type="text/javascript">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js" type="text/javascript">
-    </script>
-    <script type='text/javascript'>
-      $( document ).ready(function() {
-         $('#onsetTime').datetimepicker({
-            format : 'YYYY/MM/DD HH:mm',
-         });
-         $('#delivery').datetimepicker({
-            format : 'YYYY/MM/DD HH:mm',
-         });
-         $('#placenta').datetimepicker({
-            format : 'YYYY/MM/DD HH:mm',
-         });
-      });
-      
-      //Fold the panel with arrow sign
-      $(document).on('click', '.panel-heading span.clickable', function (e) {
-         var $this = $(this);
-         if (!$this.hasClass('panel-collapsed')) {
-            $this.parents('.panel').find('.panel-body').slideUp();
-            $this.addClass('panel-collapsed');
-            $this.find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
-         } else {
-            $this.parents('.panel').find('.panel-body').slideDown();
-            $this.removeClass('panel-collapsed');
-            $this.find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
-         }
-      })
-
-      $(function(){
-         // prevents jumping
-         $("a.help").on("click", function (e) {
-            e.preventDefault();
-            return true;
-         });
-         $(".help").popover();
-      });//]]> 
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blue Single Helper</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f0f8ff;
+      color: #333;
+    }
+    h1 {
+      color: #0066cc;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .input-section {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+    .main-block {
+      margin-bottom: 30px;
+    }
+    .main-title {
+      background-color: #0066cc;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+    .sub-block {
+      margin-bottom: 20px;
+    }
+    .sub-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #0066cc;
+    }
+    textarea {
+      width: 100%;
+      min-height: 150px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      resize: vertical;
+      font-family: Arial, sans-serif;
+    }
+    .btn-submit {
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      display: block;
+      margin: 0 auto;
+      transition: background-color 0.3s;
+    }
+    .btn-submit:hover {
+      background-color: #004999;
+    }
+    .hint {
+      font-size: 13px;
+      color: #777;
+      margin-top: 5px;
+      /* font-style: italic; */
+    }
+    .output-section {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: none;
+    }
+    .output-block {
+      margin-bottom: 20px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 20px;
+    }
+    .output-title {
+      font-weight: bold;
+      color: #0066cc;
+      margin-bottom: 10px;
+    }
+    .output-content {
+      background-color: #f9f9f9;
+      padding: 10px;
+      border-radius: 5px;
+      border-left: 3px solid #0066cc;
+      white-space: pre-line;
+    }
+  </style>
 </head>
 <body>
-    <script>
-    function processData() {
-    var record = document.getElementById("record").value;
-    var records = record.split(/(?=\n\d\d\/\d\d\s\d\d:\d\d)/);
-
-    //Processed array: cArray[time,course,os,station,processed]
-    var cArray= conversionArray(records);
-    writeTable(cArray,"conversionTable");
-
-    var rArray = resultArray(cArray);
-    writeTable(rArray,"resultTable");
-
-    document.getElementById("osCourse").innerHTML = timeFormat2(osCourse);
-    document.getElementById("deliveryCourse").innerHTML = timeFormat2(deliveryCourse-osCourse);
-    document.getElementById("placentaCourse").innerHTML = timeFormat2(placentaCourse-deliveryCourse);
-    document.getElementById("totalCourse").innerHTML = timeFormat2(placentaCourse);
-
-    // Add this line to draw the partogram
-    drawPartogram(rArray);
-
-    $('#result').collapse('show');
-    }
-
-    //Get array from text records: [time,course,os,station,processed]
-    function conversionArray(items){
-      var pArray=[];
-      for (var i = 0; i < items.length ; i++) {
-         var temp = extractData(items[i]);
-         pArray.push(temp);
-      }
-      var deliveryArray = getDelivery();
-      pArray.push(deliveryArray);
-
-      pArray.sort(function(a, b) {
-         var valueA, valueB;
-
-         valueA = a[1]; // sorting according to 2nd item
-         valueB = b[1];
-         if (valueA < valueB) { return -1;}
-         else if (valueA > valueB) {return 1;}
-         return 0;
-      });
-
-      return pArray;
-    }
-
-    function resultArray(myArray){
-      var resultArray=[];
-      var osFull = 0;
-
-      for (var i = 0; i < myArray.length ; i++) {
-         if ( myArray[i][2] == null && myArray[i][3] == null){continue;}
-         var time = myArray[i][0];
-         var formatted = timeFormat(myArray[i][1]);
-         var os = myArray[i][2];
-         var station = myArray[i][3];
-
-         var cmStation = transStation(station);
-         if (osFull == 1) {
-            var cmOS = 10 ;
-         } else {
-            var cmOS = transOS(os);
-            if (cmOS == 10){ 
-               osCourse = myArray[i][1]; //global variable
-               osFull = 1;
-            }
-         }
-
-         resultArray.push([time, os, station, formatted, cmOS, cmStation]);
+  <div class="container">
+    <h1>Blue Single Helper</h1>
+    
+    <!-- Input Section -->
+    <div class="input-section">
+      <div class="main-block">
+        <div class="main-title">入院紀錄 (Admission Note)</div>
+        <div class="hint">Path: EMR > 住院 > [日期] > 入院紀錄 > [日期]</div>
+        
+        <div class="sub-block">
+          <div class="sub-title">主訴 (Chief Complaint)</div>
+          <textarea id="chiefComplaint" placeholder="Enter chief complaint here..."></textarea>
+        </div>
+        
+        <div class="sub-block">
+          <div class="sub-title">病史 (Patient History)</div>
+          <textarea id="patientHistory" placeholder="Enter patient history here..."></textarea>
+        </div>
+        
+        <div class="sub-block">
+          <div class="sub-title">身體診察 (Physical Examination)</div>
+          <textarea id="physicalExam" placeholder="Enter physical examination details here..."></textarea>
+        </div>
+        
+        <div class="sub-block">
+          <div class="sub-title">檢查紀錄 (Examination Report)</div>
+          <textarea id="examReport" placeholder="Enter examination report here..."></textarea>
+        </div>
+      </div>
+      
+      <div class="main-block">
+        <div class="main-title">病程紀錄 (Progress)</div>
+        <div class="hint">Path: EMR > 住院 > [日期] > 病程紀錄 > [日期]</div>
+        <div class="sub-block">
+          <textarea id="progress" placeholder="Enter Antibiotics Note here..."></textarea>
+        </div>
+      </div>
+      
+      <div class="main-block">
+        <div class="main-title">護理過程紀錄 (Nursing Process)</div>
+        <div class="hint">Path: EMR > 住院 > [日期] > 護理紀錄 > 護理過程記錄</div>
+        <div class="sub-block">
+          <textarea id="nursingProcess" placeholder="Enter nursing process here..."></textarea>
+        </div>
+      </div>
+      
+      <div class="main-block">
+        <div class="main-title">自然分娩處置暨評估紀錄 (NSD evaluation)</div>
+        <div class="hint">Path: EMR > 住院 > [日期] > 自然分娩處置暨評估紀錄</div>
+        <div class="sub-block">
+          <textarea id="nsdEvaluation" placeholder="Enter NSD evaluation here..."></textarea>
+        </div>
+      </div>
+      
+      <button id="submitBtn" class="btn-submit">Submit</button>
+    </div>
+    
+    <!-- Output Section -->
+    <div id="outputSection" class="output-section">
+      <div class="main-title">Organized Medical Data</div>
+      
+      <div class="output-block">
+        <div class="output-title">1. OBS/GYN history</div>
+        <div id="obsGynHistory" class="output-content"></div>
+      </div>
+      
+      <div class="output-block">
+        <div class="output-title">2. Special conditions or complications during this pregnancy course</div>
+        <div id="specialConditions" class="output-content"></div>
+      </div>
+      
+      <div class="output-block">
+        <div class="output-title">3. Systemic disease</div>
+        <div id="systemicDisease" class="output-content"></div>
+      </div>
+      
+      <div class="output-block">
+        <div class="output-title">4. Past major operation</div>
+        <div id="pastOperation" class="output-content"></div>
+      </div>
+      
+      <div class="output-block">
+        <div class="output-title">5. Physical examination and laboratory data</div>
+        <div id="physicalLabData" class="output-content"></div>
+      </div>
+      
+      <div class="output-block">
+        <div class="output-title">6. Pelvic examination</div>
+        <div id="pelvicExam" class="output-content"></div>
+      </div>
+      
+      <div class="output-block">
+        <div class="output-title">7. Sonar finding</div>
+        <div id="sonarFinding" class="output-content"></div>
+      </div>
+      
+      <div class="output-block">
+        <div class="output-title">8. Admission diagnosis</div>
+        <div id="admissionDiagnosis" class="output-content"></div>
+      </div>
+      
+      <div class="output-block">
+        <div class="output-title">9. Labor course</div>
+        <div id="laborCourse" class="output-content"></div>
+      </div>
+      
+      <div class="output-block">
+        <div class="output-title">10. Course of labor</div>
+        <div id="courseOfLabor" class="output-content"></div>
+      </div>
+      
+      <div class="output-block">
+        <div class="output-title">11. Type of delivery</div>
+        <div id="typeOfDelivery" class="output-content"></div>
+      </div>
+      
+      <div class="output-block">
+        <div class="output-title">12. Findings of placenta cord and membrane</div>
+        <div id="placentaFindings" class="output-content"></div>
+      </div>
+      
+      <div class="output-block">
+        <div class="output-title">13. Findings of newborn</div>
+        <div id="newbornFindings" class="output-content"></div>
+      </div>
+      
+      <div class="output-block">
+        <div class="output-title">14. Other finding</div>
+        <div id="otherFindings" class="output-content"></div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    document.getElementById('submitBtn').addEventListener('click', function() {
+      // Extract data from input fields
+      const patientHistoryText = document.getElementById('patientHistory').value;
+      const examReportText = document.getElementById('examReport').value;
+      
+      // Extract OBS/GYN history from patient history
+      let obsGynHistory = "";
+      if (patientHistoryText.includes("8. OBGYN history:") && patientHistoryText.includes("9. Prenatal examination")) {
+        const startIndex = patientHistoryText.indexOf("8. OBGYN history:") + "8. OBGYN history:".length;
+        const endIndex = patientHistoryText.indexOf("9. Prenatal examination");
+        obsGynHistory = patientHistoryText.substring(startIndex, endIndex).trim();
       }
       
-      return resultArray;
-    }
-
-    function extractData(item) {
-        let time = null, course = null, os = null, station = null;
-        let processed = item.toLowerCase().replace(/\~/g, '-');
-
-        // Match time data and calculate clinical course
-        const timeMatched = item.match(/\d\d\/\d\d\s\d\d:\d\d/);
-        if (timeMatched !== null) {
-            time = timeMatched[0];
-            course = timeCourse(time);
-        }
-
-        // Consolidate OS-station regex patterns
-        const stringPatterns = [
-            /([0-5][\+\-]?[^0-9]{0,2})(fb?[\s\,\.，、。]+)([\+\-]?[0-3][\-\/／]?[\+\-]?[0-3]?)([\s\,\.，、。]+)/,
-            /os[^0-9]{0,2}([0-5][\+\-]?)([\s\,\.，、。]+)([\+\-]?[0-3][\-\/／]?[\+\-]?[0-3]?)(.+)/,
-            /os[^0-9]{0,2}([0-5][\+\-]?)([\s\/]+)([\+\-]?[0-3]\-?[\+\-]?[0-3]?)/,
-            /([0-5一二三四五][\+\-]?[^0-9]{0,2})(指半?[\s\,\.，、。]+)([\+\-]?[0-3][\-\/／]?[\+\-]?[0-3]?)([\s\,\.，、。]+)/,
-            /(full)([\s\,\.，、。]+)([\+\-]?[0-3][\-\/／]?[\+\-]?[0-3]?)([\s\,\.，、。]+)/,
-            /(brim)([\s\,\.，、。]+)([\+\-]?[0-3][\-\/／]?[\+\-]?[0-3]?)([\s\,\.，、。]+)/,
-            /(ft)([\s\,\.，、。]+)([\+\-]?[0-3][\-\/／]?[\+\-\/]?[0-3]?)([\s\,\.，、。]+)/,
-            /([0-5][\+\-]?[^0-9]{0,2})(fb?[\s\/]+)([\+\-]?[0-3]\-?[\+\-]?[0-3]?)([\s\/]+)/,
-            
-            /(close)([\s\,\.，、。]+)(high)([\s\,\.，、。]+)/,
-            /([0-5][\+\-]?[^0-9]{0,2})(fb?[\s\,\.，、。]+)(high)([\s\,\.，、。]+)/,
-            /os[^0-9]{0,2}([0-5][\+\-]?)([\s\,\.，、。]+)(high)(.+)/,
-            /os[^0-9]{0,2}([0-5][\+\-]?)([\s\/]+)(high)/,
-            /([0-5][\+\-]?[^0-9]{0,2})(fb?[\s\/]+)(high)([\s\/]+)/,
-            
-            /([0-5一二三四五][\+\-]?[^0-9]{0,2})(指半?[\s\/]+)([\+\-]?[0-3]\-?[\+\-]?[0-3]?)([\s\/]+)/,
-            /(full)([\s\/]+)([\+\-]?[0-3]\-?[\+\-]?[0-3]?)(.+)/,
-            /(brim)([\s\/]+)([\+\-]?[0-3]\-?[\+\-]?[0-3]?)(.+)/,
-            /(ft)([\s\/]+)([\+\-]?[0-3]\-?[\+\-]?[0-3]?)(.+)/,
-        ];
-
-        // Match OS and station from patterns
-        for (const pattern of stringPatterns) {
-            const matched = processed.match(pattern);
-            if (matched !== null) {
-            os = matched[1];
-            station = matched[3];
-            processed = processed.replace(
-                matched[1] + matched[2] + matched[3] + matched[4],
-                '<span style="color:red;">' + matched[1] + '</span>' +
-                matched[2] +
-                '<span style="color:blue;">' + matched[3] + '</span>' +
-                matched[4]
-            );
-            break;
-            }
-        }
-
-        // Match station if not found yet
-        if (station === null) {
-            const stationPatterns = [
-                /station[^0-9\+\-]{0,5}(high)/,
-                /胎位.{0,3}(高)/,
-                /station[^0-9\+\-]{0,2}\s?([\+\-]?[0-3][\-\/／]?[\+\-]?[0-3]?)/,
-                /胎位[^0-9\+\-]{0,5}([\+\-]?[0-3][\-\/／]?[\+\-]?[0-3]?)/,
-                /[^a-z]s:[^0-9\+\-]{0,2}\s?([\+\-]?[0-3][\-\/／]?[\+\-]?[0-3]?)/
-            ];
-
-            for (const pattern of stationPatterns) {
-            const matched = processed.match(pattern);
-                if (matched !== null) {
-                    station = matched[1];
-                    processed = processed.replace(
-                    matched[0],
-                    '<span style="color:blue;">' + matched[0] + '</span>'
-                    );
-                    break;
-                }
-            }
-        }
-
-        // Match cervical os if not found yet
-        if (os === null) {
-            const osPatterns = [
-                /os[^0-9]{0,3}([0-5][\+\-]?).{0,2}fb?/,
-                /os[^0-9]{0,2}([0-5][\+\-]?)/,
-                /子?宮頸?口?[^0-9底]{0,3}([0-5一二三四五][\+\-]?).{0,2}指半?/,
-                /子?宮頸?口?[^0-9底]{0,3}([0-5][\+\-]?).{0,2}fb?/,
-                /頸口.{0,3}([0-5一二三四五][\+\-]?.{0,2})指半?/,
-                /os.{0,3}([0-5一二三四五][\+\-]?.{0,2})指半?/,
-                /os.{0,3}(full)/,
-                /內診.{0,5}(full)/,
-                /內診[^0-9]{0,3}([0-5一二三四五][\+\-]?).{0,2}指半?/,
-                /內診[^0-9]{0,3}([0-5][\+\-]?).{0,2}fb?/,
-                /子?宮頸?口?.{0,3}(full)/,
-                /子?宮頸?口?.{0,3}(ft)/,
-                /子?宮頸?口?(全開)/,
-                /子?宮頸?口?.{0,3}(緊)/,
-                /os.{0,3}(緊)/,
-                /os.{0,3}(close)/,
-                /os.{0,3}(ft)/,
-                /(brim)/
-            ];
-
-            for (const pattern of osPatterns) {
-                const matched = processed.match(pattern);
-                if (matched !== null) {
-                    os = matched[1];
-                    processed = processed.replace(
-                    matched[0],
-                    '<span style="color:red;">' + matched[0] + '</span>'
-                    );
-                    break;
-                }
-            }
-        }
-
-        return [time, course, os, station, processed];
-    }
-
-    function getDelivery(){
-      var startTime = new Date($("#onsetTime").find("input").val());
-      var deliveryString = $("#delivery").find("input").val();
-      var deliveryTime = new Date(deliveryString);
-      deliveryString = deliveryString.substr(5);
-
-      var placentaString = $("#placenta").find("input").val();
-      var placentaTime = new Date(placentaString);
-      placentaCourse = ( placentaTime.getTime()-startTime.getTime() ) / 1000 / 60; //global variable
-
-      var diff = deliveryTime.getTime() - startTime.getTime();
-      deliveryCourse = diff / 1000 / 60; //global variable
-      return [deliveryString,deliveryCourse,'full','+3','出生'];
-    }
-
-    function timeCourse(itemTime){
-      var startTime = new Date($("#onsetTime").find("input").val());
-      var year = startTime.getFullYear();
-      var endTime = new Date(year+'/'+itemTime);
-      if (startTime.getMonth() == 11 && endTime.getMonth() == 0){
-         endTime.setYear(year+1);
+      // Extract gestational age from patient history
+      let gestationalAge = "";
+      const pregnantWeeksRegex = /pregnant for (\d+\+\d+) weeks/;
+      const pregnantMatch = patientHistoryText.match(pregnantWeeksRegex);
+      if (pregnantMatch && pregnantMatch[1]) {
+        gestationalAge = pregnantMatch[1];
       }
-
-      var diff = endTime.getTime() - startTime.getTime();
-      var resultTime = diff / 1000 / 60;
-      return resultTime;
-    }
-
-    function formatTime(minutes, includeDay = false) {
-    const negative = minutes < 0;
-    minutes = Math.abs(minutes);
-    
-    const days = Math.floor(minutes / 1440);
-    const hours = Math.floor((minutes % 1440) / 60);
-    const mins = minutes % 60;
-    
-    const formattedHours = hours < 10 ? "0" + hours : hours;
-    const formattedMins = mins < 10 ? "0" + mins : mins;
-    let formatted = formattedHours + ":" + formattedMins;
-    
-    if (includeDay && days > 0) {
-        formatted = days + "D " + formatted;
-    }
-    
-    return negative ? '- ' + formatted : formatted;
-    }
-
-    function transOS(strOS) {
-        const osMapping = {
-            "1": 2, "2": 4, "3": 6, "4": 8, "5": 10,
-            "1+": 3, "2+": 5, "3+": 7, "4+": 9,
-            "1-": 1, "2-": 3, "3-": 5, "4-": 7,
-            "ft": 1, "close": 0, "緊": 0, "full": 10, "brim": 9.5, "全開": 10,
-            "一指": 2, "一指半": 3, "二指": 4, "二指半": 5, "三指": 6,
-            "三指半": 7, "四指": 8, "四指半": 9, "五指": 10
-        };
+      
+      // Extract Fetus information from examination report
+      let fetusType = "";
+      if (examReportText.includes("Fetus No :")) {
+        const fetusLine = examReportText.substring(
+          examReportText.indexOf("Fetus No :"),
+          examReportText.indexOf("\n", examReportText.indexOf("Fetus No :"))
+        );
         
-        return osMapping[strOS] || strOS;
-    }
-
-    function transStation(strStation){
-        if(strStation == null){
-            return strStation;
+        const fetusMatch = fetusLine.match(/Fetus No\s*:\s*(\S+)/);
+        if (fetusMatch && fetusMatch[1]) {
+          const fetusValue = fetusMatch[1].trim();
+          
+          // Determine fetus type based on value
+          switch(fetusValue) {
+            case "1":
+              fetusType = "singleton";
+              break;
+            case "2":
+              fetusType = "twins";
+              break;
+            case "3":
+              fetusType = "triplets";
+              break;
+            case "DCDA":
+              fetusType = "DCDA twins";
+              break;
+            case "MCDA":
+              fetusType = "MCDA twins";
+              break;
+            case "MCMA":
+              fetusType = "MCMA twins";
+              break;
+            default:
+              fetusType = fetusValue; // For any other value, just use as is
+          }
         }
-        strStation = strStation.replace(/／/g,'/');
-        strStation = strStation.replace(/\+/g,'');
-        const stationMapping = {
-            "-3": -3, "-2": -2, "-1": -1, "0": 0, "1": 1, "2": 2, "3": 3,
-            "high": -3, "高": -3, "-3--2": -2.5, "-2--1": -1.5, "-1-0": -0.5,
-            "0-1": 0.5, "1-2": 1.5, "2-3": 2.5,
-            "-3/-2": -2.5, "-2/-1": -1.5, "-1/0": -0.5,
-            "0/1": 0.5, "1/2": 1.5, "2/3": 2.5, 
-        };
-        return stationMapping[strStation] || strStation;
-    }
-
-    function writeTable(myArray, myTable) {
-        const table = document.getElementById(myTable);
-        table.innerHTML = '';
-        
-        const fragment = document.createDocumentFragment();
-        
-        myArray.forEach(row => {
-            const tr = document.createElement('tr');
-            
-            row.forEach(cell => {
-            const td = document.createElement('td');
-            td.innerHTML = cell;
-            tr.appendChild(td);
-            });
-            
-            fragment.appendChild(tr);
-        });
-        
-        table.appendChild(fragment);
-        }
-
-    function drawPartogram(resultArray) {
-    // Get canvas and context
-    const canvas = document.getElementById('partogramCanvas');
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Set dimensions
-    const margin = { top: 40, right: 60, bottom: 40, left: 60 };
-    const width = canvas.width - margin.left - margin.right;
-    const height = canvas.height - margin.top - margin.bottom;
-
-    // Parse data from resultArray
-    const data = [];
-    for (let i = 0; i < resultArray.length; i++) {
-    // Skip rows with null values for OS or Station
-    if (resultArray[i][4] === null && resultArray[i][5] === null) continue;
-
-    // Parse time (hh:mm format)
-    const timeStr = resultArray[i][3];
-    let hours = 0;
-
-    if (timeStr.includes('D')) {
-      const parts = timeStr.split('D ');
-      const days = parseInt(parts[0].trim(), 10);
-      const timeParts = parts[1].split(':');
-      hours = days * 24 + parseInt(timeParts[0], 10) + parseInt(timeParts[1], 10) / 60;
-    } else {
-      const timeParts = timeStr.split(':');
-      hours = parseInt(timeParts[0], 10) + parseInt(timeParts[1], 10) / 60;
-    }
-
-    data.push({
-      hour: hours,
-      os: parseFloat(resultArray[i][4]),
-      station: parseFloat(resultArray[i][5])
+      }
+      
+      // Combine the information
+      let finalObsGynHistory = obsGynHistory;
+      
+      // Add gestational age if found
+      if (gestationalAge) {
+        finalObsGynHistory += "\nGestational age: " + gestationalAge + " weeks";
+      }
+      
+      // Add fetus type if found
+      if (fetusType) {
+        finalObsGynHistory += "\n" + fetusType;
+      }
+      
+      // Set the extracted data to the output fields
+      document.getElementById('obsGynHistory').textContent = finalObsGynHistory;
+      
+      // Show the output section
+      document.getElementById('outputSection').style.display = 'block';
+      
+      // Scroll to the output section
+      document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
     });
+    
+    // Example data for testing - Patient History
+    const examplePatientHistory = `【Present Illness】
+This 29-year-old, gravida-1 para-0 woman is pregnant for 38+5 weeks. She received
+regular prenatal examination at Dr.Lee's outpatient clinic.
+NIPT revealed low risk for Down syndrome. Amniocentesis was not performed. Level II
+sonography did show an echogenic spot at heart, stable under follow up.
+Her blood pressure remained in the normal range during this gestation. OGTT test showed
+negative for gestation diabetes. Group B streptococcus test revealed negative for
+colonization. The pregnancy course was uneventful throughout the gestation. Neither
+major anomaly of the fetus nor medical complications of the mother was found in the
+serial follow-ups at our clinic.
+Due to no labor signs, she was admitted for induction of labor.
+【Past History】
+1. Major systemic diseases: denied.
+2. Current medication: denied.
+ NTUH:Nil
+ Other:Nil
+ 中草藥:Nil
+ 保健食品:Nil
+3. Social history: smoking/alcohol/betel nut: denied.
+4. Allergy: no known allergy.
+ Adverse drug reactions: denied.
+5. Operation history: denied.
+6. Family history: diabetes mellitus(-), hypertension(-), preterm birth(-), others: no
+major congenital malformation.
+7. TOCC history: denied recent traveling, denied cluster or contact history.
+8. OBGYN history:
+G1P0, previous pregnant history: nil.
+Menarche: 12 years old, menstrual cycle interval/duration: 28/5 days, last menstrual
+period: 20240704, estimated date of confinement: 20250410.
+9. Prenatal examination:
+- Hypertension(-)
+- Proteinuria(-)
+- Gestational diabetes mellitus(-)
+- Hepatitis B screening (HbsAg/HbeAg): -/-
+- Result of group B streptococcus test: negative
+Other prenatal exam finding:
+- Level II sonography: an echogenic spot at heart, stable under follow up
+- Amniocentesis: not performed
+- aCGH: not performed: not performed
+- SMA genetic testing: 1:3, (+); 配偶(盧冠勳A127497357): (-)
+- Fragile X genetic testing: not performed
+Vaccination during pregnancy: Tdap (Tetanus Toxoid, Reduced Diphtheria Toxoid, Acellular
+Pertussis Vaccine)`;
+
+    // Example data for testing - Examination Report
+    const exampleExamReport = `檢查紀錄(Examination Report)
+一般產科檢查報告 (婦產部)
+ 病患姓名 : 鄭郁璇 病歷號碼 : 6496259 病床號碼 : 09PW0501
+ 年齡 :30 性別 : F
+ 檢查日期 : 20250401 檢查項目 : 19003CYC
+LMP : 20240704 G : 1 P : 0 EDC : 20250410 GW1(LMP) : 38.7 wk
+Fetus No : 1 Presentation : vertex FHB : + Gender : M
+ CRL : cm
+ GS diameter : X mm
+ BPD : 90.0 mm 36.5 wk ( <2 %) ↓
+ OFD : 110.5 mm
+ ↓
+ BPDa : 88.7 mm 35.9 wk ( <2 %)
+ AC : 319 mm 37.2 wk ( 29 %) ↓
+ HC : 314.9 mm 35.7 wk
+ FL : 70.5 mm 40.5 wk ( 75 %) ↓
+ EBW : 2801.8 Gram GW2(US) =37.1 wk Location :
+ AFI : 49.3 + 22.0 + 12.0 + 49.3 = 132.6 mm
+Placenta location :left lateral wall grade : Ⅱ
+Uterus & adnexa : UmA S/D 2.22
+Level I Impression :
+ Pregnancy for 36 weeks, AGA.
+ 檢查者 : / 張威仁住院醫師 / 李建南主治醫師`;
+    
+    // Function to fill in example data
+    function fillExampleData() {
+      document.getElementById('patientHistory').value = examplePatientHistory;
+      document.getElementById('examReport').value = exampleExamReport;
     }
-
-    // Sort by hour
-    data.sort((a, b) => a.hour - b.hour);
-
-    // Determine if we need multiple partograms (for labor > 24h)
-    const maxHours = Math.ceil(data[data.length - 1].hour);
-    const daysNeeded = Math.ceil(maxHours / 24);
-
-    // Draw first partogram (Day 1)
-    drawSinglePartogram(canvas, ctx, data, 0, 24, 1);
-
-    // Create additional canvases for Day 2, 3, etc. if needed
-    const additionalContainer = document.getElementById('additionalPartograms');
-    additionalContainer.innerHTML = '';
-
-    for (let day = 2; day <= daysNeeded; day++) {
-    const newCanvas = document.createElement('canvas');
-    newCanvas.id = 'partogramCanvas' + day;
-    newCanvas.width = 800;
-    newCanvas.height = 500;
-    newCanvas.style.backgroundColor = '#fff';
-    newCanvas.style.border = '1px solid #ddd';
-    newCanvas.style.marginTop = '20px';
-
-    additionalContainer.appendChild(newCanvas);
-
-    const newCtx = newCanvas.getContext('2d');
-    drawSinglePartogram(newCanvas, newCtx, data, (day-1)*24, day*24, day);
-    }
-    }
-
-    function drawSinglePartogram(canvas, ctx, data, startHour, endHour, day) {
-    const margin = { top: 40, right: 60, bottom: 40, left: 60 };
-    const width = canvas.width - margin.left - margin.right;
-    const height = canvas.height - margin.top - margin.bottom;
-
-    // Filter data for this day's range
-    const dayData = data.filter(d => d.hour >= startHour && d.hour <= endHour);
-
-    // Set up scales
-    const hourScale = width / 24;
-    const osScale = height / 10;  // OS goes from 0-10
-    const stationScale = height / 6;  // Station goes from -3 to +3
-
-    // Draw grid
-    ctx.strokeStyle = '#ccc';
-    ctx.lineWidth = 0.5;
-
-    // Draw title
-    ctx.fillStyle = '#000';
-    ctx.font = '16px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText('Day ' + day + ' Partogram', canvas.width / 2, 20);
-
-    // Draw axes
-    ctx.beginPath();
-    ctx.moveTo(margin.left, margin.top);
-    ctx.lineTo(margin.left, margin.top + height);
-    ctx.lineTo(margin.left + width, margin.top + height);
-    ctx.stroke();
-
-    // Draw vertical grid lines (hourly)
-    for (let i = 0; i <= 24; i++) {
-    const x = margin.left + i * hourScale;
-    ctx.beginPath();
-    ctx.moveTo(x, margin.top);
-    ctx.lineTo(x, margin.top + height);
-    ctx.stroke();
-
-    // Hour labels
-    ctx.fillStyle = '#000';
-    ctx.font = '12px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText(i, x, margin.top + height + 15);
-    }
-
-    // Draw horizontal grid lines (OS - left axis)
-    for (let i = 0; i <= 10; i++) {
-    const y = margin.top + height - i * osScale;
-    ctx.beginPath();
-    ctx.moveTo(margin.left, y);
-    ctx.lineTo(margin.left + width, y);
-    ctx.stroke();
-
-    // OS labels
-    ctx.fillStyle = '#000';
-    ctx.font = '12px Arial';
-    ctx.textAlign = 'right';
-    ctx.fillText(i, margin.left - 10, y + 4);
-    }
-
-    // Draw Station scale (right axis)
-    for (let i = -3; i <= 3; i++) {
-    const y = margin.top + height/2 - i * stationScale/2;
-
-    // Station labels
-    ctx.fillStyle = '#000';
-    ctx.font = '12px Arial';
-    ctx.textAlign = 'left';
-    ctx.fillText(i, margin.left + width + 10, y + 4);
-    }
-
-    // Draw axis labels
-    ctx.font = '14px Arial';
-    // X-axis
-    ctx.textAlign = 'center';
-    ctx.fillText('Hour', margin.left + width/2, margin.top + height + 30);
-
-    // Left Y-axis (OS)
-    ctx.save();
-    ctx.translate(margin.left - 30, margin.top + height/2);
-    ctx.rotate(-Math.PI/2);
-    ctx.textAlign = 'center';
-    ctx.fillText('Cervical dilation (cm)', 0, 0);
-    ctx.restore();
-
-    // Right Y-axis (Station)
-    ctx.save();
-    ctx.translate(margin.left + width + 40, margin.top + height/2);
-    ctx.rotate(-Math.PI/2);
-    ctx.textAlign = 'center';
-    ctx.fillText('Station', 0, 0);
-    ctx.restore();
-
-    // Plot OS data (red line)
-    if (dayData.length > 0) {
-    ctx.beginPath();
-    ctx.strokeStyle = 'red';
-    ctx.lineWidth = 2;
-
-    let firstPoint = true;
-    for (const point of dayData) {
-      if (point.os !== null) {
-        const x = margin.left + (point.hour - startHour) * hourScale;
-        const y = margin.top + height - point.os * osScale;
-        
-        if (firstPoint) {
-          ctx.moveTo(x, y);
-          firstPoint = false;
-        } else {
-          ctx.lineTo(x, y);
-        }
-      }
-    }
-    ctx.stroke();
-
-    // Add dots for each data point
-    for (const point of dayData) {
-      if (point.os !== null) {
-        const x = margin.left + (point.hour - startHour) * hourScale;
-        const y = margin.top + height - point.os * osScale;
-        
-        ctx.beginPath();
-        ctx.arc(x, y, 4, 0, 2 * Math.PI);
-        ctx.fillStyle = 'red';
-        ctx.fill();
-      }
-    }
-    }
-
-    // Plot Station data (blue line)
-    if (dayData.length > 0) {
-    ctx.beginPath();
-    ctx.strokeStyle = 'blue';
-    ctx.lineWidth = 2;
-
-    let firstPoint = true;
-    for (const point of dayData) {
-      if (point.station !== null) {
-        const x = margin.left + (point.hour - startHour) * hourScale;
-        const y = margin.top + height/2 - point.station * stationScale/2;
-        
-        if (firstPoint) {
-          ctx.moveTo(x, y);
-          firstPoint = false;
-        } else {
-          ctx.lineTo(x, y);
-        }
-      }
-    }
-    ctx.stroke();
-
-    // Add dots for each data point
-    for (const point of dayData) {
-      if (point.station !== null) {
-        const x = margin.left + (point.hour - startHour) * hourScale;
-        const y = margin.top + height/2 - point.station * stationScale/2;
-        
-        ctx.beginPath();
-        ctx.arc(x, y, 4, 0, 2 * Math.PI);
-        ctx.fillStyle = 'blue';
-        ctx.fill();
-      }
-    }
-    }
-    }
-
-    </script>
-    <div class="container">
-        <h2>藍單中幫手</h2>
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                Labor Course Data <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class='col-sm-4'>
-                        <div class="form-group">
-                            <label class="control-label">Onset of true labor</label>
-                            <div class='input-group date' id='onsetTime'>
-                                <input class="form-control" type='text'> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class='col-sm-4'>
-                        <div class="form-group">
-                            <label class="control-label">Delivery time</label>
-                            <div class='input-group date' id='delivery'>
-                                <input class="form-control" type='text'> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label class="control-label">Placenta expulsion</label>
-                            <div class='input-group date' id='placenta'>
-                                <input class="form-control" type='text'> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label class="control-label">Nursing records&nbsp; <a class="help" data-content='紀錄會以位於行首且格式為"MM/DD mm:ss"的時間分割' data-placement="right" data-toggle="popover"><span class="glyphicon glyphicon-question-sign" style="color:grey"></span></a></label> 
-                            <textarea class="form-control" id='record' placeholder="01/01 00:00 產程進展評估 評估/措施： On fetal monitor 。胎心跳：140次/分，宮縮強度：中，宮縮間隔時間：3分，持續時間：30秒，協助陰道內診。&#10;評值/結果： station：+2。側躺用力中。&#10; OOO 查&#10;01/01 03:33 宮縮及胎心音評估 評估/措施： On fetal monitor。胎心跳：137次/分，宮縮強度：中弱，宮縮間隔時間：3分，持續時間：30秒。&#10;評值/結果： 教導側躺用力尚可配合。&#10; OOO 查" style="height:150px;"></textarea>
-                        </div>
-                    </div>
-                </div><input class="btn btn-primary" onclick="processData()" type="button" value="Submit">
-            </div>
-        </div>
-        <div class="collapse" id="result">
-            <ul class="nav nav-tabs">
-                <li class="active">
-                    <a data-toggle="tab" href="#resultTab">Result summary</a>
-                </li>
-                <li>
-                    <a data-toggle="tab" href="#convertTab">Conversion table</a>
-                </li>
-                <li>
-                    <a data-toggle="tab" href="#partograph">Partogram</a>
-                </li>
-            </ul>
-            <div class="tab-content" style="padding-bottom:20px">
-                <div class="tab-pane fade in active" id="resultTab">
-                    <div class="row" id="timePanel" style="text-align: center">
-                        <div class="col-xs-6 col-md-3" style="padding-top:10px">
-                            <span class="badge badge-light">第一產程：<span id="osCourse"></span></span>
-                        </div>
-                        <div class="col-xs-6 col-md-3" style="padding-top:10px">
-                            <span class="badge badge-light">第二產程：<span id="deliveryCourse"></span></span>
-                        </div>
-                        <div class="col-xs-6 col-md-3" style="padding-top:10px">
-                            <span class="badge badge-light">第三產程：<span id="placentaCourse"></span></span>
-                        </div>
-                        <div class="col-xs-6 col-md-3" style="padding-top:10px">
-                            <span class="badge badge-light">總時長：<span id="totalCourse"></span></span>
-                        </div>
-                    </div>
-                    <table class="table table-hover layout-fixed" style="table-layout: fixed; padding-top:20px">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">時間</th>
-                                <th scope="col">OS</th>
-                                <th scope="col">Station</th>
-                                <th scope="col">經時</th>
-                                <th scope="col">OS (cm)</th>
-                                <th scope="col">Station (cm)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="resultTable"></tbody>
-                    </table>
-                </div>
-                <div class="tab-pane fade" id="convertTab">
-                    <table class="table table-hover">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">時間</th>
-                                <th scope="col">分鐘</th>
-                                <th scope="col">OS</th>
-                                <th scope="col">Station</th>
-                                <th scope="col">紀錄</th>
-                            </tr>
-                        </thead>
-                        <tbody id="conversionTable"></tbody>
-                    </table>
-                </div>
-                <div class="tab-pane fade" id="partograph">
-                    <div class="partogram-container">
-                        <canvas height="500" id="partogramCanvas" width="800">
-                            Oops, your browser doesn't support this function. We suggest you to use Chrome.
-                        </canvas>
-                    </div>
-                    <div id="additionalPartograms"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
+    // Uncomment the line below if you want to auto-fill example data when page loads
+    fillExampleData();
+  </script>
 </body>
 </html>
