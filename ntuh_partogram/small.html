@@ -154,14 +154,14 @@
       var time = null, course = null, os = null, station = null;
       var processed = item.toLowerCase().replace(/\~/g,'-');
 
-      //Match time data and caculate clinical course
+      // Match time data and calculate clinical course
       var timeMatched = item.match(/\d\d\/\d\d\s\d\d:\d\d/);
       if ( timeMatched !== null){
          time = timeMatched[0];
          course = timeCourse(time);
       } 
 
-      //Match station and os in a string
+      // Match station and os in a string
       var stringRegs = [
          "([0-5][\+\-]?[^0-9]{0,2})(fb?[\s\,\.，、。]+)([\+\-]?[0-3][\-\/／]?[\+\-]?[0-3]?)([\s\,\.，、。]+)",
          "os[^0-9]{0,2}([0-5][\+\-]?)([\s\,\.，、。]+)([\+\-]?[0-3][\-\/／]?[\+\-]?[0-3]?)(.+)",
@@ -448,7 +448,7 @@
          <div class="row">
             <div class="col-sm-12">
                <div class="form-group">
-                  <label class="control-label">Nusing records&nbsp; <a class="help" data-toggle="popover" data-content='紀錄會以位於行首且格式為"MM/DD mm:ss"的時間分割' data-placement="right"><span class="glyphicon glyphicon-question-sign" style="color:grey"></span></a></label>
+                  <label class="control-label">Nursing records&nbsp; <a class="help" data-toggle="popover" data-content='紀錄會以位於行首且格式為"MM/DD mm:ss"的時間分割' data-placement="right"><span class="glyphicon glyphicon-question-sign" style="color:grey"></span></a></label>
                   <textarea class="form-control" id='record' style="height:150px;" placeholder="01/01 00:00 產程進展評估   評估/措施：   On fetal monitor 。胎心跳：140次/分，宮縮強度：中，宮縮間隔時間：3分，持續時間：30秒，協助陰道內診。&#10;評值/結果：  station：+2。側躺用力中。&#10;  OOO   查&#10;01/01 03:33 宮縮及胎心音評估 評估/措施：   On fetal monitor。胎心跳：137次/分，宮縮強度：中弱，宮縮間隔時間：3分，持續時間：30秒。&#10;評值/結果：   教導側躺用力尚可配合。&#10;  OOO   查"></textarea>
                </div>
             </div>

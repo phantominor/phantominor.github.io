@@ -87,6 +87,64 @@
       color: #551A8B;
       border-bottom-color: #551A8B;
     }
+    /* Add these styles to your existing CSS */
+    .labor-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      font-size: 14px;
+    }
+
+    .labor-table tr {
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .labor-table tr:last-child {
+      border-bottom: none;
+    }
+
+    .labor-table td {
+      padding: 12px 15px;
+      text-align: left;
+      border-right: 1px solid #e0e0e0;
+    }
+
+    .labor-table td:last-child {
+      border-right: none;
+    }
+
+    /* Style for the first column (labels) */
+    .labor-table .label-cell {
+      background-color: #e6f0fa;
+      font-weight: bold;
+      width: 25%;
+    }
+
+    /* Style for the stage cells (first 3 rows of third column) */
+    .labor-table .stage-cell {
+      background-color: #f0f7ed;
+      font-weight: bold;
+      width: 25%;
+    }
+
+    /* Style for the total cell (last row of third column) */
+    .labor-table .total-cell {
+      background-color: #fcf5e6;
+      font-weight: bold;
+      width: 25%;
+    }
+
+    /* Add a subtle hover effect */
+    .labor-table tr:hover {
+      background-color: #f9f9f9;
+    }
+
+    /* Ensure the cells with data values stand out */
+    .labor-table td:nth-child(2),
+    .labor-table td:nth-child(4) {
+      font-family: 'Courier New', monospace;
+    }
     .btn-submit {
       background-color: #0066cc;
       color: white;
@@ -546,6 +604,306 @@
         }
       }
 
+      // ===== OUTPUT block 9: Labor course =====
+      // Parse the text into entries by date/time
+      const entries = parseNursingProcess(nursingProcessText);
+      
+      // Extract OS and Station data
+      const osStationData = extractOsStationData(entries);
+      
+      // Convert the data to standardized format
+      const convertedData = convertOsStationData(osStationData);
+      
+      // Create and display the table
+      displayLaborCourseTable(convertedData);
+
+      // Function to parse the nursing process text into entries
+      function parseNursingProcess(text) {
+        // Split by date pattern (YYYY/MM/DD HH:MM)
+        const datePattern = /\d{4}\/\d{2}\/\d{2}\s\d{2}:\d{2}/g;
+        const dates = text.match(datePattern) || [];
+        
+        const entries = [];
+        
+        // Extract each entry
+        for (let i = 0; i < dates.length; i++) {
+          const currentDate = dates[i];
+          const nextDate = dates[i + 1] || "";
+          
+          // Extract the content between current date and next date
+          let content = "";
+          if (nextDate) {
+            const currentIndex = text.indexOf(currentDate);
+            const nextIndex = text.indexOf(nextDate);
+            content = text.substring(currentIndex, nextIndex).trim();
+          } else {
+            const currentIndex = text.indexOf(currentDate);
+            content = text.substring(currentIndex).trim();
+          }
+          
+          entries.push({
+            datetime: currentDate,
+            content: content
+          });
+        }
+        
+        return entries;
+      }
+
+      // Function to extract OS and Station data from entries
+      function extractOsStationData(entries) {
+        const osStationData = [];
+        
+        for (const entry of entries) {
+          // Check if entry contains OS or os
+          const osMatch = entry.content.match(/(?:os|OS)[:：]([^,，。、/]+)/i);
+          
+          if (osMatch) {
+            const osValue = osMatch[1].trim();
+            let stationValue = "";
+            
+            // Look for station specifically
+            const stationMatch = entry.content.match(/station[:：]([^,，。、/]+)/i);
+            
+            if (stationMatch) {
+              stationValue = stationMatch[1].trim();
+            } else {
+              // If no station explicitly found, try to find it by position after OS
+              const osPosition = entry.content.indexOf(osMatch[0]) + osMatch[0].length;
+              
+              // Extract text after OS value until next delimiter
+              const afterOsText = entry.content.substring(osPosition);
+              
+              // Check if there are delimiter characters after OS value
+              const nextDelimiterMatch = afterOsText.match(/[,，。、/]/);
+              
+              if (nextDelimiterMatch) {
+                const restOfText = afterOsText.substring(nextDelimiterMatch.index + 1).trim();
+                
+                // Try to extract station value after first delimiter
+                const possibleStationMatch = restOfText.match(/^([^,，。、/]+)/);
+                
+                if (possibleStationMatch && (
+                    possibleStationMatch[1].includes('-') || 
+                    possibleStationMatch[1].includes('+') || 
+                    possibleStationMatch[1].includes('~') ||
+                    possibleStationMatch[1].match(/^\d/) ||
+                    possibleStationMatch[1].includes('high')
+                )) {
+                  stationValue = possibleStationMatch[1].trim();
+                }
+              }
+            }
+            
+            osStationData.push({
+              datetime: entry.datetime,
+              os: osValue,
+              station: stationValue
+            });
+          }
+        }
+        
+        return osStationData;
+      }
+
+      // Function to convert OS and Station data according to rules
+      function convertOsStationData(osStationData) {
+        const convertedData = [];
+        
+        for (const data of osStationData) {
+          const convertedOs = convertOs(data.os);
+          const convertedStation = convertStation(data.station);
+          
+          convertedData.push({
+            datetime: data.datetime,
+            originalOs: data.os,
+            originalStation: data.station,
+            os: convertedOs,
+            station: convertedStation
+          });
+        }
+        
+        return convertedData;
+      }
+
+      // Function to convert OS values
+      function convertOs(osValue) {
+        // Normalize OS value: lowercase and remove Fb or other suffix
+        const normalized = osValue.toLowerCase().trim();
+        
+        // Extract the numeric part if it exists
+        const numericMatch = normalized.match(/^(\d+)(\+|-)?/);
+        const numericPart = numericMatch ? numericMatch[1] : null;
+        const modifier = numericMatch && numericMatch[2] ? numericMatch[2] : "";
+        
+        // Check for numeric values first (with modifiers)
+        if (numericPart) {
+          if (modifier === "+") {
+            if (numericPart === "1") return "3";
+            if (numericPart === "2") return "5";
+            if (numericPart === "3") return "7";
+            if (numericPart === "4") return "9";
+          } else if (modifier === "-") {
+            if (numericPart === "1") return "1";
+            if (numericPart === "2") return "3";
+            if (numericPart === "3") return "5";
+            if (numericPart === "4") return "7";
+          } else {
+            // No modifier, just the number
+            if (numericPart === "1") return "2";
+            if (numericPart === "2") return "4";
+            if (numericPart === "3") return "6";
+            if (numericPart === "4") return "8";
+            if (numericPart === "5") return "10";
+          }
+        }
+        
+        // Continue with other checks for non-numeric values
+        if (normalized.includes("ft")) return "1";
+        if (normalized.includes("close")) return "0";
+        if (normalized.includes("緊")) return "0";
+        if (normalized.includes("full")) return "10";
+        if (normalized.includes("brim")) return "9.5";
+        if (normalized.includes("全開")) return "10";
+        if (normalized.includes("一指")) return normalized.includes("半") ? "3" : "2";
+        if (normalized.includes("二指")) return normalized.includes("半") ? "5" : "4";
+        if (normalized.includes("三指")) return normalized.includes("半") ? "7" : "6";
+        if (normalized.includes("四指")) return normalized.includes("半") ? "9" : "8";
+        if (normalized.includes("五指")) return "10";
+        
+        // Default return the original
+        return osValue;
+      }
+
+      // Function to convert Station values
+      function convertStation(stationValue) {
+        if (!stationValue) return "";
+        
+        // Normalize station value
+        const normalized = stationValue.toLowerCase().trim();
+        
+        // Basic station values
+        if (normalized === "-3") return "-3";
+        if (normalized === "-2") return "-2";
+        if (normalized === "-1") return "-1";
+        if (normalized === "0") return "0";
+        if (normalized === "1") return "1";
+        if (normalized === "2") return "2";
+        if (normalized === "3") return "3";
+        if (normalized === "high") return "-3";
+        if (normalized === "高") return "-3";
+        
+        // Handle ranges with different separators
+        const rangePatterns = [
+          { pattern: /(-?\d+)-(-?\d+)/, value: (m) => (parseFloat(m[1]) + parseFloat(m[2])) / 2 },
+          { pattern: /(-?\d+)~(-?\d+)/, value: (m) => (parseFloat(m[1]) + parseFloat(m[2])) / 2 },
+          { pattern: /(-?\d+)\/(-?\d+)/, value: (m) => (parseFloat(m[1]) + parseFloat(m[2])) / 2 },
+          { pattern: /\+(\d+)~\+(\d+)/, value: (m) => (parseFloat(m[1]) + parseFloat(m[2])) / 2 }
+        ];
+        
+        for (const { pattern, value } of rangePatterns) {
+          const match = normalized.match(pattern);
+          if (match) {
+            return value(match).toString();
+          }
+        }
+        
+        // Special cases for +number
+        if (normalized.match(/\+\d+/)) {
+          return normalized.replace('+', '');
+        }
+        
+        // Default return the original
+        return stationValue;
+      }
+
+      // Function to display the labor course table
+      function displayLaborCourseTable(data) {
+        const outputDiv = document.getElementById('laborCourse');
+        
+        if (data.length === 0) {
+          outputDiv.innerHTML = "No OS or Station data found in the nursing process.";
+          return;
+        }
+        
+        // Create table HTML
+        let tableHTML = `
+        <table class="conversion-table">
+          <thead>
+            <tr>
+              <th>Date & Time</th>
+              <th>Original OS</th>
+              <th>Converted OS</th>
+              <th>Original Station</th>
+              <th>Converted Station</th>
+            </tr>
+          </thead>
+          <tbody>
+        `;
+        
+        // Add rows for each data point
+        for (const item of data) {
+          tableHTML += `
+            <tr>
+              <td>${item.datetime}</td>
+              <td>${item.originalOs}</td>
+              <td>${item.os}</td>
+              <td>${item.originalStation}</td>
+              <td>${item.station}</td>
+            </tr>
+          `;
+        }
+        
+        tableHTML += `
+          </tbody>
+        </table>
+        `;
+        
+        // Add table styles
+        const tableStyle = `
+        <style>
+          .conversion-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          }
+          
+          .conversion-table th, .conversion-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+          }
+          
+          .conversion-table th {
+            background-color: #0066cc;
+            color: white;
+            font-weight: bold;
+          }
+          
+          .conversion-table tr:nth-child(even) {
+            background-color: #f2f6fc;
+          }
+          
+          .conversion-table tr:hover {
+            background-color: #e6f0ff;
+          }
+          
+          .conversion-table tr:last-child td {
+            border-bottom: 2px solid #0066cc;
+          }
+        </style>
+        `;
+        
+        // Set the HTML content
+        outputDiv.innerHTML = tableStyle + tableHTML;
+        
+        // Make sure the output section is visible
+        document.querySelector('.output-section').style.display = 'block';
+      }
+      
+      // ===== OUTPUT block 10: Course of labor =====
       // Extract Course of Labor times
       let onsetOfLabor = "";
       let fullOsTime = "";
@@ -642,16 +1000,81 @@
         return `${String(duration.hours).padStart(2, '0')}hr ${String(duration.minutes).padStart(2, '0')}min`;
       }
 
-      // Create the course of labor output string
-      const courseOfLaborOutput = `Onset of Labor：${onsetOfLabor}
-      Time of Full Os：${fullOsTime}
-      Delivery time：${deliveryTime}
-      Placenta delivery time：${placentaDeliveryTime}
+      // Create the course of labor output as a table
+      const courseOfLaborTable = document.createElement('table');
+      courseOfLaborTable.className = 'labor-table';
 
-      First stage：${formatDuration(firstStageDuration)}
-      Second stage：${formatDuration(secondStageDuration)}
-      Third stage：${formatDuration(thirdStageDuration)}
-      Total duration of labor：${String(adjustedTotalHours).padStart(2, '0')}hr ${String(adjustedTotalMinutes).padStart(2, '0')}min`;
+      // Row 1: Onset of Labor + First stage
+      const row1 = document.createElement('tr');
+      const cell1_1 = document.createElement('td');
+      cell1_1.className = 'label-cell';
+      cell1_1.textContent = 'Onset of Labor';
+      const cell1_2 = document.createElement('td');
+      cell1_2.textContent = onsetOfLabor;
+      const cell1_3 = document.createElement('td');
+      cell1_3.className = 'stage-cell';
+      cell1_3.textContent = 'First stage';
+      const cell1_4 = document.createElement('td');
+      cell1_4.textContent = formatDuration(firstStageDuration);
+      row1.appendChild(cell1_1);
+      row1.appendChild(cell1_2);
+      row1.appendChild(cell1_3);
+      row1.appendChild(cell1_4);
+      courseOfLaborTable.appendChild(row1);
+
+      // Row 2: Time of Full Os + Second stage
+      const row2 = document.createElement('tr');
+      const cell2_1 = document.createElement('td');
+      cell2_1.className = 'label-cell';
+      cell2_1.textContent = 'Time of Full Os';
+      const cell2_2 = document.createElement('td');
+      cell2_2.textContent = fullOsTime;
+      const cell2_3 = document.createElement('td');
+      cell2_3.className = 'stage-cell';
+      cell2_3.textContent = 'Second stage';
+      const cell2_4 = document.createElement('td');
+      cell2_4.textContent = formatDuration(secondStageDuration);
+      row2.appendChild(cell2_1);
+      row2.appendChild(cell2_2);
+      row2.appendChild(cell2_3);
+      row2.appendChild(cell2_4);
+      courseOfLaborTable.appendChild(row2);
+
+      // Row 3: Delivery time + Third stage
+      const row3 = document.createElement('tr');
+      const cell3_1 = document.createElement('td');
+      cell3_1.className = 'label-cell';
+      cell3_1.textContent = 'Delivery time';
+      const cell3_2 = document.createElement('td');
+      cell3_2.textContent = deliveryTime;
+      const cell3_3 = document.createElement('td');
+      cell3_3.className = 'stage-cell';
+      cell3_3.textContent = 'Third stage';
+      const cell3_4 = document.createElement('td');
+      cell3_4.textContent = formatDuration(thirdStageDuration);
+      row3.appendChild(cell3_1);
+      row3.appendChild(cell3_2);
+      row3.appendChild(cell3_3);
+      row3.appendChild(cell3_4);
+      courseOfLaborTable.appendChild(row3);
+
+      // Row 4: Placenta delivery time + Total duration of labor
+      const row4 = document.createElement('tr');
+      const cell4_1 = document.createElement('td');
+      cell4_1.className = 'label-cell';
+      cell4_1.textContent = 'Placenta delivery time';
+      const cell4_2 = document.createElement('td');
+      cell4_2.textContent = placentaDeliveryTime;
+      const cell4_3 = document.createElement('td');
+      cell4_3.className = 'total-cell';
+      cell4_3.textContent = 'Total duration of labor';
+      const cell4_4 = document.createElement('td');
+      cell4_4.textContent = `${String(adjustedTotalHours).padStart(2, '0')}hr ${String(adjustedTotalMinutes).padStart(2, '0')}min`;
+      row4.appendChild(cell4_1);
+      row4.appendChild(cell4_2);
+      row4.appendChild(cell4_3);
+      row4.appendChild(cell4_4);
+      courseOfLaborTable.appendChild(row4);
 
       // Set the extracted data to the output fields
       document.getElementById('obsGynHistory').textContent = finalObsGynHistory;
@@ -660,7 +1083,10 @@
       document.getElementById('physicalLabData').textContent = physicalExamData;
       document.getElementById('pelvicExam').textContent = pelvicExamData;
       document.getElementById('sonarFinding').textContent = sonarFindings;
-      document.getElementById('courseOfLabor').textContent = courseOfLaborOutput;
+      // Clear any existing content and append the table
+      const courseOfLaborElement = document.getElementById('courseOfLabor');
+      courseOfLaborElement.innerHTML = '';
+      courseOfLaborElement.appendChild(courseOfLaborTable);
 
       // Show and scroll to the output section
       document.getElementById('outputSection').style.display = 'block';
