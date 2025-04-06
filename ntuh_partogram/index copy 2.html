@@ -293,7 +293,7 @@
         <div class="output-title">8. Admission diagnosis</div>
         <div class="remark">
           <p>Please refer to the "Tentative diagnosis" section in the admission note yourself.</p>
-          <p>It would be idiotic if you copy this yourself and see the output results exactly the same...</p>
+          <p>It would be idiotic if you copy this here yourself and see the output results exactly the same...</p>
           <p>General format: Pregnancy for __+_ weeks, (with ____), (with induction) without labor sign.</p>
         </div>
       </div>
@@ -991,7 +991,7 @@
         return stationValue;
       }
 
-      // Function to display the labor course table
+      // Extend the displayLaborCourseTable function to include partogram visualization
       function displayLaborCourseTable(data) {
         const outputDiv = document.getElementById('laborCourse');
         
@@ -1016,17 +1016,17 @@
             return new Date(a.datetime) - new Date(b.datetime);
           });
         }
-
+        
         // Create table HTML
         let tableHTML = `
         <table class="conversion-table">
           <thead>
             <tr>
-              <th>Date & Time</th>
-              <th>Original OS</th>
-              <th>Converted OS</th>
-              <th>Original Station</th>
-              <th>Converted Station</th>
+              <th>Time</th>
+              <th>OS (cm)</th>
+              <th>Station (cm)</th>
+              <th>*OS</th>
+              <th>*Station</th>
             </tr>
           </thead>
           <tbody>
@@ -1037,10 +1037,10 @@
           tableHTML += `
             <tr>
               <td>${item.datetime}</td>
-              <td>${item.originalOs}</td>
               <td>${item.os}</td>
-              <td>${item.originalStation}</td>
               <td>${item.station}</td>
+              <td>${item.originalOs}</td>
+              <td>${item.originalStation}</td>
             </tr>
           `;
         }
@@ -1084,14 +1084,449 @@
           .conversion-table tr:last-child td {
             border-bottom: 2px solid #0066cc;
           }
+          
+          .partogram-container {
+            margin-top: 40px;
+            margin-bottom: 20px;
+          }
+          
+          .partogram-title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #0066cc;
+          }
+          
+          .partogram-canvas {
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background-color: white;
+            margin-bottom: 30px;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+          }
         </style>
         `;
         
+        // Partogram section
+        const partogramHTML = `
+        <div class="partogram-container">
+          <div class="partogram-title">Partogram</div>
+          <div id="partogramCharts"></div>
+        </div>
+        `;
+        
         // Set the HTML content
-        outputDiv.innerHTML = tableStyle + tableHTML;
+        outputDiv.innerHTML = tableStyle + tableHTML + partogramHTML;
+        
+        // Process data for partogram
+        if (onsetOfLabor) {
+          createPartogram(data, onsetOfLabor);
+        } else {
+          document.getElementById('partogramCharts').innerHTML = "Onset of labor time not provided. Partogram cannot be generated.";
+        }
         
         // Make sure the output section is visible
         document.querySelector('.output-section').style.display = 'block';
+      }
+
+      // Function to create partogram
+      function createPartogram(data, onsetOfLabor) {
+        if (!data || data.length === 0) return;
+        
+        // Convert all times to hours after onset of labor
+        const onsetTime = new Date(onsetOfLabor);
+        
+        // Add an invisible point for onset of labor using the value of the data point right before onset
+        // Find the data point closest to and before onset of labor
+        let initialOs = data[0].os;
+        let initialStation = data[0].station;
+        
+        // Find the data point immediately before onset of labor, if any
+        for (let i = data.length - 1; i >= 0; i--) {
+          const dataTime = new Date(data[i].datetime);
+          if (dataTime <= onsetTime) {
+            initialOs = data[i].os;
+            initialStation = data[i].station;
+            break;
+          }
+        }
+        
+        // Add the onset point to the beginning of processed data
+        const processedData = [{
+          datetime: onsetOfLabor,
+          hours: 0,
+          os: initialOs,
+          station: initialStation,
+          isOnset: true
+        }];
+        
+        // Process existing data points
+        for (const item of data) {
+          const dataTime = new Date(item.datetime);
+          const hoursDiff = (dataTime - onsetTime) / (1000 * 60 * 60); // Convert to hours
+          
+          processedData.push({
+            datetime: item.datetime,
+            hours: hoursDiff,
+            os: item.os,
+            station: item.station,
+            isOnset: false
+          });
+        }
+        
+        // Sort by hours
+        processedData.sort((a, b) => a.hours - b.hours);
+        
+        // Calculate how many days we need for partograms
+        const maxHours = processedData[processedData.length - 1].hours;
+        const daysNeeded = Math.ceil(maxHours / 24);
+        
+        // Create partograms for each day
+        const partogramContainer = document.getElementById('partogramCharts');
+        partogramContainer.innerHTML = ''; // Clear container
+        
+        for (let day = 0; day < daysNeeded; day++) {
+          // Create canvas for this day
+          const dayStartHour = day * 24;
+          const dayEndHour = (day + 1) * 24;
+          
+          // Filter data for this day
+          const dayData = processedData.filter(item => 
+            item.hours >= dayStartHour && item.hours <= dayEndHour
+          );
+          
+          // Add interpolated points at day boundaries if needed
+          if (day > 0) {
+            // Find points across the day boundary
+            for (let i = 0; i < processedData.length - 1; i++) {
+              const current = processedData[i];
+              const next = processedData[i + 1];
+              
+              if (current.hours < dayStartHour && next.hours > dayStartHour) {
+                // Interpolate a point at the day boundary
+                const ratio = (dayStartHour - current.hours) / (next.hours - current.hours);
+                const interpolatedOs = parseFloat(current.os) + ratio * (parseFloat(next.os) - parseFloat(current.os));
+                const interpolatedStation = parseFloat(current.station) + ratio * (parseFloat(next.station) - parseFloat(current.station));
+                
+                dayData.unshift({
+                  datetime: `Day ${day} boundary`,
+                  hours: dayStartHour,
+                  os: interpolatedOs.toFixed(1),
+                  station: interpolatedStation.toFixed(1),
+                  isInterpolated: true
+                });
+                
+                break;
+              }
+            }
+          }
+          
+          if (day < daysNeeded - 1) {
+            // Find points across the next day boundary
+            for (let i = 0; i < processedData.length - 1; i++) {
+              const current = processedData[i];
+              const next = processedData[i + 1];
+              
+              if (current.hours < dayEndHour && next.hours > dayEndHour) {
+                // Interpolate a point at the day boundary
+                const ratio = (dayEndHour - current.hours) / (next.hours - current.hours);
+                const interpolatedOs = parseFloat(current.os) + ratio * (parseFloat(next.os) - parseFloat(current.os));
+                const interpolatedStation = parseFloat(current.station) + ratio * (parseFloat(next.station) - parseFloat(current.station));
+                
+                dayData.push({
+                  datetime: `Day ${day + 1} boundary`,
+                  hours: dayEndHour,
+                  os: interpolatedOs.toFixed(1),
+                  station: interpolatedStation.toFixed(1),
+                  isInterpolated: true
+                });
+                
+                break;
+              }
+            }
+          }
+          
+          // Sort again after adding interpolated points
+          dayData.sort((a, b) => a.hours - b.hours);
+          
+          // Only create canvas if we have data for this day
+          if (dayData.length > 0) {
+            const canvasElement = document.createElement('canvas');
+            canvasElement.id = `partogram-day-${day + 1}`;
+            canvasElement.className = 'partogram-canvas';
+            canvasElement.width = 800;
+            canvasElement.height = 500;
+            
+            partogramContainer.appendChild(canvasElement);
+            
+            // Draw the partogram for this day
+            drawPartogram(canvasElement, dayData, dayStartHour, dayEndHour, `Day ${day + 1}`);
+          }
+        }
+      }
+
+      // Function to draw partogram on canvas
+      function drawPartogram(canvas, data, startHour, endHour, title) {
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+        
+        // Clear canvas
+        ctx.clearRect(0, 0, width, height);
+        
+        // Set background
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, width, height);
+        
+        // Constants for chart layout
+        const padding = 50;
+        const chartWidth = width - (2 * padding);
+        const chartHeight = height - (2 * padding);
+        const xStart = padding;
+        const yStart = height - padding;
+        
+        // Draw chart title
+        ctx.font = 'bold 16px Arial';
+        ctx.fillStyle = '#0066cc';
+        ctx.textAlign = 'center';
+        ctx.fillText(`Partogram - ${title}`, width / 2, padding / 2);
+        
+        // Draw x-axis (time)
+        ctx.beginPath();
+        ctx.moveTo(xStart, yStart);
+        ctx.lineTo(xStart + chartWidth, yStart);
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        // Draw x-axis labels (hours)
+        ctx.font = '12px Arial';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'center';
+        
+        const hoursRange = endHour - startHour;
+        const hourStep = 2; // Label every 2 hours
+        
+        for (let h = 0; h <= hoursRange; h += hourStep) {
+          const x = xStart + (h / hoursRange) * chartWidth;
+          ctx.beginPath();
+          ctx.moveTo(x, yStart);
+          ctx.lineTo(x, yStart + 5);
+          ctx.stroke();
+          ctx.fillText(`${startHour + h}`, x, yStart + 20);
+        }
+        
+        // Draw x-axis title
+        ctx.font = 'bold 14px Arial';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'center';
+        ctx.fillText('Time (hours after onset of labor)', width / 2, height - 10);
+        
+        // Draw left y-axis (OS)
+        ctx.beginPath();
+        ctx.moveTo(xStart, yStart);
+        ctx.lineTo(xStart, yStart - chartHeight);
+        ctx.stroke();
+        
+        // Draw right y-axis (Station)
+        ctx.beginPath();
+        ctx.moveTo(xStart + chartWidth, yStart);
+        ctx.lineTo(xStart + chartWidth, yStart - chartHeight);
+        ctx.stroke();
+        
+        // Draw left y-axis labels (OS)
+        ctx.font = '12px Arial';
+        ctx.textAlign = 'right';
+        ctx.fillStyle = 'black';
+        
+        const osMax = 10; // Only show up to 10 on the scale
+        const osStep = 1;
+        
+        for (let os = 0; os <= osMax; os += osStep) {
+          const y = yStart - (os / osMax) * chartHeight;
+          ctx.beginPath();
+          ctx.moveTo(xStart, y);
+          ctx.lineTo(xStart - 5, y);
+          ctx.stroke();
+          ctx.fillText(os.toString(), xStart - 10, y + 5);
+        }
+        
+        // Draw left y-axis title (OS)
+        ctx.save();
+        ctx.translate(10, height / 2);
+        ctx.rotate(-Math.PI / 2);
+        ctx.font = 'bold 14px Arial';
+        ctx.fillStyle = 'red';
+        ctx.textAlign = 'center';
+        ctx.fillText('OS (cm)', 0, 0);
+        ctx.restore();
+        
+        // Draw right y-axis labels (Station)
+        ctx.textAlign = 'left';
+        ctx.fillStyle = 'black';
+        
+        const stationMin = -3;
+        const stationMax = 3;
+        const stationRange = stationMax - stationMin;
+        const stationStep = 1;
+        
+        for (let station = stationMin; station <= stationMax; station += stationStep) {
+          // Reverse the scale with -3 at the top and +3 at the bottom
+          const normalizedStation = station - stationMin; // 0 to 6
+          const y = yStart - ((stationRange - normalizedStation) / stationRange) * chartHeight;
+          
+          ctx.beginPath();
+          ctx.moveTo(xStart + chartWidth, y);
+          ctx.lineTo(xStart + chartWidth + 5, y);
+          ctx.stroke();
+          ctx.fillText(station.toString(), xStart + chartWidth + 10, y + 5);
+        }
+        
+        // Draw right y-axis title (Station)
+        ctx.save();
+        ctx.translate(width - 10, height / 2);
+        ctx.rotate(Math.PI / 2);
+        ctx.font = 'bold 14px Arial';
+        ctx.fillStyle = 'blue';
+        ctx.textAlign = 'center';
+        ctx.fillText('Station (cm)', 0, 0);
+        ctx.restore();
+        
+        // Draw grid lines
+        ctx.strokeStyle = '#eee';
+        ctx.lineWidth = 1;
+        
+        // Horizontal grid lines (OS)
+        for (let os = 0; os <= osMax; os += osStep) {
+          const y = yStart - (os / osMax) * chartHeight;
+          ctx.beginPath();
+          ctx.moveTo(xStart, y);
+          ctx.lineTo(xStart + chartWidth, y);
+          ctx.stroke();
+        }
+        
+        // Vertical grid lines (hours)
+        for (let h = 0; h <= hoursRange; h += hourStep) {
+          const x = xStart + (h / hoursRange) * chartWidth;
+          ctx.beginPath();
+          ctx.moveTo(x, yStart);
+          ctx.lineTo(x, yStart - chartHeight);
+          ctx.stroke();
+        }
+        
+        // Plot OS data (red line)
+        let isFirstPoint = true;
+        ctx.beginPath();
+        ctx.strokeStyle = 'red';
+        ctx.lineWidth = 2;
+        
+        for (const point of data) {
+          if (point.isOnset && parseFloat(point.os) === 0) continue; // Skip onset point if it's 0
+          
+          const x = xStart + ((point.hours - startHour) / hoursRange) * chartWidth;
+          const y = yStart - (parseFloat(point.os) / osMax) * chartHeight;
+          
+          if (isFirstPoint) {
+            ctx.moveTo(x, y);
+            isFirstPoint = false;
+          } else {
+            ctx.lineTo(x, y);
+          }
+        }
+        
+        ctx.stroke();
+        
+        // Plot OS data points
+        for (const point of data) {
+          if (point.isInterpolated) continue; // Don't draw interpolated points
+          if (point.isOnset && parseFloat(point.os) === 0) continue; // Skip onset point if it's 0
+          
+          const x = xStart + ((point.hours - startHour) / hoursRange) * chartWidth;
+          const y = yStart - (parseFloat(point.os) / osMax) * chartHeight;
+          
+          ctx.beginPath();
+          ctx.arc(x, y, 5, 0, 2 * Math.PI);
+          ctx.fillStyle = 'red';
+          ctx.fill();
+          ctx.strokeStyle = 'white';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+        
+        // Plot Station data (blue line)
+        isFirstPoint = true;
+        ctx.beginPath();
+        ctx.strokeStyle = 'blue';
+        ctx.lineWidth = 2;
+        
+        for (const point of data) {
+          const x = xStart + ((point.hours - startHour) / hoursRange) * chartWidth;
+          
+          // Convert station value to y position (reversed scale)
+          const station = parseFloat(point.station);
+          const normalizedStation = station - stationMin; // 0 to 6
+          const y = yStart - ((stationRange - normalizedStation) / stationRange) * chartHeight;
+          
+          if (isFirstPoint) {
+            ctx.moveTo(x, y);
+            isFirstPoint = false;
+          } else {
+            ctx.lineTo(x, y);
+          }
+        }
+        
+        ctx.stroke();
+        
+        // Plot Station data points
+        for (const point of data) {
+          if (point.isInterpolated) continue; // Don't draw interpolated points
+          
+          const x = xStart + ((point.hours - startHour) / hoursRange) * chartWidth;
+          
+          // Convert station value to y position (reversed scale)
+          const station = parseFloat(point.station);
+          const normalizedStation = station - stationMin; // 0 to 6
+          const y = yStart - ((stationRange - normalizedStation) / stationRange) * chartHeight;
+          
+          ctx.beginPath();
+          ctx.arc(x, y, 5, 0, 2 * Math.PI);
+          ctx.fillStyle = 'blue';
+          ctx.fill();
+          ctx.strokeStyle = 'white';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+        
+        // Add legend
+        const legendX = xStart + 500;
+        const legendY = yStart - chartHeight + 30;
+        
+        // OS legend
+        ctx.beginPath();
+        ctx.arc(legendX, legendY, 5, 0, 2 * Math.PI);
+        ctx.fillStyle = 'red';
+        ctx.fill();
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        
+        ctx.font = '12px Arial';
+        // ctx.fillStyle = 'black';
+        ctx.textAlign = 'left';
+        ctx.fillText('OS (cm)', legendX + 10, legendY + 5);
+        
+        // Station legend
+        ctx.beginPath();
+        ctx.arc(legendX + 100, legendY, 5, 0, 2 * Math.PI);
+        ctx.fillStyle = 'blue';
+        ctx.fill();
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        
+        ctx.fillText('Station (cm)', legendX + 110, legendY + 5);
       }
 
       // Set the extracted data to the output fields
