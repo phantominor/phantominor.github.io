@@ -1283,7 +1283,7 @@
         // Constants for chart layout
         const padding = 50;
         const chartWidth = width - (2 * padding);
-        const chartHeight = height - (2 * padding);
+        const chartHeight = height - (2 * padding) - 30; // Reduced height to make space for legend
         const xStart = padding;
         const yStart = height - padding;
         
@@ -1292,6 +1292,33 @@
         ctx.fillStyle = '#0066cc';
         ctx.textAlign = 'center';
         ctx.fillText(`Partogram - ${title}`, width / 2, padding / 2);
+        
+        // Add legends below the title
+        const legendY = padding / 2 + 25; // Position below the title
+        
+        // OS legend
+        ctx.beginPath();
+        ctx.arc(width / 2 - 80, legendY, 5, 0, 2 * Math.PI);
+        ctx.fillStyle = 'red';
+        ctx.fill();
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        
+        ctx.font = '12px Arial';
+        ctx.textAlign = 'left';
+        ctx.fillText('OS (cm)', width / 2 - 70, legendY + 4);
+        
+        // Station legend
+        ctx.beginPath();
+        ctx.arc(width / 2 + 20, legendY, 5, 0, 2 * Math.PI);
+        ctx.fillStyle = 'blue';
+        ctx.fill();
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        
+        ctx.fillText('Station (cm)', width / 2 + 30, legendY + 4);
         
         // Draw x-axis (time)
         ctx.beginPath();
@@ -1353,9 +1380,9 @@
           ctx.fillText(os.toString(), xStart - 10, y + 5);
         }
         
-        // Draw left y-axis title (OS)
+        // Draw left y-axis title (OS) with added padding
         ctx.save();
-        ctx.translate(10, height / 2);
+        ctx.translate(20, height / 2); // Increased padding from 10 to 20
         ctx.rotate(-Math.PI / 2);
         ctx.font = 'bold 14px Arial';
         ctx.fillStyle = 'red';
@@ -1384,9 +1411,9 @@
           ctx.fillText(station.toString(), xStart + chartWidth + 10, y + 5);
         }
         
-        // Draw right y-axis title (Station)
+        // Draw right y-axis title (Station) with added padding
         ctx.save();
-        ctx.translate(width - 10, height / 2);
+        ctx.translate(width - 20, height / 2); // Increased padding from 10 to 20
         ctx.rotate(Math.PI / 2);
         ctx.font = 'bold 14px Arial';
         ctx.fillStyle = 'blue';
@@ -1498,35 +1525,6 @@
           ctx.lineWidth = 1;
           ctx.stroke();
         }
-        
-        // Add legend
-        const legendX = xStart + 500;
-        const legendY = yStart - chartHeight + 30;
-        
-        // OS legend
-        ctx.beginPath();
-        ctx.arc(legendX, legendY, 5, 0, 2 * Math.PI);
-        ctx.fillStyle = 'red';
-        ctx.fill();
-        ctx.strokeStyle = 'white';
-        ctx.lineWidth = 1;
-        ctx.stroke();
-        
-        ctx.font = '12px Arial';
-        // ctx.fillStyle = 'black';
-        ctx.textAlign = 'left';
-        ctx.fillText('OS (cm)', legendX + 10, legendY + 5);
-        
-        // Station legend
-        ctx.beginPath();
-        ctx.arc(legendX + 100, legendY, 5, 0, 2 * Math.PI);
-        ctx.fillStyle = 'blue';
-        ctx.fill();
-        ctx.strokeStyle = 'white';
-        ctx.lineWidth = 1;
-        ctx.stroke();
-        
-        ctx.fillText('Station (cm)', legendX + 110, legendY + 5);
       }
 
       // Set the extracted data to the output fields

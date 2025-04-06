@@ -293,7 +293,7 @@
         <div class="output-title">8. Admission diagnosis</div>
         <div class="remark">
           <p>Please refer to the "Tentative diagnosis" section in the admission note yourself.</p>
-          <p>It would be idiotic if you copy this yourself and see the output results exactly the same...</p>
+          <p>It would be idiotic if you copy this here yourself and see the output results exactly the same...</p>
           <p>General format: Pregnancy for __+_ weeks, (with ____), (with induction) without labor sign.</p>
         </div>
       </div>
@@ -991,7 +991,7 @@
         return stationValue;
       }
 
-      // Add this function to your existing code
+      // Extend the displayLaborCourseTable function to include partogram visualization
       function displayLaborCourseTable(data) {
         const outputDiv = document.getElementById('laborCourse');
         
@@ -999,9 +999,6 @@
           outputDiv.innerHTML = "No OS or Station data found in the nursing process.";
           return;
         }
-        
-        // Get delivery time from another field (assuming it exists)
-        const deliveryTime = document.getElementById('deliveryTime')?.value || "";
         
         // If we have a delivery time, append it to the data
         if (deliveryTime) {
@@ -1025,11 +1022,11 @@
         <table class="conversion-table">
           <thead>
             <tr>
-              <th>Date & Time</th>
-              <th>Original OS</th>
-              <th>Converted OS</th>
-              <th>Original Station</th>
-              <th>Converted Station</th>
+              <th>Time</th>
+              <th>OS (cm)</th>
+              <th>Station (cm)</th>
+              <th>*OS</th>
+              <th>*Station</th>
             </tr>
           </thead>
           <tbody>
@@ -1040,10 +1037,10 @@
           tableHTML += `
             <tr>
               <td>${item.datetime}</td>
-              <td>${item.originalOs}</td>
               <td>${item.os}</td>
-              <td>${item.originalStation}</td>
               <td>${item.station}</td>
+              <td>${item.originalOs}</td>
+              <td>${item.originalStation}</td>
             </tr>
           `;
         }
@@ -1089,465 +1086,444 @@
           }
           
           .partogram-container {
-            margin-top: 30px;
-            border: 1px solid #ddd;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-top: 40px;
+            margin-bottom: 20px;
           }
           
           .partogram-title {
+            text-align: center;
             font-weight: bold;
-            margin-bottom: 15px;
-            color: #0066cc;
-            font-size: 16px;
-          }
-          
-          .partogram-svg {
-            width: 100%;
-            height: 400px;
-            border: 1px solid #eee;
-            background-color: #fcfcfc;
-          }
-          
-          .axis-label {
-            font-size: 12px;
-            font-weight: bold;
-          }
-          
-          .os-label {
-            fill: #e74c3c;
-          }
-          
-          .station-label {
-            fill: #3498db;
-          }
-          
-          .grid line {
-            stroke: #e0e0e0;
-            stroke-dasharray: 3,3;
-          }
-          
-          .labor-summary {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f0f7ff;
-            border-radius: 5px;
-            border-left: 4px solid #0066cc;
-          }
-          
-          .labor-summary h3 {
-            margin-top: 0;
+            margin-bottom: 10px;
             color: #0066cc;
           }
           
-          .partogram-legend {
-            display: flex;
-            justify-content: center;
-            margin-top: 10px;
-          }
-          
-          .legend-item {
-            display: flex;
-            align-items: center;
-            margin: 0 15px;
-          }
-          
-          .legend-color {
-            width: 20px;
-            height: 3px;
-            margin-right: 5px;
-          }
-          
-          .legend-text {
-            font-size: 12px;
+          .partogram-canvas {
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background-color: white;
+            margin-bottom: 30px;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
           }
         </style>
         `;
         
-        // Create the partogram HTML container
-        let partogramHTML = `
+        // Partogram section
+        const partogramHTML = `
         <div class="partogram-container">
-          <div class="partogram-title">Labor Progression Partogram</div>
-          <div id="partogram-day1"></div>
-          <div id="partogram-day2" style="margin-top:20px;"></div>
-          <div id="partogram-day3" style="margin-top:20px;"></div>
-          <div class="partogram-legend">
-            <div class="legend-item">
-              <div class="legend-color" style="background-color: #e74c3c;"></div>
-              <div class="legend-text">Cervical Dilation (OS)</div>
-            </div>
-            <div class="legend-item">
-              <div class="legend-color" style="background-color: #3498db;"></div>
-              <div class="legend-text">Fetal Station</div>
-            </div>
-          </div>
+          <div class="partogram-title">Partogram</div>
+          <div id="partogramCharts"></div>
         </div>
         `;
         
         // Set the HTML content
         outputDiv.innerHTML = tableStyle + tableHTML + partogramHTML;
         
-        // Get the onset of labor time (assuming it's available in an input field)
-        const onsetTime = document.getElementById('onsetOfLaborTime')?.value || "2025/04/01 12:25"; // Default for testing
-        
-        // Create the partogram visualization
-        createPartogram(data, onsetTime);
+        // Process data for partogram
+        if (onsetOfLabor) {
+          createPartogram(data, onsetOfLabor);
+        } else {
+          document.getElementById('partogramCharts').innerHTML = "Onset of labor time not provided. Partogram cannot be generated.";
+        }
         
         // Make sure the output section is visible
         document.querySelector('.output-section').style.display = 'block';
       }
 
-      function createPartogram(data, onsetTime) {
-        // Process the data and convert times relative to onset
-        const processedData = processPartogramData(data, onsetTime);
+      // Function to create partogram
+      function createPartogram(data, onsetOfLabor) {
+        if (!data || data.length === 0) return;
         
-        // Group data by day (0-24h, 24-48h, 48-72h)
-        const day1Data = processedData.filter(d => d.hoursFromOnset >= 0 && d.hoursFromOnset <= 24);
-        const day2Data = processedData.filter(d => d.hoursFromOnset > 24 && d.hoursFromOnset <= 48);
-        const day3Data = processedData.filter(d => d.hoursFromOnset > 48 && d.hoursFromOnset <= 72);
+        // Convert all times to hours after onset of labor
+        const onsetTime = new Date(onsetOfLabor);
         
-        // Create edge points for day boundaries if needed
-        const day1EdgePoints = createEdgePoints(processedData, 24);
-        const day2EdgePoints = createEdgePoints(processedData, 48);
+        // Add an invisible point for onset of labor using the value of the data point right before onset
+        // Find the data point closest to and before onset of labor
+        let initialOs = data[0].os;
+        let initialStation = data[0].station;
         
-        // Create day 1 partogram if there's data
-        if (day1Data.length > 0 || day1EdgePoints.length > 0) {
-          // Combine regular data with edge points
-          const combinedDay1Data = [...day1Data, ...day1EdgePoints.filter(p => p.hoursFromOnset <= 24)];
-          // Sort by time
-          combinedDay1Data.sort((a, b) => a.hoursFromOnset - b.hoursFromOnset);
-          drawPartogram('partogram-day1', combinedDay1Data, 0, 24, 'Day 1 (0-24 hours)');
-        }
-        
-        // Create day 2 partogram if there's data
-        if (day2Data.length > 0 || day2EdgePoints.length > 0) {
-          // Combine regular data with edge points
-          const combinedDay2Data = [...day2EdgePoints.filter(p => p.hoursFromOnset >= 24 && p.hoursFromOnset <= 48), ...day2Data];
-          // Sort by time
-          combinedDay2Data.sort((a, b) => a.hoursFromOnset - b.hoursFromOnset);
-          drawPartogram('partogram-day2', combinedDay2Data, 24, 48, 'Day 2 (24-48 hours)');
-        }
-        
-        // Create day 3 partogram if there's data
-        if (day3Data.length > 0) {
-          // Combine regular data with edge points
-          const combinedDay3Data = [...day2EdgePoints.filter(p => p.hoursFromOnset >= 48), ...day3Data];
-          // Sort by time
-          combinedDay3Data.sort((a, b) => a.hoursFromOnset - b.hoursFromOnset);
-          drawPartogram('partogram-day3', combinedDay3Data, 48, 72, 'Day 3 (48-72 hours)');
-        }
-      }
-
-      function processPartogramData(data, onsetTime) {
-        const onsetDate = new Date(onsetTime);
-        
-        return data.map(item => {
-          const itemDate = new Date(item.datetime);
-          const diffMs = itemDate - onsetDate;
-          const hoursFromOnset = diffMs / (1000 * 60 * 60); // Convert milliseconds to hours
-          
-          return {
-            datetime: item.datetime,
-            os: parseFloat(item.os),
-            station: parseFloat(item.station),
-            hoursFromOnset: hoursFromOnset
-          };
-        });
-      }
-
-      function createEdgePoints(data, hourBoundary) {
-        const edgePoints = [];
-        
-        // Find if any lines cross the day boundary
-        for (let i = 0; i < data.length - 1; i++) {
-          const current = data[i];
-          const next = data[i + 1];
-          
-          // Check if this segment crosses the boundary
-          if ((current.hoursFromOnset < hourBoundary && next.hoursFromOnset > hourBoundary) ||
-              (current.hoursFromOnset > hourBoundary && next.hoursFromOnset < hourBoundary)) {
-            
-            // Linear interpolation for OS at the boundary
-            const osRatio = (hourBoundary - current.hoursFromOnset) / (next.hoursFromOnset - current.hoursFromOnset);
-            const osBoundary = current.os + osRatio * (next.os - current.os);
-            
-            // Linear interpolation for Station at the boundary
-            const stationRatio = (hourBoundary - current.hoursFromOnset) / (next.hoursFromOnset - current.hoursFromOnset);
-            const stationBoundary = current.station + stationRatio * (next.station - current.station);
-            
-            // Add the boundary point
-            edgePoints.push({
-              datetime: `Boundary at ${hourBoundary}hr`,
-              os: osBoundary,
-              station: stationBoundary,
-              hoursFromOnset: hourBoundary,
-              isBoundaryPoint: true
-            });
+        // Find the data point immediately before onset of labor, if any
+        for (let i = data.length - 1; i >= 0; i--) {
+          const dataTime = new Date(data[i].datetime);
+          if (dataTime <= onsetTime) {
+            initialOs = data[i].os;
+            initialStation = data[i].station;
+            break;
           }
         }
         
-        return edgePoints;
+        // Add the onset point to the beginning of processed data
+        const processedData = [{
+          datetime: onsetOfLabor,
+          hours: 0,
+          os: initialOs,
+          station: initialStation,
+          isOnset: true
+        }];
+        
+        // Process existing data points
+        for (const item of data) {
+          const dataTime = new Date(item.datetime);
+          const hoursDiff = (dataTime - onsetTime) / (1000 * 60 * 60); // Convert to hours
+          
+          processedData.push({
+            datetime: item.datetime,
+            hours: hoursDiff,
+            os: item.os,
+            station: item.station,
+            isOnset: false
+          });
+        }
+        
+        // Sort by hours
+        processedData.sort((a, b) => a.hours - b.hours);
+        
+        // Calculate how many days we need for partograms
+        const maxHours = processedData[processedData.length - 1].hours;
+        const daysNeeded = Math.ceil(maxHours / 24);
+        
+        // Create partograms for each day
+        const partogramContainer = document.getElementById('partogramCharts');
+        partogramContainer.innerHTML = ''; // Clear container
+        
+        for (let day = 0; day < daysNeeded; day++) {
+          // Create canvas for this day
+          const dayStartHour = day * 24;
+          const dayEndHour = (day + 1) * 24;
+          
+          // Filter data for this day
+          const dayData = processedData.filter(item => 
+            item.hours >= dayStartHour && item.hours <= dayEndHour
+          );
+          
+          // Add interpolated points at day boundaries if needed
+          if (day > 0) {
+            // Find points across the day boundary
+            for (let i = 0; i < processedData.length - 1; i++) {
+              const current = processedData[i];
+              const next = processedData[i + 1];
+              
+              if (current.hours < dayStartHour && next.hours > dayStartHour) {
+                // Interpolate a point at the day boundary
+                const ratio = (dayStartHour - current.hours) / (next.hours - current.hours);
+                const interpolatedOs = parseFloat(current.os) + ratio * (parseFloat(next.os) - parseFloat(current.os));
+                const interpolatedStation = parseFloat(current.station) + ratio * (parseFloat(next.station) - parseFloat(current.station));
+                
+                dayData.unshift({
+                  datetime: `Day ${day} boundary`,
+                  hours: dayStartHour,
+                  os: interpolatedOs.toFixed(1),
+                  station: interpolatedStation.toFixed(1),
+                  isInterpolated: true
+                });
+                
+                break;
+              }
+            }
+          }
+          
+          if (day < daysNeeded - 1) {
+            // Find points across the next day boundary
+            for (let i = 0; i < processedData.length - 1; i++) {
+              const current = processedData[i];
+              const next = processedData[i + 1];
+              
+              if (current.hours < dayEndHour && next.hours > dayEndHour) {
+                // Interpolate a point at the day boundary
+                const ratio = (dayEndHour - current.hours) / (next.hours - current.hours);
+                const interpolatedOs = parseFloat(current.os) + ratio * (parseFloat(next.os) - parseFloat(current.os));
+                const interpolatedStation = parseFloat(current.station) + ratio * (parseFloat(next.station) - parseFloat(current.station));
+                
+                dayData.push({
+                  datetime: `Day ${day + 1} boundary`,
+                  hours: dayEndHour,
+                  os: interpolatedOs.toFixed(1),
+                  station: interpolatedStation.toFixed(1),
+                  isInterpolated: true
+                });
+                
+                break;
+              }
+            }
+          }
+          
+          // Sort again after adding interpolated points
+          dayData.sort((a, b) => a.hours - b.hours);
+          
+          // Only create canvas if we have data for this day
+          if (dayData.length > 0) {
+            const canvasElement = document.createElement('canvas');
+            canvasElement.id = `partogram-day-${day + 1}`;
+            canvasElement.className = 'partogram-canvas';
+            canvasElement.width = 800;
+            canvasElement.height = 500;
+            
+            partogramContainer.appendChild(canvasElement);
+            
+            // Draw the partogram for this day
+            drawPartogram(canvasElement, dayData, dayStartHour, dayEndHour, `Day ${day + 1}`);
+          }
+        }
       }
 
-      function drawPartogram(containerId, data, timeStart, timeEnd, title) {
-        if (data.length === 0) return;
+      // Function to draw partogram on canvas
+      function drawPartogram(canvas, data, startHour, endHour, title) {
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
         
-        const container = document.getElementById(containerId);
+        // Clear canvas
+        ctx.clearRect(0, 0, width, height);
         
-        // Set dimensions and margins
-        const margin = {top: 40, right: 60, bottom: 50, left: 60};
-        const width = container.clientWidth - margin.left - margin.right;
-        const height = 350 - margin.top - margin.bottom;
+        // Set background
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, width, height);
         
-        // Clear previous SVG if any
-        container.innerHTML = '';
+        // Constants for chart layout
+        const padding = 50;
+        const chartWidth = width - (2 * padding);
+        const chartHeight = height - (2 * padding) - 30; // Reduced height to make space for legend
+        const xStart = padding;
+        const yStart = height - padding;
         
-        // Create SVG
-        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.setAttribute('width', width + margin.left + margin.right);
-        svg.setAttribute('height', height + margin.top + margin.bottom);
-        svg.setAttribute('class', 'partogram-svg');
-        container.appendChild(svg);
+        // Draw chart title
+        ctx.font = 'bold 16px Arial';
+        ctx.fillStyle = '#0066cc';
+        ctx.textAlign = 'center';
+        ctx.fillText(`Partogram - ${title}`, width / 2, padding / 2);
         
-        // Create a group element to hold the chart content
-        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        g.setAttribute('transform', `translate(${margin.left},${margin.top})`);
-        svg.appendChild(g);
+        // Add legends below the title
+        const legendY = padding / 2 + 25; // Position below the title
         
-        // Add title
-        const titleElement = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        titleElement.setAttribute('x', width / 2);
-        titleElement.setAttribute('y', -15);
-        titleElement.setAttribute('text-anchor', 'middle');
-        titleElement.setAttribute('font-size', '14px');
-        titleElement.setAttribute('font-weight', 'bold');
-        titleElement.textContent = title;
-        g.appendChild(titleElement);
+        // OS legend
+        ctx.beginPath();
+        ctx.arc(width / 2 - 80, legendY, 5, 0, 2 * Math.PI);
+        ctx.fillStyle = 'red';
+        ctx.fill();
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 1;
+        ctx.stroke();
         
-        // Define scales
-        const xScale = (x) => (x - timeStart) * width / (timeEnd - timeStart);
-        const yOsScale = (y) => height - (y * height / 12); // OS scale is 0-12
-        const yStationScale = (y) => height - ((y + 3) * height / 6); // Station scale is -3 to +3
+        ctx.font = '12px Arial';
+        ctx.textAlign = 'left';
+        ctx.fillText('OS (cm)', width / 2 - 70, legendY + 4);
         
-        // X axis (time)
-        const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        xAxis.setAttribute('transform', `translate(0,${height})`);
-        g.appendChild(xAxis);
+        // Station legend
+        ctx.beginPath();
+        ctx.arc(width / 2 + 20, legendY, 5, 0, 2 * Math.PI);
+        ctx.fillStyle = 'blue';
+        ctx.fill();
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 1;
+        ctx.stroke();
         
-        // X axis line
-        const xAxisLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        xAxisLine.setAttribute('x1', 0);
-        xAxisLine.setAttribute('y1', 0);
-        xAxisLine.setAttribute('x2', width);
-        xAxisLine.setAttribute('y2', 0);
-        xAxisLine.setAttribute('stroke', 'black');
-        xAxis.appendChild(xAxisLine);
+        ctx.fillText('Station (cm)', width / 2 + 30, legendY + 4);
         
-        // X axis ticks and labels (every 2 hours)
-        for (let i = 0; i <= (timeEnd - timeStart); i += 2) {
-          // Tick
-          const tick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-          tick.setAttribute('x1', xScale(timeStart + i));
-          tick.setAttribute('y1', 0);
-          tick.setAttribute('x2', xScale(timeStart + i));
-          tick.setAttribute('y2', 5);
-          tick.setAttribute('stroke', 'black');
-          xAxis.appendChild(tick);
-          
-          // Label
-          const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-          label.setAttribute('x', xScale(timeStart + i));
-          label.setAttribute('y', 20);
-          label.setAttribute('text-anchor', 'middle');
-          label.setAttribute('font-size', '10px');
-          label.textContent = timeStart + i;
-          xAxis.appendChild(label);
-          
-          // Grid line
-          const gridLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-          gridLine.setAttribute('x1', xScale(timeStart + i));
-          gridLine.setAttribute('y1', 0);
-          gridLine.setAttribute('x2', xScale(timeStart + i));
-          gridLine.setAttribute('y2', -height);
-          gridLine.setAttribute('stroke', '#e0e0e0');
-          gridLine.setAttribute('stroke-dasharray', '3,3');
-          xAxis.appendChild(gridLine);
+        // Draw x-axis (time)
+        ctx.beginPath();
+        ctx.moveTo(xStart, yStart);
+        ctx.lineTo(xStart + chartWidth, yStart);
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        // Draw x-axis labels (hours)
+        ctx.font = '12px Arial';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'center';
+        
+        const hoursRange = endHour - startHour;
+        const hourStep = 2; // Label every 2 hours
+        
+        for (let h = 0; h <= hoursRange; h += hourStep) {
+          const x = xStart + (h / hoursRange) * chartWidth;
+          ctx.beginPath();
+          ctx.moveTo(x, yStart);
+          ctx.lineTo(x, yStart + 5);
+          ctx.stroke();
+          ctx.fillText(`${startHour + h}`, x, yStart + 20);
         }
         
-        // X axis label
-        const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        xLabel.setAttribute('x', width / 2);
-        xLabel.setAttribute('y', 40);
-        xLabel.setAttribute('text-anchor', 'middle');
-        xLabel.setAttribute('class', 'axis-label');
-        xLabel.textContent = 'Time from Onset of Labor (hr)';
-        xAxis.appendChild(xLabel);
+        // Draw x-axis title
+        ctx.font = 'bold 14px Arial';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'center';
+        ctx.fillText('Time (hours after onset of labor)', width / 2, height - 10);
         
-        // Y axis (left - OS)
-        const yOsAxis = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        g.appendChild(yOsAxis);
+        // Draw left y-axis (OS)
+        ctx.beginPath();
+        ctx.moveTo(xStart, yStart);
+        ctx.lineTo(xStart, yStart - chartHeight);
+        ctx.stroke();
         
-        // Y OS axis line
-        const yOsAxisLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        yOsAxisLine.setAttribute('x1', 0);
-        yOsAxisLine.setAttribute('y1', 0);
-        yOsAxisLine.setAttribute('x2', 0);
-        yOsAxisLine.setAttribute('y2', height);
-        yOsAxisLine.setAttribute('stroke', 'black');
-        yOsAxis.appendChild(yOsAxisLine);
+        // Draw right y-axis (Station)
+        ctx.beginPath();
+        ctx.moveTo(xStart + chartWidth, yStart);
+        ctx.lineTo(xStart + chartWidth, yStart - chartHeight);
+        ctx.stroke();
         
-        // Y OS axis ticks and labels (every 1 cm)
-        for (let i = 0; i <= 10; i++) {
-          // Tick
-          const tick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-          tick.setAttribute('x1', 0);
-          tick.setAttribute('y1', yOsScale(i));
-          tick.setAttribute('x2', -5);
-          tick.setAttribute('y2', yOsScale(i));
-          tick.setAttribute('stroke', 'black');
-          yOsAxis.appendChild(tick);
-          
-          // Label
-          const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-          label.setAttribute('x', -10);
-          label.setAttribute('y', yOsScale(i) + 3);
-          label.setAttribute('text-anchor', 'end');
-          label.setAttribute('font-size', '10px');
-          label.textContent = i;
-          yOsAxis.appendChild(label);
-          
-          // Grid line
-          const gridLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-          gridLine.setAttribute('x1', 0);
-          gridLine.setAttribute('y1', yOsScale(i));
-          gridLine.setAttribute('x2', width);
-          gridLine.setAttribute('y2', yOsScale(i));
-          gridLine.setAttribute('stroke', '#e0e0e0');
-          gridLine.setAttribute('stroke-dasharray', '3,3');
-          yOsAxis.appendChild(gridLine);
+        // Draw left y-axis labels (OS)
+        ctx.font = '12px Arial';
+        ctx.textAlign = 'right';
+        ctx.fillStyle = 'black';
+        
+        const osMax = 10; // Only show up to 10 on the scale
+        const osStep = 1;
+        
+        for (let os = 0; os <= osMax; os += osStep) {
+          const y = yStart - (os / osMax) * chartHeight;
+          ctx.beginPath();
+          ctx.moveTo(xStart, y);
+          ctx.lineTo(xStart - 5, y);
+          ctx.stroke();
+          ctx.fillText(os.toString(), xStart - 10, y + 5);
         }
         
-        // Y OS axis label
-        const yOsLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        yOsLabel.setAttribute('transform', 'rotate(-90)');
-        yOsLabel.setAttribute('x', -height / 2);
-        yOsLabel.setAttribute('y', -40);
-        yOsLabel.setAttribute('text-anchor', 'middle');
-        yOsLabel.setAttribute('class', 'axis-label os-label');
-        yOsLabel.textContent = 'OS (cm)';
-        yOsAxis.appendChild(yOsLabel);
+        // Draw left y-axis title (OS) with added padding
+        ctx.save();
+        ctx.translate(20, height / 2); // Increased padding from 10 to 20
+        ctx.rotate(-Math.PI / 2);
+        ctx.font = 'bold 14px Arial';
+        ctx.fillStyle = 'red';
+        ctx.textAlign = 'center';
+        ctx.fillText('OS (cm)', 0, 0);
+        ctx.restore();
         
-        // Y axis (right - Station)
-        const yStationAxis = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        yStationAxis.setAttribute('transform', `translate(${width},0)`);
-        g.appendChild(yStationAxis);
+        // Draw right y-axis labels (Station)
+        ctx.textAlign = 'left';
+        ctx.fillStyle = 'black';
         
-        // Y Station axis line
-        const yStationAxisLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        yStationAxisLine.setAttribute('x1', 0);
-        yStationAxisLine.setAttribute('y1', 0);
-        yStationAxisLine.setAttribute('x2', 0);
-        yStationAxisLine.setAttribute('y2', height);
-        yStationAxisLine.setAttribute('stroke', 'black');
-        yStationAxis.appendChild(yStationAxisLine);
+        const stationMin = -3;
+        const stationMax = 3;
+        const stationRange = stationMax - stationMin;
+        const stationStep = 1;
         
-        // Y Station axis ticks and labels (from -3 to +3)
-        for (let i = -3; i <= 3; i++) {
-          // Tick
-          const tick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-          tick.setAttribute('x1', 0);
-          tick.setAttribute('y1', yStationScale(i));
-          tick.setAttribute('x2', 5);
-          tick.setAttribute('y2', yStationScale(i));
-          tick.setAttribute('stroke', 'black');
-          yStationAxis.appendChild(tick);
+        for (let station = stationMin; station <= stationMax; station += stationStep) {
+          // Reverse the scale with -3 at the top and +3 at the bottom
+          const normalizedStation = station - stationMin; // 0 to 6
+          const y = yStart - ((stationRange - normalizedStation) / stationRange) * chartHeight;
           
-          // Label
-          const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-          label.setAttribute('x', 10);
-          label.setAttribute('y', yStationScale(i) + 3);
-          label.setAttribute('text-anchor', 'start');
-          label.setAttribute('font-size', '10px');
-          label.textContent = i;
-          yStationAxis.appendChild(label);
+          ctx.beginPath();
+          ctx.moveTo(xStart + chartWidth, y);
+          ctx.lineTo(xStart + chartWidth + 5, y);
+          ctx.stroke();
+          ctx.fillText(station.toString(), xStart + chartWidth + 10, y + 5);
         }
         
-        // Y Station axis label
-        const yStationLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        yStationLabel.setAttribute('transform', 'rotate(90)');
-        yStationLabel.setAttribute('x', height / 2);
-        yStationLabel.setAttribute('y', -40);
-        yStationLabel.setAttribute('text-anchor', 'middle');
-        yStationLabel.setAttribute('class', 'axis-label station-label');
-        yStationLabel.textContent = 'Station (cm)';
-        yStationAxis.appendChild(yStationLabel);
+        // Draw right y-axis title (Station) with added padding
+        ctx.save();
+        ctx.translate(width - 20, height / 2); // Increased padding from 10 to 20
+        ctx.rotate(Math.PI / 2);
+        ctx.font = 'bold 14px Arial';
+        ctx.fillStyle = 'blue';
+        ctx.textAlign = 'center';
+        ctx.fillText('Station (cm)', 0, 0);
+        ctx.restore();
         
-        // Filter out boundary points for display
-        const displayData = data.filter(d => !d.isBoundaryPoint);
+        // Draw grid lines
+        ctx.strokeStyle = '#eee';
+        ctx.lineWidth = 1;
+        
+        // Horizontal grid lines (OS)
+        for (let os = 0; os <= osMax; os += osStep) {
+          const y = yStart - (os / osMax) * chartHeight;
+          ctx.beginPath();
+          ctx.moveTo(xStart, y);
+          ctx.lineTo(xStart + chartWidth, y);
+          ctx.stroke();
+        }
+        
+        // Vertical grid lines (hours)
+        for (let h = 0; h <= hoursRange; h += hourStep) {
+          const x = xStart + (h / hoursRange) * chartWidth;
+          ctx.beginPath();
+          ctx.moveTo(x, yStart);
+          ctx.lineTo(x, yStart - chartHeight);
+          ctx.stroke();
+        }
         
         // Plot OS data (red line)
-        if (displayData.length > 0) {
-          const osLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-          let osPath = `M${xScale(data[0].hoursFromOnset)},${yOsScale(data[0].os)}`;
+        let isFirstPoint = true;
+        ctx.beginPath();
+        ctx.strokeStyle = 'red';
+        ctx.lineWidth = 2;
+        
+        for (const point of data) {
+          if (point.isOnset && parseFloat(point.os) === 0) continue; // Skip onset point if it's 0
           
-          for (let i = 1; i < data.length; i++) {
-            osPath += ` L${xScale(data[i].hoursFromOnset)},${yOsScale(data[i].os)}`;
+          const x = xStart + ((point.hours - startHour) / hoursRange) * chartWidth;
+          const y = yStart - (parseFloat(point.os) / osMax) * chartHeight;
+          
+          if (isFirstPoint) {
+            ctx.moveTo(x, y);
+            isFirstPoint = false;
+          } else {
+            ctx.lineTo(x, y);
           }
+        }
+        
+        ctx.stroke();
+        
+        // Plot OS data points
+        for (const point of data) {
+          if (point.isInterpolated) continue; // Don't draw interpolated points
+          if (point.isOnset && parseFloat(point.os) === 0) continue; // Skip onset point if it's 0
           
-          osLine.setAttribute('d', osPath);
-          osLine.setAttribute('fill', 'none');
-          osLine.setAttribute('stroke', '#e74c3c');
-          osLine.setAttribute('stroke-width', '2');
-          g.appendChild(osLine);
+          const x = xStart + ((point.hours - startHour) / hoursRange) * chartWidth;
+          const y = yStart - (parseFloat(point.os) / osMax) * chartHeight;
           
-          // Plot OS data points
-          displayData.forEach(point => {
-            const osPoint = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            osPoint.setAttribute('cx', xScale(point.hoursFromOnset));
-            osPoint.setAttribute('cy', yOsScale(point.os));
-            osPoint.setAttribute('r', '4');
-            osPoint.setAttribute('fill', '#e74c3c');
-            
-            // Add title for tooltip
-            const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
-            title.textContent = `Time: ${point.datetime}\nOS: ${point.os} cm\nHours from onset: ${point.hoursFromOnset.toFixed(1)}`;
-            osPoint.appendChild(title);
-            
-            g.appendChild(osPoint);
-          });
+          ctx.beginPath();
+          ctx.arc(x, y, 5, 0, 2 * Math.PI);
+          ctx.fillStyle = 'red';
+          ctx.fill();
+          ctx.strokeStyle = 'white';
+          ctx.lineWidth = 1;
+          ctx.stroke();
         }
         
         // Plot Station data (blue line)
-        if (displayData.length > 0) {
-          const stationLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-          let stationPath = `M${xScale(data[0].hoursFromOnset)},${yStationScale(data[0].station)}`;
+        isFirstPoint = true;
+        ctx.beginPath();
+        ctx.strokeStyle = 'blue';
+        ctx.lineWidth = 2;
+        
+        for (const point of data) {
+          const x = xStart + ((point.hours - startHour) / hoursRange) * chartWidth;
           
-          for (let i = 1; i < data.length; i++) {
-            stationPath += ` L${xScale(data[i].hoursFromOnset)},${yStationScale(data[i].station)}`;
+          // Convert station value to y position (reversed scale)
+          const station = parseFloat(point.station);
+          const normalizedStation = station - stationMin; // 0 to 6
+          const y = yStart - ((stationRange - normalizedStation) / stationRange) * chartHeight;
+          
+          if (isFirstPoint) {
+            ctx.moveTo(x, y);
+            isFirstPoint = false;
+          } else {
+            ctx.lineTo(x, y);
           }
+        }
+        
+        ctx.stroke();
+        
+        // Plot Station data points
+        for (const point of data) {
+          if (point.isInterpolated) continue; // Don't draw interpolated points
           
-          stationLine.setAttribute('d', stationPath);
-          stationLine.setAttribute('fill', 'none');
-          stationLine.setAttribute('stroke', '#3498db');
-          stationLine.setAttribute('stroke-width', '2');
-          g.appendChild(stationLine);
+          const x = xStart + ((point.hours - startHour) / hoursRange) * chartWidth;
           
-          // Plot Station data points
-          displayData.forEach(point => {
-            const stationPoint = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            stationPoint.setAttribute('cx', xScale(point.hoursFromOnset));
-            stationPoint.setAttribute('cy', yStationScale(point.station));
-            stationPoint.setAttribute('r', '4');
-            stationPoint.setAttribute('fill', '#3498db');
-            
-            // Add title for tooltip
-            const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
-            title.textContent = `Time: ${point.datetime}\nStation: ${point.station}\nHours from onset: ${point.hoursFromOnset.toFixed(1)}`;
-            stationPoint.appendChild(title);
-            
-            g.appendChild(stationPoint);
-          });
+          // Convert station value to y position (reversed scale)
+          const station = parseFloat(point.station);
+          const normalizedStation = station - stationMin; // 0 to 6
+          const y = yStart - ((stationRange - normalizedStation) / stationRange) * chartHeight;
+          
+          ctx.beginPath();
+          ctx.arc(x, y, 5, 0, 2 * Math.PI);
+          ctx.fillStyle = 'blue';
+          ctx.fill();
+          ctx.strokeStyle = 'white';
+          ctx.lineWidth = 1;
+          ctx.stroke();
         }
       }
 
