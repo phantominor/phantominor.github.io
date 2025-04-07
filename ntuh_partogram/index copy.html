@@ -203,11 +203,6 @@
         <div class="hint">Path: EMR > 住院 > [日期] > 入院紀錄 > [日期]</div>
         
         <div class="sub-block">
-          <div class="sub-title">主訴 (Chief Complaint)</div>
-          <textarea id="chiefComplaint" placeholder="Paste the chief complaint here..."></textarea>
-        </div>
-        
-        <div class="sub-block">
           <div class="sub-title">病史 (Patient History)</div>
           <textarea id="patientHistory" placeholder="Paste the patient history here..."></textarea>
         </div>
@@ -223,6 +218,14 @@
         </div>
       </div>
       
+      <div class="main-block">
+        <div class="main-title">生產紀錄 (Vacuum Note)</div>
+        <div class="hint">Path: EMR > 住院 > [日期] > 病程紀錄 > [日期] > &lt;Vacuum Note&gt;</div>
+        <div class="sub-block">
+          <textarea id="vacuumNote" placeholder="Paste the vacuum note here..."></textarea>
+        </div>
+      </div>
+
       <div class="main-block">
         <div class="main-title">護理過程紀錄 (Nursing Process)</div>
         <div class="hint">Path: EMR > 住院 > [日期] > 護理紀錄 > 護理過程記錄</div>
@@ -311,6 +314,10 @@
       <div class="output-block">
         <div class="output-title">11. Type of delivery</div>
         <div id="typeOfDelivery" class="output-content"></div>
+        <div class="remark">
+          <p>You SHOULD know whether it's NSD or C/S, don't ask me.</p>
+          <p><b>Median episiotomy</b> is the standard due to better healing and less bleeding, whereas mediolateral is used only when reducing the risk of extension outweighs its drawbacks.</p>
+        </div>
       </div>
       
       <div class="output-block">
@@ -338,6 +345,7 @@
       const physicalExamText = document.getElementById('physicalExam').value;
       const nsdEvaluationText = document.getElementById('nsdEvaluation').value;
       const nursingProcessText = document.getElementById('nursingProcess').value;
+      const vacuumNoteText = document.getElementById('vacuumNote').value;
       
       // ===== OUTPUT block 1: OBS/GYN history =====
       // Extract OBS/GYN history from patient history
@@ -1527,6 +1535,79 @@
         }
       }
 
+      // ===== OUTPUT block 11: Type of delivery =====
+      let typeOfDelivery = "";
+
+      // Extract first part - description after <Vacuum Note> and before Vaccum Condition
+      if (vacuumNoteText) {
+        let startIndex = 0;
+        if (vacuumNoteText.includes("<Vacuum Note>")) {
+          startIndex = vacuumNoteText.indexOf("<Vacuum Note>") + "<Vacuum Note>".length;
+        }
+        
+        const endIndex = vacuumNoteText.indexOf("Vaccum Condition");
+        if (endIndex !== -1) {
+          const firstPart = vacuumNoteText.substring(startIndex, endIndex).trim();
+          typeOfDelivery += firstPart + "\n\n";
+        }
+        
+        // Extract second part - Epsiotomy wound information
+        if (vacuumNoteText.includes("Epsiotomy wound") && vacuumNoteText.includes("Estimated blood loss")) {
+          const startEpisiotomy = vacuumNoteText.indexOf("Epsiotomy wound");
+          const endEpisiotomy = vacuumNoteText.indexOf("Estimated blood loss");
+          
+          const secondPart = vacuumNoteText.substring(startEpisiotomy, endEpisiotomy).trim();
+          typeOfDelivery += secondPart + "\n\n";
+        }
+        
+        // Extract third part - Complication information
+        if (vacuumNoteText.includes("Complication") && vacuumNoteText.includes("delayed cord clamping")) {
+          const startComplication = vacuumNoteText.indexOf("Complication");
+          const endComplication = vacuumNoteText.indexOf("delayed cord clamping");
+          
+          const thirdPart = vacuumNoteText.substring(startComplication, endComplication).trim();
+          typeOfDelivery += thirdPart;
+        }
+      }
+
+      // ===== OUTPUT block 12: Findings of placenta, cord and membrane =====
+      let placentaFindings = "";
+
+      // Extract from "Meconium stain" to before "Maternal condition"
+      if (vacuumNoteText.includes("Meconium stain") && vacuumNoteText.includes("Maternal condition")) {
+        const startMeconium = vacuumNoteText.indexOf("Meconium stain");
+        const endMeconium = vacuumNoteText.indexOf("Maternal condition");
+        
+        if (startMeconium !== -1 && endMeconium !== -1) {
+          placentaFindings = vacuumNoteText.substring(startMeconium, endMeconium).trim();
+        }
+      }
+
+      let newbornFindings = "";
+
+      // (Same as for Type of delivery)
+      if (vacuumNoteText) {
+        let startIndex = 0;
+        if (vacuumNoteText.includes("<Vacuum Note>")) {
+          startIndex = vacuumNoteText.indexOf("<Vacuum Note>") + "<Vacuum Note>".length;
+        }
+        
+        const endIndex = vacuumNoteText.indexOf("Vaccum Condition");
+        if (endIndex !== -1) {
+          const firstPart = vacuumNoteText.substring(startIndex, endIndex).trim();
+          newbornFindings += firstPart + "\n\n";
+        }
+        
+        // Extract second part - Birth body weight through Fetal anomaly
+        if (vacuumNoteText.includes("Birth body weight") && vacuumNoteText.includes("Meconium stain")) {
+          const startWeight = vacuumNoteText.indexOf("Birth body weight");
+          const endWeight = vacuumNoteText.indexOf("Meconium stain");
+          
+          const secondPart = vacuumNoteText.substring(startWeight, endWeight).trim();
+          newbornFindings += secondPart;
+        }
+      }
+
       // Set the extracted data to the output fields
       document.getElementById('obsGynHistory').textContent = finalObsGynHistory;
       document.getElementById('specialConditionsAndSystemicDisease').textContent = systemicAndSpecialConditions;
@@ -1538,6 +1619,10 @@
       const courseOfLaborElement = document.getElementById('courseOfLabor');
       courseOfLaborElement.innerHTML = '';
       courseOfLaborElement.appendChild(courseOfLaborTable);
+
+      document.getElementById('typeOfDelivery').textContent = typeOfDelivery;
+      document.getElementById('placentaFindings').textContent = placentaFindings;
+      document.getElementById('newbornFindings').textContent = newbornFindings;
 
       // Show and scroll to the output section
       document.getElementById('outputSection').style.display = 'block';
