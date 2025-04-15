@@ -203,11 +203,6 @@
         <div class="hint">Path: EMR > 住院 > [日期] > 入院紀錄 > [日期]</div>
         
         <div class="sub-block">
-          <div class="sub-title">主訴 (Chief Complaint)</div>
-          <textarea id="chiefComplaint" placeholder="Paste the chief complaint here..."></textarea>
-        </div>
-        
-        <div class="sub-block">
           <div class="sub-title">病史 (Patient History)</div>
           <textarea id="patientHistory" placeholder="Paste the patient history here..."></textarea>
         </div>
@@ -220,9 +215,21 @@
         <div class="sub-block">
           <div class="sub-title">檢查紀錄 (Examination Report)</div>
           <textarea id="examReport" placeholder="Paste the examination report here..."></textarea>
+          <div class="remark">
+            <p>假如檢查紀錄是 "nil"，那你只能怪自己在寫 admission 的時候耍白癡沒帶入，但很幸運地 EMR 裡什麼都有。請參考以下位置：</p>
+            <p>Path: EMR > 置頂 > 報告 > 超音波報告 > [貼上最近一次的內容(最上面那欄)]</p>
+          </div>
         </div>
       </div>
       
+      <div class="main-block">
+        <div class="main-title">生產紀錄 (Vacuum Note)</div>
+        <div class="hint">Path: EMR > 住院 > [日期] > 病程紀錄 > [日期] > &lt;Vacuum Note&gt;</div>
+        <div class="sub-block">
+          <textarea id="vacuumNote" placeholder="Paste the vacuum note here..."></textarea>
+        </div>
+      </div>
+
       <div class="main-block">
         <div class="main-title">護理過程紀錄 (Nursing Process)</div>
         <div class="hint">Path: EMR > 住院 > [日期] > 護理紀錄 > 護理過程記錄</div>
@@ -311,6 +318,10 @@
       <div class="output-block">
         <div class="output-title">11. Type of delivery</div>
         <div id="typeOfDelivery" class="output-content"></div>
+        <div class="remark">
+          <p>You SHOULD know whether it's NSD or C/S, don't ask me.</p>
+          <p><b>Median episiotomy</b> is the standard due to better healing and less bleeding, whereas mediolateral is used only when reducing the risk of extension outweighs its drawbacks.</p>
+        </div>
       </div>
       
       <div class="output-block">
@@ -321,11 +332,17 @@
       <div class="output-block">
         <div class="output-title">13. Findings of newborn</div>
         <div id="newbornFindings" class="output-content"></div>
+        <div class="remark">
+          <p>Apgar's score should be jotted down at 1 min and 5 min.</p>
+        </div>
       </div>
       
       <div class="output-block">
         <div class="output-title">14. Other finding</div>
         <div id="otherFindings" class="output-content"></div>
+        <div class="remark">
+          <p>Cord milking (-), if not specified.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -338,6 +355,7 @@
       const physicalExamText = document.getElementById('physicalExam').value;
       const nsdEvaluationText = document.getElementById('nsdEvaluation').value;
       const nursingProcessText = document.getElementById('nursingProcess').value;
+      const vacuumNoteText = document.getElementById('vacuumNote').value;
       
       // ===== OUTPUT block 1: OBS/GYN history =====
       // Extract OBS/GYN history from patient history
@@ -611,8 +629,49 @@
       let deliveryTime = "";
       let placentaDeliveryTime = "";
 
+            // Find placenta delivery time
+            if (nsdEvaluationText.includes("娩出胎盤胎膜:")) {
+        const placentaLine = nsdEvaluationText.split('\n').find(line => 
+          line.includes("娩出胎盤胎膜:"));
+        if (placentaLine) {
+          // Extract date and time after "娩出胎盤胎膜:"
+          const dateTimeMatch = placentaLine.match(/娩出胎盤胎膜:[ \t　]*(\d{4}\/\d{2}\/\d{2} \d{2}:\d{2})/);
+          if (dateTimeMatch && dateTimeMatch[1]) {
+            placentaDeliveryTime = dateTimeMatch[1];
+          }
+        }
+      }
+
       // Find delivery time from 分娩中/分娩後 records
-      if (nsdEvaluationText.includes("分娩中") && nsdEvaluationText.includes("分娩後")) {
+      // First try to extract from vacuum note (priority)
+      if (vacuumNoteText) {
+        // Look for time format in the first few lines
+        const firstLines = vacuumNoteText.split('\n').slice(0, 5).join('\n');
+        // Looking for pattern like "performed smoothly at 16:18" in the vacuum note
+        const timeMatch = firstLines.match(/performed smoothly at (\d{1,2}:\d{2})/);
+        
+        if (timeMatch && timeMatch[1]) {
+          const timeOnly = timeMatch[1];
+          
+          // Extract date from vacuum note header or placenta delivery time
+          let dateStr = "";
+          const vacuumDateMatch = vacuumNoteText.match(/^(\d{4}\/\d{1,2}\/\d{1,2})/m);
+          
+          if (vacuumDateMatch && vacuumDateMatch[1]) {
+            dateStr = vacuumDateMatch[1];
+          } else if (placentaDeliveryTime) {
+            // Use date from placenta delivery time as reference
+            dateStr = placentaDeliveryTime.split(' ')[0];
+          }
+          
+          if (dateStr) {
+            deliveryTime = `${dateStr} ${timeOnly}`;
+          }
+        }
+      }
+
+      // Fallback: If no time found in vacuum note, use time from NSD evaluation
+      if (!deliveryTime && nsdEvaluationText.includes("分娩中") && nsdEvaluationText.includes("分娩後")) {
         const deliveryLines = nsdEvaluationText.split('\n').filter(line => 
           line.includes("分娩中") || line.includes("分娩後"));
         
@@ -627,20 +686,7 @@
         }
       }
 
-      // Find placenta delivery time
-      if (nsdEvaluationText.includes("娩出胎盤胎膜:")) {
-        const placentaLine = nsdEvaluationText.split('\n').find(line => 
-          line.includes("娩出胎盤胎膜:"));
-        if (placentaLine) {
-          // Extract date and time after "娩出胎盤胎膜:"
-          const dateTimeMatch = placentaLine.match(/娩出胎盤胎膜:[ \t　]*(\d{4}\/\d{2}\/\d{2} \d{2}:\d{2})/);
-          if (dateTimeMatch && dateTimeMatch[1]) {
-            placentaDeliveryTime = dateTimeMatch[1];
-          }
-        }
-      }
-
-      // Process nursing notes to find onset of labor and full os time
+      // Process nursing notes to find onset of labor based on contraction intervals
       const nursingNotes = nursingProcessText.split(/\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}/).filter(Boolean);
       const nursingTimestamps = nursingProcessText.match(/\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}/g) || [];
 
@@ -653,19 +699,112 @@
         });
       }
 
-      // Find onset of labor (first note where contraction interval is 3-5 minutes)
-      for (const note of timestampedNotes) {
-        if (note.note.includes("宮縮間隔時間：3-5分") || 
-            note.note.includes("宮縮間隔時間：2-5分") || 
-            note.note.includes("宮縮間隔時間：3-4分")) {
-          onsetOfLabor = note.timestamp;
-          break;
+      // Find onset of labor (first note where contraction interval is ≤4 min and remains ≤4 min afterward)
+      let foundConsistentPattern = false;
+
+      console.log("Starting to analyze nursing notes for onset of labor");
+      console.log(`Total number of timestamped notes: ${timestampedNotes.length}`);
+
+      // Helper function to extract the average interval time from a string containing "宮縮間隔時間：X-Y分" or "宮縮間隔時間：X分"
+      function extractAverageInterval(noteText) {
+        // Try to find pattern like "宮縮間隔時間：3-5分" (range)
+        const rangeMatch = noteText.match(/宮縮間隔時間：(\d+)-(\d+)分/);
+        if (rangeMatch) {
+          const min = parseInt(rangeMatch[1]);
+          const max = parseInt(rangeMatch[2]);
+          const avg = (min + max) / 2; // Return average
+          console.log(`Found range pattern: ${min}-${max}分, average: ${avg}`);
+          return avg;
+        }
+        
+        // Try to find pattern like "宮縮間隔時間：3分" (single value)
+        const singleMatch = noteText.match(/宮縮間隔時間：(\d+)分/);
+        if (singleMatch) {
+          const value = parseInt(singleMatch[1]);
+          console.log(`Found single value pattern: ${value}分`);
+          return value;
+        }
+        
+        console.log("No contraction interval pattern found in this note");
+        return null; // No match found
+      }
+
+      // Process all nursing notes to find consistent pattern
+      for (let i = 0; i < timestampedNotes.length; i++) {
+        const currentNote = timestampedNotes[i];
+        console.log(`\nAnalyzing note at timestamp: ${currentNote.timestamp}`);
+        console.log(`Note excerpt: ${currentNote.note.substring(0, 50)}...`);
+        
+        const interval = extractAverageInterval(currentNote.note);
+        
+        // Skip if we couldn't determine the interval for this note
+        if (interval === null) {
+          console.log("Skipping this note - couldn't extract interval");
+          continue;
+        }
+        
+        // Check if interval is ≤4 minutes
+        console.log(`Interval value: ${interval}, Is ≤4? ${interval <= 4}`);
+        if (interval <= 4) {
+          console.log("This note has interval ≤4, checking subsequent notes...");
+          // Now check if subsequent notes also have intervals ≤4 minutes
+          let allSubsequentAreConsistent = true;
+          let checkedCount = 0;
+          
+          // Check up to 3 subsequent notes (or as many as available)
+          for (let j = i + 1; j < timestampedNotes.length && j < i + 4; j++) {
+            console.log(`Checking subsequent note at index ${j}`);
+            const subsequentInterval = extractAverageInterval(timestampedNotes[j].note);
+            
+            // Skip notes where we can't extract the interval
+            if (subsequentInterval === null) {
+              console.log("Couldn't extract interval from this subsequent note, skipping");
+              continue;
+            }
+            
+            checkedCount++;
+            console.log(`Subsequent interval value: ${subsequentInterval}, Is ≤4? ${subsequentInterval <= 4}`);
+            
+            // If any subsequent note has interval > 4, pattern is broken
+            if (subsequentInterval > 4) {
+              console.log("Pattern broken - interval > 4");
+              allSubsequentAreConsistent = false;
+              break;
+            }
+          }
+          
+          console.log(`Checked ${checkedCount} subsequent notes, all consistent: ${allSubsequentAreConsistent}`);
+          // If we found at least 2 subsequent notes and all are consistent, we found our pattern
+          if (checkedCount >= 2 && allSubsequentAreConsistent) {
+            console.log(`FOUND ONSET OF LABOR at ${currentNote.timestamp}`);
+            onsetOfLabor = currentNote.timestamp;
+            foundConsistentPattern = true;
+            break;
+          } else {
+            console.log("Not enough consistent subsequent notes, continuing search");
+          }
         }
       }
 
+      // If we didn't find a consistent pattern, try a fallback approach
+      if (!foundConsistentPattern) {
+        console.log("\nNo consistent pattern found, trying fallback approach...");
+        // Find the first occurrence of interval ≤3 minutes as a fallback
+        for (const note of timestampedNotes) {
+          const interval = extractAverageInterval(note.note);
+          if (interval !== null && interval <= 3) {
+            console.log(`FALLBACK: Found note with interval ≤3 at ${note.timestamp}`);
+            onsetOfLabor = note.timestamp;
+            break;
+          }
+        }
+      }
+
+      console.log(`Final result - Onset of labor: ${onsetOfLabor || "Not determined"}`);
+
       // Find full os time (first note where OS status is "full")
       for (const note of timestampedNotes) {
-        if (note.note.includes("OS：full")) {
+        if (note.note.includes("OS：full") || note.note.includes("OS：Full")) {
           fullOsTime = note.timestamp;
           break;
         }
@@ -972,7 +1111,9 @@
           { pattern: /(-?\d+)-(-?\d+)/, value: (m) => (parseFloat(m[1]) + parseFloat(m[2])) / 2 },
           { pattern: /(-?\d+)~(-?\d+)/, value: (m) => (parseFloat(m[1]) + parseFloat(m[2])) / 2 },
           { pattern: /(-?\d+)\/(-?\d+)/, value: (m) => (parseFloat(m[1]) + parseFloat(m[2])) / 2 },
-          { pattern: /\+(\d+)~\+(\d+)/, value: (m) => (parseFloat(m[1]) + parseFloat(m[2])) / 2 }
+          { pattern: /\+(\d+)-\+(\d+)/, value: (m) => (parseFloat(m[1]) + parseFloat(m[2])) / 2 },
+          { pattern: /\+(\d+)~\+(\d+)/, value: (m) => (parseFloat(m[1]) + parseFloat(m[2])) / 2 },
+          { pattern: /\+(\d+)\/+(\d+)/, value: (m) => (parseFloat(m[1]) + parseFloat(m[2])) / 2 }
         ];
         
         for (const { pattern, value } of rangePatterns) {
@@ -1527,6 +1668,92 @@
         }
       }
 
+      // ===== OUTPUT block 11: Type of delivery =====
+      let typeOfDelivery = "";
+
+      // Extract first part - description after <Vacuum Note> and before Vaccum Condition
+      if (vacuumNoteText) {
+        let startIndex = 0;
+        if (vacuumNoteText.includes("<Vacuum Note>")) {
+          startIndex = vacuumNoteText.indexOf("<Vacuum Note>") + "<Vacuum Note>".length;
+        }
+        
+        const endIndex = vacuumNoteText.indexOf("Vaccum Condition");
+        if (endIndex !== -1) {
+          const firstPart = vacuumNoteText.substring(startIndex, endIndex).trim();
+          typeOfDelivery += firstPart + "\n\n";
+        }
+        
+        // Extract second part - Epsiotomy wound information
+        if (vacuumNoteText.includes("Epsiotomy wound") && vacuumNoteText.includes("Estimated blood loss")) {
+          const startEpisiotomy = vacuumNoteText.indexOf("Epsiotomy wound");
+          const endEpisiotomy = vacuumNoteText.indexOf("Estimated blood loss");
+          
+          const secondPart = vacuumNoteText.substring(startEpisiotomy, endEpisiotomy).trim();
+          typeOfDelivery += secondPart + "\n\n";
+        }
+        
+        // Extract third part - Complication information
+        if (vacuumNoteText.includes("Complication") && vacuumNoteText.includes("delayed cord clamping")) {
+          const startComplication = vacuumNoteText.indexOf("Complication");
+          const endComplication = vacuumNoteText.indexOf("delayed cord clamping");
+          
+          const thirdPart = vacuumNoteText.substring(startComplication, endComplication).trim();
+          typeOfDelivery += thirdPart;
+        }
+      }
+
+      // ===== OUTPUT block 12: Findings of placenta, cord and membrane =====
+      let placentaFindings = "";
+
+      // Extract from "Meconium stain" to before "Maternal condition"
+      if (vacuumNoteText.includes("Meconium stain") && vacuumNoteText.includes("Maternal condition")) {
+        const startMeconium = vacuumNoteText.indexOf("Meconium stain");
+        const endMeconium = vacuumNoteText.indexOf("Maternal condition");
+        
+        if (startMeconium !== -1 && endMeconium !== -1) {
+          placentaFindings = vacuumNoteText.substring(startMeconium, endMeconium).trim();
+        }
+      }
+
+      // ===== OUTPUT block 13: Findings of newborn =====
+      let newbornFindings = "";
+
+      // (Same as for Type of delivery)
+      if (vacuumNoteText) {
+        let startIndex = 0;
+        if (vacuumNoteText.includes("<Vacuum Note>")) {
+          startIndex = vacuumNoteText.indexOf("<Vacuum Note>") + "<Vacuum Note>".length;
+        }
+        
+        const endIndex = vacuumNoteText.indexOf("Vaccum Condition");
+        if (endIndex !== -1) {
+          const firstPart = vacuumNoteText.substring(startIndex, endIndex).trim();
+          newbornFindings += firstPart + "\n\n";
+        }
+        
+        // Extract second part - Birth body weight through Fetal anomaly
+        if (vacuumNoteText.includes("Birth body weight") && vacuumNoteText.includes("Meconium stain")) {
+          const startWeight = vacuumNoteText.indexOf("Birth body weight");
+          const endWeight = vacuumNoteText.indexOf("Meconium stain");
+          
+          const secondPart = vacuumNoteText.substring(startWeight, endWeight).trim();
+          newbornFindings += secondPart;
+        }
+      }
+
+      // ===== OUTPUT block 14: Other finding =====
+      let otherFindings = "";
+
+      if (vacuumNoteText.includes("Estimated blood loss") && vacuumNoteText.includes("Attended by")) {
+        const startOtherFindings = vacuumNoteText.indexOf("Estimated blood loss");
+        const endOtherFindings = vacuumNoteText.indexOf("Attended by");
+        
+        if (startOtherFindings !== -1 && endOtherFindings !== -1) {
+          otherFindings = vacuumNoteText.substring(startOtherFindings, endOtherFindings).trim();
+        }
+      }
+
       // Set the extracted data to the output fields
       document.getElementById('obsGynHistory').textContent = finalObsGynHistory;
       document.getElementById('specialConditionsAndSystemicDisease').textContent = systemicAndSpecialConditions;
@@ -1538,6 +1765,11 @@
       const courseOfLaborElement = document.getElementById('courseOfLabor');
       courseOfLaborElement.innerHTML = '';
       courseOfLaborElement.appendChild(courseOfLaborTable);
+
+      document.getElementById('typeOfDelivery').textContent = typeOfDelivery;
+      document.getElementById('placentaFindings').textContent = placentaFindings;
+      document.getElementById('newbornFindings').textContent = newbornFindings;
+      document.getElementById('otherFindings').textContent = otherFindings;
 
       // Show and scroll to the output section
       document.getElementById('outputSection').style.display = 'block';
