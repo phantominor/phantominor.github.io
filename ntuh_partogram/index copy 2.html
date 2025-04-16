@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blue Single Helper</title>
+  <title>藍單大幫手</title>
+  <link rel="icon" href="/ntuh_partogram/favicon.png" type="image/x-icon">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -16,6 +17,27 @@
       color: #0066cc;
       text-align: center;
       margin-bottom: 30px;
+    }
+    .credit-line {
+      text-align: center;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      color: #4a86e8;
+      margin-top: -20px;
+      margin-bottom: 25px;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.8);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .credit-line::before,
+    .credit-line::after {
+      content: "✦";
+      display: inline-block;
+      padding: 0 10px;
+      color: #8ab4f8;
     }
     .container {
       max-width: 1200px;
@@ -195,6 +217,7 @@
 <body>
   <div class="container">
     <h1>藍單大幫手</h1>
+    <div class="credit-line">Created by B09 phantominor • Launched April 15, 2025</div>
     
     <!-- Input Section -->
     <div class="input-section">
