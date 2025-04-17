@@ -5,18 +5,351 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Structural Biology</title>
     <link rel="stylesheet" href="/assets/css/styles.css">
+    <style>
+        /* Main content styles */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Chapter styling */
+        .chapter {
+            margin-bottom: 4rem;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 2rem;
+        }
+
+        .chapter-title {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #3498db;
+            display: inline-block;
+        }
+
+        /* Figure container */
+        .figure-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .figure-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .figure-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Figure card styling */
+        .figure-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .figure-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .figure-image {
+            width: 100%;
+            height: auto;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .figure-info {
+            padding: 1.5rem;
+        }
+
+        .figure-title {
+            color: #2c3e50;
+            font-size: 1.25rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .figure-description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        /* Table styling */
+        .table-card {
+            background-color: #f8f9fa;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .table-card .figure-title {
+            color: #e74c3c;
+        }
+
+        /* PAN items styling */
+        .panorama-card {
+            background-color: #f8f9fa;
+            border-left: 4px solid #9b59b6;
+        }
+
+        .panorama-card .figure-title {
+            color: #9b59b6;
+        }
+
+        /* Chapter navigation */
+        .chapter-nav {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            position: sticky;
+            top: 1rem;
+            z-index: 100;
+        }
+
+        .chapter-nav-title {
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .chapter-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .chapter-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .chapter-link:hover {
+            background-color: #2980b9;
+        }
+
+        /* Lightbox for images */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .lightbox-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .lightbox-caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: white;
+            padding: 10px 0;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .lightbox-close:hover,
+        .lightbox-close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <div id="headerPage"></div> <!-- Placeholder for the header -->
     
     <div class="content">        
         <main>
-        
+            <!-- Chapter Navigation -->
+            <div class="chapter-nav">
+                <h2 class="chapter-nav-title">Jump to Chapter:</h2>
+                <div class="chapter-links">
+                    <a href="#ch01" class="chapter-link">Chapter 1</a>
+                    <a href="#ch02" class="chapter-link">Chapter 2</a>
+                    <a href="#ch03" class="chapter-link">Chapter 3</a>
+                    <a href="#ch04" class="chapter-link">Chapter 4</a>
+                    <a href="#ch05" class="chapter-link">Chapter 5</a>
+                    <a href="#ch06" class="chapter-link">Chapter 6</a>
+                    <a href="#ch07" class="chapter-link">Chapter 7</a>
+                    <a href="#ch08" class="chapter-link">Chapter 8</a>
+                    <a href="#ch09" class="chapter-link">Chapter 9</a>
+                    <a href="#ch10" class="chapter-link">Chapter 10</a>
+                    <a href="#ch11" class="chapter-link">Chapter 11</a>
+                    <a href="#ch12" class="chapter-link">Chapter 12</a>
+                    <a href="#ch13" class="chapter-link">Chapter 13</a>
+                    <a href="#ch14" class="chapter-link">Chapter 14</a>
+                    <a href="#ch15" class="chapter-link">Chapter 15</a>
+                    <a href="#ch16" class="chapter-link">Chapter 16</a>
+                    <a href="#ch17" class="chapter-link">Chapter 17</a>
+                    <a href="#ch18" class="chapter-link">Chapter 18</a>
+                </div>
+            </div>
+
+            <!-- Chapter 1 -->
+            <section id="ch01" class="chapter">
+                <h2 class="chapter-title">Chapter 1: Introduction to Structural Biology</h2>
+                
+                <div class="figure-container">
+                    <!-- Each figure card will be populated dynamically, here's an example -->
+                    <div class="figure-card">
+                        <img src="/assets/images/strucBio/CH01/FIG1_1.JPG" alt="Figure 1.1" class="figure-image">
+                        <div class="figure-info">
+                            <h3 class="figure-title">Figure 1.1</h3>
+                            <p class="figure-description">
+                                Description of Figure 1.1. Add your learning notes here about the structural biology concepts shown in this image.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Panorama example -->
+                    <div class="figure-card panorama-card">
+                        <img src="/assets/images/strucBio/CH01/PAN1_1A.JPG" alt="Panorama 1.1A" class="figure-image">
+                        <div class="figure-info">
+                            <h3 class="figure-title">Panorama 1.1A</h3>
+                            <p class="figure-description">
+                                Description of Panorama 1.1A. Add your learning notes here about this panoramic view of the structural concept.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Add more figure cards for Chapter 1 -->
+                </div>
+            </section>
+            
+            <!-- Example of Chapter 2 -->
+            <section id="ch02" class="chapter">
+                <h2 class="chapter-title">Chapter 2: Protein Structure</h2>
+                
+                <div class="figure-container">
+                    <div class="figure-card">
+                        <img src="/assets/images/strucBio/CH02/FIG2_1.JPG" alt="Figure 2.1" class="figure-image">
+                        <div class="figure-info">
+                            <h3 class="figure-title">Figure 2.1</h3>
+                            <p class="figure-description">
+                                Description of Figure 2.1. Add your learning notes here about protein structure concepts.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="figure-card table-card">
+                        <img src="/assets/images/strucBio/CH02/TAB2_1.JPG" alt="Table 2.1" class="figure-image">
+                        <div class="figure-info">
+                            <h3 class="figure-title">Table 2.1</h3>
+                            <p class="figure-description">
+                                Description of Table 2.1. Add your learning notes about the tabular data presented here.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Add more figure cards for Chapter 2 -->
+                </div>
+            </section>
+            
+            <!-- Repeat the section structure for all chapters -->
+            <!-- Chapter 3 through 18 would follow the same pattern -->
+            
+            <!-- Lightbox for image enlargement -->
+            <div id="imageLightbox" class="lightbox">
+                <span class="lightbox-close">&times;</span>
+                <img class="lightbox-content" id="lightboxImage">
+                <div id="lightboxCaption" class="lightbox-caption"></div>
+            </div>
         </main>
     </div>
     
     <div id="footerPage"></div> <!-- Placeholder for the footer -->
 
     <script src="/assets/js/script.js"></script>
+    
+    <script>
+        // JavaScript for dynamic image loading and lightbox functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all images with class figure-image
+            const images = document.querySelectorAll('.figure-image');
+            const lightbox = document.getElementById('imageLightbox');
+            const lightboxImg = document.getElementById('lightboxImage');
+            const lightboxCaption = document.getElementById('lightboxCaption');
+            const closeBtn = document.querySelector('.lightbox-close');
+            
+            // Add click event to each image to open lightbox
+            images.forEach(img => {
+                img.addEventListener('click', function() {
+                    lightbox.style.display = 'block';
+                    lightboxImg.src = this.src;
+                    // Get the figure title from the parent card
+                    const figureTitle = this.closest('.figure-card').querySelector('.figure-title').textContent;
+                    lightboxCaption.textContent = figureTitle;
+                });
+            });
+            
+            // Close lightbox when clicking the close button
+            closeBtn.addEventListener('click', function() {
+                lightbox.style.display = 'none';
+            });
+            
+            // Close lightbox when clicking outside the image
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === lightbox) {
+                    lightbox.style.display = 'none';
+                }
+            });
+            
+            // Close lightbox when pressing ESC key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && lightbox.style.display === 'block') {
+                    lightbox.style.display = 'none';
+                }
+            });
+            
+            // Optional: Function to dynamically generate figure cards from file structure
+            // This would be useful if you want to automate the process
+            function generateFigureCards() {
+                // This would be a more complex implementation
+                // that could fetch your directory structure
+                // and create cards programmatically
+                console.log('Dynamic card generation would be implemented here');
+            }
+        });
+    </script>
 </body>
 </html>

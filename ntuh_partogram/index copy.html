@@ -298,7 +298,7 @@
         <div class="output-title">5. Physical examination and laboratory data</div>
         <div id="physicalLabData" class="output-content"></div>
         <div class="remark">
-          <p>For weight before pregnancy, please refer to OPD notes or make sure that it is included in your inquiry.</p>
+          <p>Weight before pregnancy: EMR > 住院 > [日期] > 病程紀錄 > [日期] > 成人營養評估 (最久之前的評估紀錄)</p>
         </div>
       </div>
       
@@ -668,10 +668,11 @@
       // Find delivery time from 分娩中/分娩後 records
       // First try to extract from vacuum note (priority)
       if (vacuumNoteText) {
-        // Look for time format in the first few lines
-        const firstLines = vacuumNoteText.split('\n').slice(0, 5).join('\n');
-        // Looking for pattern like "performed smoothly at 16:18" in the vacuum note
-        const timeMatch = firstLines.match(/performed smoothly at (\d{1,2}:\d{2})/);
+        // First, replace newlines with spaces to create one continuous text
+        const normalizedText = vacuumNoteText.replace(/\n/g, ' ');
+        
+        // Look for time format in the normalized text
+        const timeMatch = normalizedText.match(/performed smoothly at (\d{1,2}:\d{2})/);
         
         if (timeMatch && timeMatch[1]) {
           const timeOnly = timeMatch[1];
@@ -991,15 +992,15 @@
         const osStationData = [];
         
         for (const entry of entries) {
-          // Check if entry contains OS or os
-          const osMatch = entry.content.match(/(?:os|OS)[:：]([^,，。、/]+)/i);
+          // Check if entry contains OS or os with expanded pattern to match period delimiter too
+          const osMatch = entry.content.match(/(?:os|OS)[:：]([^,，。、/\.]+)/i);
           
           if (osMatch) {
             const osValue = osMatch[1].trim();
             let stationValue = "";
             
-            // Look for station specifically
-            const stationMatch = entry.content.match(/station[:：]([^,，。、/]+)/i);
+            // Look for station specifically with expanded pattern
+            const stationMatch = entry.content.match(/station[:：]([^,，。、/\.]+)/i);
             
             if (stationMatch) {
               stationValue = stationMatch[1].trim();
@@ -1007,35 +1008,58 @@
               // If no station explicitly found, try to find it by position after OS
               const osPosition = entry.content.indexOf(osMatch[0]) + osMatch[0].length;
               
-              // Extract text after OS value until next delimiter
+              // Extract text after OS value until next delimiter (now including period)
               const afterOsText = entry.content.substring(osPosition);
               
-              // Check if there are delimiter characters after OS value
-              const nextDelimiterMatch = afterOsText.match(/[,，。、/]/);
+              // Check if there are delimiter characters after OS value (now including period)
+              const nextDelimiterMatch = afterOsText.match(/[,，。、/\.]/);
               
               if (nextDelimiterMatch) {
                 const restOfText = afterOsText.substring(nextDelimiterMatch.index + 1).trim();
                 
-                // Try to extract station value after first delimiter
-                const possibleStationMatch = restOfText.match(/^([^,，。、/]+)/);
+                // Try to find station keyword explicitly in the rest of text
+                const stationKeywordMatch = restOfText.match(/station[:：]([^,，。、/\.]+)/i);
                 
-                if (possibleStationMatch && (
-                    possibleStationMatch[1].includes('-') || 
-                    possibleStationMatch[1].includes('+') || 
-                    possibleStationMatch[1].includes('~') ||
-                    possibleStationMatch[1].match(/^\d/) ||
-                    possibleStationMatch[1].includes('high')
-                )) {
-                  stationValue = possibleStationMatch[1].trim();
+                if (stationKeywordMatch) {
+                  stationValue = stationKeywordMatch[1].trim();
+                } else {
+                  // Additional pattern to look for high/brim/etc after a period
+                  const highStationMatch = restOfText.match(/^station[:：]\s*(high|brim|[+-]?\d+(?:[~\-\/][+-]?\d+)?)/i);
+                  
+                  if (highStationMatch) {
+                    stationValue = highStationMatch[1].trim();
+                  } else {
+                    // Try to extract station value after first delimiter
+                    const possibleStationMatch = restOfText.match(/^([^,，。、/\.]+)/);
+                    
+                    if (possibleStationMatch && (
+                        possibleStationMatch[1].includes('-') || 
+                        possibleStationMatch[1].includes('+') || 
+                        possibleStationMatch[1].includes('~') ||
+                        possibleStationMatch[1].match(/^\d/) ||
+                        possibleStationMatch[1].includes('high')
+                    )) {
+                      stationValue = possibleStationMatch[1].trim();
+                    }
+                  }
                 }
               }
             }
-            
-            osStationData.push({
-              datetime: entry.datetime,
-              os: osValue,
-              station: stationValue
-            });
+
+            // Handle special cases like "Brim" and "high" in OS and station
+            if (osValue.toLowerCase().includes('brim')) {
+              osStationData.push({
+                datetime: entry.datetime,
+                os: 'Brim',
+                station: stationValue || (entry.content.toLowerCase().includes('high') ? 'high' : '')
+              });
+            } else {
+              osStationData.push({
+                datetime: entry.datetime,
+                os: osValue,
+                station: stationValue
+              });
+            }
           }
         }
         
@@ -1136,7 +1160,10 @@
           { pattern: /(-?\d+)\/(-?\d+)/, value: (m) => (parseFloat(m[1]) + parseFloat(m[2])) / 2 },
           { pattern: /\+(\d+)-\+(\d+)/, value: (m) => (parseFloat(m[1]) + parseFloat(m[2])) / 2 },
           { pattern: /\+(\d+)~\+(\d+)/, value: (m) => (parseFloat(m[1]) + parseFloat(m[2])) / 2 },
-          { pattern: /\+(\d+)\/+(\d+)/, value: (m) => (parseFloat(m[1]) + parseFloat(m[2])) / 2 }
+          { pattern: /\+(\d+)\/+(\d+)/, value: (m) => (parseFloat(m[1]) + parseFloat(m[2])) / 2 },
+          { pattern: /(-?\d+)~\+(\d+)/, value: (m) => (parseFloat(m[1]) + parseFloat(m[2])) / 2 },
+          { pattern: /(-?\d+)-\+(\d+)/, value: (m) => (parseFloat(m[1]) + parseFloat(m[2])) / 2 },
+          { pattern: /(-?\d+)\/\+(\d+)/, value: (m) => (parseFloat(m[1]) + parseFloat(m[2])) / 2 }
         ];
         
         for (const { pattern, value } of rangePatterns) {
