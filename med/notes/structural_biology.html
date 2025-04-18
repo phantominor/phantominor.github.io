@@ -6,348 +6,667 @@
     <title>Structural Biology</title>
     <link rel="stylesheet" href="/assets/css/styles.css">
     <style>
-        /* Main content styles */
-        main {
+        /* Core styles for the main content */
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-bg: #f5f7fa;
+            --border-color: #ddd;
+            --text-color: #333;
+            --text-light: #666;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f9f9f9;
+        }
+
+        /* Navigation styles */
+        .chapter-nav {
+            position: sticky;
+            top: 0;
+            background-color: var(--secondary-color);
+            padding: 15px 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        /* Chapter styling */
-        .chapter {
-            margin-bottom: 4rem;
-            border-bottom: 1px solid #e0e0e0;
-            padding-bottom: 2rem;
-        }
-
-        .chapter-title {
-            color: #2c3e50;
-            font-size: 2.2rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 3px solid #3498db;
-            display: inline-block;
-        }
-
-        /* Figure container */
-        .figure-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        @media (min-width: 768px) {
-            .figure-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .figure-container {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        /* Figure card styling */
-        .figure-card {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .figure-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-        }
-
-        .figure-image {
-            width: 100%;
-            height: auto;
-            border-bottom: 1px solid #eaeaea;
-        }
-
-        .figure-info {
-            padding: 1.5rem;
-        }
-
-        .figure-title {
-            color: #2c3e50;
-            font-size: 1.25rem;
-            margin-top: 0;
-            margin-bottom: 1rem;
+        .site-title {
+            color: white;
+            font-size: 1.5rem;
             font-weight: 600;
         }
 
-        .figure-description {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 0;
+        /* Main content area styles */
+        .content {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
         }
 
-        /* Table styling */
-        .table-card {
-            background-color: #f8f9fa;
-            border-left: 4px solid #e74c3c;
-        }
-
-        .table-card .figure-title {
-            color: #e74c3c;
-        }
-
-        /* PAN items styling */
-        .panorama-card {
-            background-color: #f8f9fa;
-            border-left: 4px solid #9b59b6;
-        }
-
-        .panorama-card .figure-title {
-            color: #9b59b6;
-        }
-
-        /* Chapter navigation */
-        .chapter-nav {
-            background-color: #f8f9fa;
-            padding: 1rem;
+        main {
+            background-color: white;
             border-radius: 8px;
-            margin-bottom: 2rem;
-            position: sticky;
-            top: 1rem;
-            z-index: 100;
+            box-shadow: var(--shadow);
+            padding: 30px;
         }
 
-        .chapter-nav-title {
-            font-size: 1.2rem;
-            color: #2c3e50;
-            margin-bottom: 1rem;
+        /* Chapter styles */
+        .chapter {
+            margin-bottom: 50px;
+        }
+
+        .chapter-title {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .chapter-links-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--secondary-color);
+            padding: 0 20px 15px;
+        }
+
+        .jump-label {
+            color: white;
+            margin-right: 15px;
+            font-weight: 500;
         }
 
         .chapter-links {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: 8px;
+            justify-content: center;
         }
 
-        .chapter-link {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background-color: #3498db;
+        .chapter-links a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary-color);
             color: white;
             text-decoration: none;
             border-radius: 4px;
-            font-size: 0.9rem;
-            transition: background-color 0.2s ease;
+            font-weight: bold;
+            transition: background-color 0.2s;
         }
 
-        .chapter-link:hover {
+        .chapter-links a:hover {
             background-color: #2980b9;
         }
 
-        /* Lightbox for images */
-        .lightbox {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.9);
+        /* Figure styles */
+        .figure-container {
+            margin-bottom: 40px;
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
         }
 
-        .lightbox-content {
-            margin: auto;
-            display: block;
-            max-width: 90%;
-            max-height: 90%;
-        }
-
-        .lightbox-caption {
-            margin: auto;
-            display: block;
-            width: 80%;
-            max-width: 700px;
-            text-align: center;
+        .figure-title {
+            background-color: var(--secondary-color);
             color: white;
-            padding: 10px 0;
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            font-weight: 500;
         }
 
-        .lightbox-close {
-            position: absolute;
-            top: 15px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            transition: 0.3s;
+        .figure-content {
+            padding: 20px;
+        }
+
+        .figure-image {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .figure-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Notes styles */
+        .notes-container {
+            background-color: white;
+            border-radius: 6px;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px 20px;
+        }
+
+        .notes-title {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
             cursor: pointer;
         }
 
-        .lightbox-close:hover,
-        .lightbox-close:focus {
-            color: #bbb;
+        .notes-title::before {
+            content: "▶";
+            margin-right: 8px;
+            font-size: 0.8rem;
+            transition: transform 0.3s;
+        }
+
+        .notes-title.active::before {
+            transform: rotate(90deg);
+        }
+
+        .notes-content {
+            display: none;
+            padding-left: 20px;
+        }
+
+        .notes-content.active {
+            display: block;
+        }
+
+        .notes-content p {
+            margin-bottom: 15px;
+        }
+
+        .notes-content ul, .notes-content ol {
+            margin-bottom: 15px;
+            padding-left: 25px;
+        }
+
+        .notes-content li {
+            margin-bottom: 5px;
+        }
+
+        /* Table styles */
+        .bio-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        .bio-table th, .bio-table td {
+            border: 1px solid var(--border-color);
+            padding: 10px 15px;
+            text-align: left;
+        }
+
+        .bio-table th {
+            background-color: var(--light-bg);
+            font-weight: 600;
+        }
+
+        .bio-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             text-decoration: none;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+            z-index: 1000;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: #2980b9;
+        }
+
+        /* Toggle button for expanded examples */
+        .toggle-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
             cursor: pointer;
+            font-size: 0.9rem;
+            margin: 5px 0;
+        }
+
+        .toggle-content {
+            display: none;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-top: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .toggle-content.active {
+            display: block;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .chapter-title {
+                font-size: 1.7rem;
+            }
+            
+            .figure-title {
+                font-size: 1.1rem;
+            }
+            
+            .back-to-top {
+                width: 40px;
+                height: 40px;
+                bottom: 20px;
+                right: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div id="headerPage"></div> <!-- Placeholder for the header -->
     
+    <!-- Navigation -->
+    <nav class="chapter-nav">
+        <div class="nav-container">
+            <div class="site-title">Structural Biology Learning Notes</div>
+        </div>
+    </nav>
+    
     <div class="content">        
-        <main>
-            <!-- Chapter Navigation -->
-            <div class="chapter-nav">
-                <h2 class="chapter-nav-title">Jump to Chapter:</h2>
-                <div class="chapter-links">
-                    <a href="#ch01" class="chapter-link">Chapter 1</a>
-                    <a href="#ch02" class="chapter-link">Chapter 2</a>
-                    <a href="#ch03" class="chapter-link">Chapter 3</a>
-                    <a href="#ch04" class="chapter-link">Chapter 4</a>
-                    <a href="#ch05" class="chapter-link">Chapter 5</a>
-                    <a href="#ch06" class="chapter-link">Chapter 6</a>
-                    <a href="#ch07" class="chapter-link">Chapter 7</a>
-                    <a href="#ch08" class="chapter-link">Chapter 8</a>
-                    <a href="#ch09" class="chapter-link">Chapter 9</a>
-                    <a href="#ch10" class="chapter-link">Chapter 10</a>
-                    <a href="#ch11" class="chapter-link">Chapter 11</a>
-                    <a href="#ch12" class="chapter-link">Chapter 12</a>
-                    <a href="#ch13" class="chapter-link">Chapter 13</a>
-                    <a href="#ch14" class="chapter-link">Chapter 14</a>
-                    <a href="#ch15" class="chapter-link">Chapter 15</a>
-                    <a href="#ch16" class="chapter-link">Chapter 16</a>
-                    <a href="#ch17" class="chapter-link">Chapter 17</a>
-                    <a href="#ch18" class="chapter-link">Chapter 18</a>
-                </div>
-            </div>
-
+        <main>        
             <!-- Chapter 1 -->
-            <section id="ch01" class="chapter">
+            <section id="chapter1" class="chapter">
                 <h2 class="chapter-title">Chapter 1: Introduction to Structural Biology</h2>
                 
+                <!-- Figure 1.1 -->
                 <div class="figure-container">
-                    <!-- Each figure card will be populated dynamically, here's an example -->
-                    <div class="figure-card">
-                        <img src="/assets/images/strucBio/CH01/FIG1_1.JPG" alt="Figure 1.1" class="figure-image">
-                        <div class="figure-info">
-                            <h3 class="figure-title">Figure 1.1</h3>
-                            <p class="figure-description">
-                                Description of Figure 1.1. Add your learning notes here about the structural biology concepts shown in this image.
-                            </p>
+                    <h3 class="figure-title">Figure 1.1</h3>
+                    <div class="figure-content">
+                        <div class="figure-image">
+                            <img src="/assets/images/strucBio/CH01/FIG1_1.JPG" alt="Figure 1.1">
+                        </div>
+                        <div class="notes-container">
+                            <h4 class="notes-title">Study Notes</h4>
+                            <div class="notes-content">
+                                <p>This figure illustrates the fundamental principles of protein structure hierarchy:</p>
+                                <ul>
+                                    <li><strong>Primary structure:</strong> The linear sequence of amino acids</li>
+                                    <li><strong>Secondary structure:</strong> Local folding patterns including α-helices and β-sheets</li>
+                                    <li><strong>Tertiary structure:</strong> The overall three-dimensional fold of a single protein chain</li>
+                                    <li><strong>Quaternary structure:</strong> The assembly of multiple protein chains into a functional complex</li>
+                                </ul>
+                                <p>Key concepts to understand from this figure:</p>
+                                <button class="toggle-btn">Show/Hide Key Interactions</button>
+                                <div class="toggle-content">
+                                    <ul>
+                                        <li>Hydrogen bonds stabilize secondary structure elements</li>
+                                        <li>Hydrophobic interactions drive protein folding</li>
+                                        <li>Disulfide bridges can covalently link protein regions</li>
+                                        <li>Salt bridges form between oppositely charged residues</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    
-                    <!-- Panorama example -->
-                    <div class="figure-card panorama-card">
-                        <img src="/assets/images/strucBio/CH01/PAN1_1A.JPG" alt="Panorama 1.1A" class="figure-image">
-                        <div class="figure-info">
-                            <h3 class="figure-title">Panorama 1.1A</h3>
-                            <p class="figure-description">
-                                Description of Panorama 1.1A. Add your learning notes here about this panoramic view of the structural concept.
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <!-- Add more figure cards for Chapter 1 -->
                 </div>
-            </section>
-            
-            <!-- Example of Chapter 2 -->
-            <section id="ch02" class="chapter">
-                <h2 class="chapter-title">Chapter 2: Protein Structure</h2>
                 
+                <!-- Figure 1.2 -->
                 <div class="figure-container">
-                    <div class="figure-card">
-                        <img src="/assets/images/strucBio/CH02/FIG2_1.JPG" alt="Figure 2.1" class="figure-image">
-                        <div class="figure-info">
-                            <h3 class="figure-title">Figure 2.1</h3>
-                            <p class="figure-description">
-                                Description of Figure 2.1. Add your learning notes here about protein structure concepts.
-                            </p>
+                    <h3 class="figure-title">Figure 1.2</h3>
+                    <div class="figure-content">
+                        <div class="figure-image">
+                            <img src="/assets/images/strucBio/CH01/FIG1_2.JPG" alt="Figure 1.2">
+                        </div>
+                        <div class="notes-container">
+                            <h4 class="notes-title">Study Notes</h4>
+                            <div class="notes-content">
+                                <p>This figure demonstrates different experimental methods used in structural biology:</p>
+                                <ul>
+                                    <li><strong>X-ray crystallography:</strong> Provides high-resolution structures of crystallized proteins</li>
+                                    <li><strong>NMR spectroscopy:</strong> Allows determination of protein structures in solution</li>
+                                    <li><strong>Cryo-EM:</strong> Enables visualization of large macromolecular complexes</li>
+                                </ul>
+                                
+                                <table class="bio-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Method</th>
+                                            <th>Resolution</th>
+                                            <th>Advantages</th>
+                                            <th>Limitations</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>X-ray Crystallography</td>
+                                            <td>~0.5-3Å</td>
+                                            <td>High resolution, works well for small-large proteins</td>
+                                            <td>Requires crystallization, static structures</td>
+                                        </tr>
+                                        <tr>
+                                            <td>NMR Spectroscopy</td>
+                                            <td>~2-5Å</td>
+                                            <td>Solution state, dynamic information</td>
+                                            <td>Size limitations (~30-40 kDa)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cryo-EM</td>
+                                            <td>~2-4Å (can reach ~1.5Å)</td>
+                                            <td>Works with large complexes, no crystallization</td>
+                                            <td>Historically lower resolution, improving rapidly</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="figure-card table-card">
-                        <img src="/assets/images/strucBio/CH02/TAB2_1.JPG" alt="Table 2.1" class="figure-image">
-                        <div class="figure-info">
-                            <h3 class="figure-title">Table 2.1</h3>
-                            <p class="figure-description">
-                                Description of Table 2.1. Add your learning notes about the tabular data presented here.
-                            </p>
+                </div>
+                
+                <!-- Figure 1.3 -->
+                <div class="figure-container">
+                    <h3 class="figure-title">Figure 1.3</h3>
+                    <div class="figure-content">
+                        <div class="figure-image">
+                            <img src="/assets/images/strucBio/CH01/FIG1_3.JPG" alt="Figure 1.3">
+                        </div>
+                        <div class="notes-container">
+                            <h4 class="notes-title">Study Notes</h4>
+                            <div class="notes-content">
+                                <p>This figure shows the relationship between structure and function in proteins:</p>
+                                <ul>
+                                    <li><strong>Binding sites:</strong> Structural pockets that recognize specific molecules</li>
+                                    <li><strong>Catalytic sites:</strong> Regions where enzyme reactions occur</li>
+                                    <li><strong>Conformational changes:</strong> Structural rearrangements during protein function</li>
+                                </ul>
+                                <p>Important functional considerations:</p>
+                                <button class="toggle-btn">Show/Hide Functional Details</button>
+                                <div class="toggle-content">
+                                    <ul>
+                                        <li>Shape complementarity is essential for molecular recognition</li>
+                                        <li>Electrostatic interactions often guide initial binding events</li>
+                                        <li>Induced fit mechanism allows proteins to adjust around binding partners</li>
+                                        <li>Allosteric regulation involves structural changes at sites distant from binding</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    
-                    <!-- Add more figure cards for Chapter 2 -->
+                </div>
+                
+                <!-- Continue with other figures from Chapter 1 -->
+                <!-- Figure 1.4, 1.5, etc. would follow the same pattern -->
+                
+                <!-- Panel 1.1 example -->
+                <div class="figure-container">
+                    <h3 class="figure-title">Panel 1.1</h3>
+                    <div class="figure-content">
+                        <div class="figure-image">
+                            <img src="/assets/images/strucBio/CH01/PAN1_1A.JPG" alt="Panel 1.1A">
+                        </div>
+                        <div class="notes-container">
+                            <h4 class="notes-title">Study Notes</h4>
+                            <div class="notes-content">
+                                <p>This panel illustrates multiple subparts of a key concept:</p>
+                                <ul>
+                                    <li><strong>Part A:</strong> Shows molecular interactions at the protein-ligand interface</li>
+                                </ul>
+                                <div class="figure-image">
+                                    <img src="/assets/images/strucBio/CH01/PAN1_1B.JPG" alt="Panel 1.1B">
+                                </div>
+                                <ul>
+                                    <li><strong>Part B:</strong> Demonstrates hydrogen bonding networks within the protein core</li>
+                                </ul>
+                                <div class="figure-image">
+                                    <img src="/assets/images/strucBio/CH01/PAN1_1C.JPG" alt="Panel 1.1C">
+                                </div>
+                                <ul>
+                                    <li><strong>Part C:</strong> Illustrates electrostatic potential mapping on protein surface</li>
+                                </ul>
+                                <div class="figure-image">
+                                    <img src="/assets/images/strucBio/CH01/PAN1_1D.JPG" alt="Panel 1.1D">
+                                </div>
+                                <ul>
+                                    <li><strong>Part D:</strong> Shows conservation mapping indicating functional importance</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
             
-            <!-- Repeat the section structure for all chapters -->
-            <!-- Chapter 3 through 18 would follow the same pattern -->
-            
-            <!-- Lightbox for image enlargement -->
-            <div id="imageLightbox" class="lightbox">
-                <span class="lightbox-close">&times;</span>
-                <img class="lightbox-content" id="lightboxImage">
-                <div id="lightboxCaption" class="lightbox-caption"></div>
-            </div>
+            <!-- Chapter 2 -->
+            <section id="chapter2" class="chapter">
+                <h2 class="chapter-title">Chapter 2: Protein Structure and Function</h2>
+                
+                <!-- Figure 2.1 -->
+                <div class="figure-container">
+                    <h3 class="figure-title">Figure 2.1</h3>
+                    <div class="figure-content">
+                        <div class="figure-image">
+                            <img src="/assets/images/strucBio/CH02/FIG2_1.JPG" alt="Figure 2.1">
+                        </div>
+                        <div class="notes-container">
+                            <h4 class="notes-title">Study Notes</h4>
+                            <div class="notes-content">
+                                <p>This figure shows the fundamental building blocks of proteins:</p>
+                                <ul>
+                                    <li><strong>Amino acid structure:</strong> The general formula and key components</li>
+                                    <li><strong>Peptide bond formation:</strong> The condensation reaction between amino acids</li>
+                                    <li><strong>Polypeptide chain:</strong> The repeating backbone with variable side chains</li>
+                                </ul>
+                                
+                                <p>Key properties of amino acids to remember:</p>
+                                <button class="toggle-btn">Show/Hide Amino Acid Properties</button>
+                                <div class="toggle-content">
+                                    <table class="bio-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Property</th>
+                                                <th>Examples</th>
+                                                <th>Functional Importance</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Hydrophobic</td>
+                                                <td>Alanine, Valine, Leucine, Isoleucine</td>
+                                                <td>Protein core packing, hydrophobic interactions</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Polar</td>
+                                                <td>Serine, Threonine, Asparagine, Glutamine</td>
+                                                <td>Hydrogen bonding, solvent interactions</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Charged</td>
+                                                <td>Aspartate, Glutamate, Lysine, Arginine</td>
+                                                <td>Electrostatic interactions, salt bridges</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Special roles</td>
+                                                <td>Glycine, Proline, Cysteine</td>
+                                                <td>Structural flexibility, conformational constraints, disulfide bonds</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Figure 2.2 (split into A and B) -->
+                <div class="figure-container">
+                    <h3 class="figure-title">Figure 2.2</h3>
+                    <div class="figure-content">
+                        <div class="figure-image">
+                            <img src="/assets/images/strucBio/CH02/FIG2_2A.JPG" alt="Figure 2.2A">
+                        </div>
+                        <div class="notes-container">
+                            <h4 class="notes-title">Study Notes - Part A</h4>
+                            <div class="notes-content">
+                                <p>This figure illustrates secondary structure elements in proteins:</p>
+                                <ul>
+                                    <li><strong>Alpha helix:</strong> Spiral arrangement stabilized by hydrogen bonds</li>
+                                    <li><strong>Key features:</strong> 3.6 residues per turn, hydrogen bonds between i and i+4 residues</li>
+                                    <li><strong>Helix dipole:</strong> Net positive charge at N-terminus, negative at C-terminus</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="figure-image">
+                            <img src="/assets/images/strucBio/CH02/FIG2_2B.JPG" alt="Figure 2.2B">
+                        </div>
+                        <div class="notes-container">
+                            <h4 class="notes-title">Study Notes - Part B</h4>
+                            <div class="notes-content">
+                                <p>Continuation of secondary structure elements:</p>
+                                <ul>
+                                    <li><strong>Beta sheet:</strong> Extended strands connected by hydrogen bonds</li>
+                                    <li><strong>Parallel sheets:</strong> Strands running in the same direction</li>
+                                    <li><strong>Antiparallel sheets:</strong> Strands running in opposite directions</li>
+                                    <li><strong>Beta turns:</strong> Connect consecutive beta strands, often contain glycine or proline</li>
+                                </ul>
+                                
+                                <button class="toggle-btn">Show/Hide Ramachandran Plot Details</button>
+                                <div class="toggle-content">
+                                    <p>The Ramachandran plot shows allowed phi (φ) and psi (ψ) angles in protein backbones:</p>
+                                    <ul>
+                                        <li>Alpha helices cluster around φ = -60°, ψ = -45°</li>
+                                        <li>Beta sheets cluster around φ = -120°, ψ = +130°</li>
+                                        <li>Left-handed alpha helices are rare due to steric hindrance</li>
+                                        <li>Glycine shows wider distribution due to lack of side chain</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Table 2.1 example -->
+                <div class="figure-container">
+                    <h3 class="figure-title">Table 2.1</h3>
+                    <div class="figure-content">
+                        <div class="figure-image">
+                            <img src="/assets/images/strucBio/CH02/TAB2_1.JPG" alt="Table 2.1">
+                        </div>
+                        <div class="notes-container">
+                            <h4 class="notes-title">Study Notes</h4>
+                            <div class="notes-content">
+                                <p>This table summarizes key properties of protein secondary structure elements:</p>
+                                <ul>
+                                    <li>Comparison between alpha helices and beta sheets</li>
+                                    <li>Typical amino acid preferences for each structure</li>
+                                    <li>Hydrogen bonding patterns and geometric constraints</li>
+                                </ul>
+                                <p>Important points to remember:</p>
+                                <ul>
+                                    <li>Proline disrupts alpha helices due to its cyclic structure</li>
+                                    <li>Aromatic and beta-branched amino acids (Ile, Val, Thr) prefer beta sheets</li>
+                                    <li>Glycine is highly flexible and often found in turns</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Continue with more figures from Chapter 2 -->
+                <!-- Additional figures would follow the same pattern -->
+            </section>
         </main>
     </div>
     
     <div id="footerPage"></div> <!-- Placeholder for the footer -->
 
+    <!-- Back to top button -->
+    <a href="#" class="back-to-top">↑</a>
+
     <script src="/assets/js/script.js"></script>
-    
     <script>
-        // JavaScript for dynamic image loading and lightbox functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get all images with class figure-image
-            const images = document.querySelectorAll('.figure-image');
-            const lightbox = document.getElementById('imageLightbox');
-            const lightboxImg = document.getElementById('lightboxImage');
-            const lightboxCaption = document.getElementById('lightboxCaption');
-            const closeBtn = document.querySelector('.lightbox-close');
-            
-            // Add click event to each image to open lightbox
-            images.forEach(img => {
-                img.addEventListener('click', function() {
-                    lightbox.style.display = 'block';
-                    lightboxImg.src = this.src;
-                    // Get the figure title from the parent card
-                    const figureTitle = this.closest('.figure-card').querySelector('.figure-title').textContent;
-                    lightboxCaption.textContent = figureTitle;
-                });
+        // Toggle notes sections
+        document.querySelectorAll('.notes-title').forEach(title => {
+            title.addEventListener('click', function() {
+                this.classList.toggle('active');
+                const content = this.nextElementSibling;
+                content.classList.toggle('active');
             });
-            
-            // Close lightbox when clicking the close button
-            closeBtn.addEventListener('click', function() {
-                lightbox.style.display = 'none';
+        });
+        
+        // Toggle expandable content sections
+        document.querySelectorAll('.toggle-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                content.classList.toggle('active');
             });
-            
-            // Close lightbox when clicking outside the image
-            lightbox.addEventListener('click', function(e) {
-                if (e.target === lightbox) {
-                    lightbox.style.display = 'none';
-                }
-            });
-            
-            // Close lightbox when pressing ESC key
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && lightbox.style.display === 'block') {
-                    lightbox.style.display = 'none';
-                }
-            });
-            
-            // Optional: Function to dynamically generate figure cards from file structure
-            // This would be useful if you want to automate the process
-            function generateFigureCards() {
-                // This would be a more complex implementation
-                // that could fetch your directory structure
-                // and create cards programmatically
-                console.log('Dynamic card generation would be implemented here');
+        });
+        
+        // Back to top button functionality
+        const backToTopBtn = document.querySelector('.back-to-top');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Auto-open first notes section in each chapter
+        document.querySelectorAll('.chapter').forEach(chapter => {
+            const firstNotesTitle = chapter.querySelector('.notes-title');
+            const firstNotesContent = chapter.querySelector('.notes-content');
+            if (firstNotesTitle && firstNotesContent) {
+                firstNotesTitle.classList.add('active');
+                firstNotesContent.classList.add('active');
             }
         });
     </script>
