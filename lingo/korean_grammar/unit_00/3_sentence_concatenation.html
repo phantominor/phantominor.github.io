@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3 - Sentence Concatenation</title>
+    <link rel="icon" href="/lingo/korean_grammar/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/korean_grammar_styles.css">
+    
+    <!-- JavaScript for confirmation dialog -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sendButton = document.querySelector('.chat-send-button');
+            sendButton.addEventListener('click', function() {
+                    window.location.href = '/lingo/korean_grammar.html';
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="headerPage"></div>
+	<div class="content">
+		<main>
+			<nav class="breadcrumb" aria-label="Breadcrumb">
+                <ul>
+                    <li><a href="/">HOME</a></li>
+                    <li><a href="/lingo.html">LINGO</a></li>
+                    <li><a href="/lingo/korean_grammar.html">KOREAN GRAMMAR</a></li>
+                    <li><a href="/lingo/korean_grammar/unit_00/3_sentence_concatenation.html">3 - Sentence Concatenation</a></li>
+                </ul>
+            </nav>
+            <!-- Navigation Buttons with links -->
+            <div class="kg-navigation">
+                <div class="kg-nav-buttons">
+                    <a href="/lingo/korean_grammar/unit_00/2_v_a_change.html" class="kg-nav-button">
+                        <span>&#8592;</span> 上一課
+                    </a>
+                    <a href="/lingo/korean_grammar/unit_00/4_sentence_types.html" class="kg-nav-button">
+                        下一課 <span>&#8594;</span>
+                    </a>
+                </div>
+                <a href="/lingo/korean_grammar.html" class="kg-nav-button kg-nav-home">
+                    <span>&#8962;</span> 返回目錄
+                </a>
+            </div>
+            <h1>3 - 連接句子</h1>
+            
+            <!-- Grammar Analysis -->
+            <h2>文法重點</h2>
+            <div class="grammar-section">
+               <p>韓語有兩種方法可以連接句子，一為使用「連接副詞」，例如<span class="bold">그리고(而且)、그렇지만(但是)、그런데(所以；因此)</span>；另一種方式為使用「連接語尾」。</p>
+               
+               <table>
+                   <thead>
+                       <tr>
+                           <th>意義</th>
+                           <th>連接方式</th>
+                           <th>例句</th>
+                       </tr>
+                   </thead>
+                   <tbody>
+                       <tr>
+                           <td rowspan="2">而且</td>
+                           <td>連接副詞</td>
+                           <td>바람이 불어요. <span class="highlight">그리고</span> 추워요.<br>現在在颳風。<span class="highlight">而且</span>很冷。</td>
+                       </tr>
+                       <tr>
+                           <td>連接語尾</td>
+                           <td>바람이 <span class="highlight">불고</span> 추워요.<br>現在在<span class="highlight">颳</span>風<span class="highlight">而且</span>很冷。</td>
+                       </tr>
+                       <tr>
+                           <td rowspan="2">但是</td>
+                           <td>連接副詞</td>
+                           <td>김치는 맵급니다. <span class="highlight">그렇지만</span> 맛있읍니다.<br>泡菜辣。<span class="highlight">但是</span>好吃。</td>
+                       </tr>
+                       <tr>
+                           <td>連接語尾</td>
+                           <td>김치는 <span class="highlight">맵지만</span> 맛있습니다.<br>泡菜<span class="highlight">辣但是</span>好吃。</td>
+                       </tr>
+                       <tr>
+                           <td rowspan="2">所以；因此</td>
+                           <td>連接副詞</td>
+                           <td>눈이 와요. <span class="highlight">그래서</span> 길이 많이 막혀요.<br>現在在下雪。<span class="highlight">所以</span>路上嚴重阻塞。</td>
+                       </tr>
+                       <tr>
+                           <td>連接語尾</td>
+                           <td>눈이 <span class="highlight">와서</span> 길이 많이 막혀요.<br>現在在<span class="highlight">下</span>雪<span class="highlight">所以</span>路上嚴重阻塞。</td>
+                       </tr>
+                   </tbody>
+               </table>
+               
+               <p>當使用連接副詞連接兩個句子時，只要將連接副詞至於兩個句子的中間即可。<br>
+               但是，當使用連接語尾時，一定要語前面句子最後一個字的語幹相結合，以連接兩個句子。</p>
+               
+               <table>
+                   <thead>
+                       <tr>
+                           <th>前句</th>
+                           <th>連接語尾</th>
+                           <th>後句</th>
+                           <th>→ 結果</th>
+                           <th>中文</th>
+                       </tr>
+                   </thead>
+                   <tbody>
+                       <tr>
+                           <td>바람이 불다</td>
+                           <td>-고</td>
+                           <td>추워요</td>
+                           <td>바람이 불고 추워요.</td>
+                           <td>現在在颳風而且很冷。</td>
+                       </tr>
+                       <tr>
+                           <td>김치가 맵다</td>
+                           <td>-지만</td>
+                           <td>맛있어요</td>
+                           <td>김치가 맵지만 맛있어요.</td>
+                           <td>泡菜辣但是好吃。</td>
+                       </tr>
+                       <tr>
+                           <td>눈이 오다</td>
+                           <td>-아서</td>
+                           <td>길이 많이 막혀요</td>
+                           <td>눈이 와서 길이 많이 막혀요.</td>
+                           <td>現在在下雪所以路上嚴重阻塞。</td>
+                       </tr>
+                   </tbody>
+               </table>
+            </div>
+            
+            <!-- Conversation Section - Simplified Chat Room Style without avatars -->
+            <h2>會話示例</h2>
+            <div class="conversation-section">
+               <div class="chat-header">
+                   <div class="chat-title">韓文討論群組</div>
+                   <div class="chat-participants">수진、영호、기훈</div>
+               </div>
+               
+               <div class="chat-messages">
+                   <!-- Conversation 1 - Using connecting adverbs -->
+                   <div class="message message-left">
+                       <div class="message-content message-content-left">
+                           <div class="message-meta meta-left">
+                               <span class="message-name">수진</span>
+                               <span class="message-time">15:42</span>
+                           </div>
+                           <div class="message-bubble bubble-left">
+                               <div class="korean-text">오늘 날씨가 좋아요. 그리고 바람이 많이 안 불어요.</div>
+                           </div>
+                           <div class="translation">今天天氣很好。而且風不大。</div>
+                       </div>
+                   </div>
+                   
+                   <div class="message message-right">
+                       <div class="message-content message-content-right">
+                           <div class="message-meta meta-right">
+                               <span class="message-time">15:43</span>
+                               <span class="message-name">영호</span>
+                           </div>
+                           <div class="message-bubble bubble-right">
+                               <div class="korean-text">네, 날씨가 좋아요. 그렇지만 내일은 비가 올 거예요.</div>
+                           </div>
+                           <div class="translation translation-right">是的，天氣很好。但是明天會下雨。</div>
+                       </div>
+                   </div>
+                   
+                   <!-- Conversation 2 - Using connecting endings -->
+                   <div class="message message-left">
+                       <div class="message-content message-content-left">
+                           <div class="message-meta meta-left">
+                               <span class="message-name">기훈</span>
+                               <span class="message-time">15:45</span>
+                           </div>
+                           <div class="message-bubble bubble-left">
+                               <div class="korean-text">한국어를 배우고 있어요. 재미있어요.</div>
+                           </div>
+                           <div class="translation">我正在學韓語。很有趣。</div>
+                       </div>
+                   </div>
+                   
+                   <div class="message message-right">
+                       <div class="message-content message-content-right">
+                           <div class="message-meta meta-right">
+                               <span class="message-time">15:46</span>
+                               <span class="message-name">수진</span>
+                           </div>
+                           <div class="message-bubble bubble-right">
+                               <div class="korean-text">한국어가 어렵지만 재미있어요.</div>
+                           </div>
+                           <div class="translation translation-right">韓語雖然難但是很有趣。</div>
+                       </div>
+                   </div>
+            
+                   <!-- Conversation 3 - Using cause and effect -->
+                   <div class="message message-left">
+                       <div class="message-content message-content-left">
+                           <div class="message-meta meta-left">
+                               <span class="message-name">영호</span>
+                               <span class="message-time">15:48</span>
+                           </div>
+                           <div class="message-bubble bubble-left">
+                               <div class="korean-text">시험이 있어요. 그래서 도서관에서 공부해요.</div>
+                           </div>
+                           <div class="translation">有考試。所以在圖書館學習。</div>
+                       </div>
+                   </div>
+                   
+                   <div class="message message-right">
+                       <div class="message-content message-content-right">
+                           <div class="message-meta meta-right">
+                               <span class="message-time">15:49</span>
+                               <span class="message-name">기훈</span>
+                           </div>
+                           <div class="message-bubble bubble-right">
+                               <div class="korean-text">시험이 어려워서 많이 공부해야 해요.</div>
+                           </div>
+                           <div class="translation translation-right">因為考試很難所以需要多學習。</div>
+                       </div>
+                   </div>
+               </div>
+               
+               <!-- Chat input for navigation with tooltip -->
+               <div class="chat-input">
+                   <div class="chat-input-field">輸入訊息...</div>
+                   <button class="chat-send-button">&#10148;</button>
+               </div>
+            </div>
+            
+            <!-- Improved Sticky Note Section with light bulb -->
+            <div class="alert-section">
+               <div class="alert-title">注意！</div>
+               <p>連接句子的兩種方法比較：</p>
+               <ol>
+                   <li>
+                       連接副詞（그리고、그렇지만、그래서）
+                       <ul>
+                           <li>放在兩個完整句子之間</li>
+                           <li>前句完整保留，包括語尾</li>
+                           <li>句子之間有明顯的停頓</li>
+                       </ul>
+                   </li>
+                   <li>
+                       連接語尾（-고、-지만、-아서/-어서）
+                       <ul>
+                           <li>直接加在前句動詞或形容詞的語幹上</li>
+                           <li>省略前句的終結語尾（如 -요/-습니다）</li>
+                           <li>兩個句子更緊密連接，流暢度更高</li>
+                           <li>在口語中更常用</li>
+                       </ul>
+                   </li>
+               </ol>
+            </div>
+        </main>
+    </div>
+    <div id="footerPage"></div> <!-- Placeholder for the footer -->
+
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>
