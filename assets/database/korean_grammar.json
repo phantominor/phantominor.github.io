@@ -9,8 +9,52 @@
           "id": "0-1",
           "title": "Lesson 1: 句子結構",
           "url": "/lingo/korean_grammar/unit_00/1_sentence_structure.html"
+        },
+        {
+          "id": "0-2",
+          "title": "Lesson 2: 動詞與形容詞的變化",
+          "url": "/lingo/korean_grammar/unit_00/2_v_a_change.html"
+        },
+        {
+          "id": "0-3",
+          "title": "Lesson 3: 連接句子",
+          "url": "/lingo/korean_grammar/unit_00/3_sentence_concatenation.html"
+        },
+        {
+          "id": "0-4",
+          "title": "Lesson 4: 句子種類",
+          "url": "/lingo/korean_grammar/unit_00/4_sentence_types.html"
+        },
+        {
+          "id": "0-5",
+          "title": "Lesson 5: 尊待表現",
+          "url": "/lingo/korean_grammar/unit_00/5_polite_style.html"
+        },
+        {
+          "id": "0-6",
+          "title": "Lesson 6: 數字",
+          "url": "/lingo/korean_grammar/unit_00/6_numbers.html"
+        },
+        {
+          "id": "0-7",
+          "title": "Lesson 7: 日期/星期",
+          "url": "/lingo/korean_grammar/unit_00/7_yyyymmdd.html"
+        },
+        {
+          "id": "0-8",
+          "title": "Lesson 8: 時間",
+          "url": "/lingo/korean_grammar/unit_00/8_time.html"
+        },
+        {
+          "id": "0-9",
+          "title": "Lesson 9: 是",
+          "url": "/lingo/korean_grammar/unit_00/9_be.html"
+        },
+        {
+          "id": "0-10",
+          "title": "Lesson 10: 存在/有",
+          "url": "/lingo/korean_grammar/unit_00/10_have.html"
         }
-
       ]
     },
     {
