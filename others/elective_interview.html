@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>赴外交換面試準備 - NTUMED</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #4a5568;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header .subtitle {
+            color: #718096;
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+
+        .tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px 15px 0 0;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #4a5568;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-button:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .tab-content {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            min-height: 600px;
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-item {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .question-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .answer {
+            color: #4a5568;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        .answer strong {
+            color: #2d3748;
+        }
+
+        .answer ol, .answer ul {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+
+        .answer li {
+            margin-bottom: 8px;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2d3748;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .no-answer {
+            color: #718096;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-content {
+                padding: 20px;
+            }
+            
+            .question-item {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>赴外交換面試準備</h1>
+            <div class="subtitle">organized by NTUMED 09 phantominor</div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab(0)">考古題</button>
+            <button class="tab-button" onclick="showTab(1)">我遇到的考題</button>
+            <button class="tab-button" onclick="showTab(2)">聯絡我們</button>
+        </div>
+
+        <div class="tab-content">
+            <!-- Tab 1: 考古題 -->
+            <div class="content-section active" id="tab-0">
+                <div class="question-item">
+                    <div class="question-title">1. 自我介紹（30s, 60s versions）</div>
+                    <div class="answer no-answer">（無參考答案，請準備個人化內容）</div>
+                </div>
+
+                <div class="question-item">
+                    <div class="question-title">2. 自我介紹延伸問題 (say what did you learn from certain experience)</div>
+                    <div class="answer no-answer">（無參考答案，請根據個人經驗準備）</div>
+                </div>
+
+                <div class="question-item">
+                    <div class="question-title">3. 在國外的時間如何補償國內漏掉的學業</div>
+                    <div class="answer">
+                        <strong>參考答案：</strong><br>
+                        The time abroad is equivalent to one or two courses here, meaning I'll miss two opportunities to choose clinical rotations. However, I plan to compensate it by three ways:
+                        <ol>
+                            <li>exchange notes with classmates rotating in different specialties</li>
+                            <li>make use of online resources and textbooks for self-studying</li>
+                            <li>expand my world view through different public health and medical scenarios</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="question-item">
+                    <div class="question-title">4. 用三個詞形容自己</div>
+                    <div class="answer">
+                        <strong>參考答案：</strong><br>
+                        <strong>1. Organizing.</strong> I excel at solving puzzles, utilizing logic to make complicated things easy to understand.<br><br>
+                        <strong>2. Interdisciplinary.</strong> My diverse interests range from science, medicine and arts. I believe this multifaceted development is crucial for innovation and creativity.<br><br>
+                        <strong>3. Flexibility.</strong> My personality is adaptable yet principled. I can adjust myself to suit different situations while maintaining my core values.
+                    </div>
+                </div>
+
+                <div class="question-item">
+                    <div class="question-title">5. 想從赴外收穫什麼？會作何準備？(OPD, inpatient care, research, after work party…)</div>
+                    <div class="answer">
+                        <strong>參考答案：</strong><br>
+                        <strong>From this overseas experience, I have 3 major pursuits:</strong>
+                        <ol>
+                            <li>Adapt myself to a multicultural collaborative environment, which means that I will seize the opportunities to communicate with foreign medical students and professors. This will definitely help in my future research works.</li>
+                            <li>Expand my world view by encountering different public health and medical scenarios.</li>
+                            <li>Have fun traveling and experiencing the cultural shock.</li>
+                        </ol>
+                        <strong>To prepare, I will:</strong>
+                        <ol>
+                            <li>Improve my English speaking skills for better communication.</li>
+                            <li>Research the host country's culture, public health policies, and the specific characteristics of the host hospital.</li>
+                            <li>Consult with seniors who have previously interned at the same institution for insights and advice.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="question-item">
+                    <div class="question-title">6. 介紹台大醫院</div>
+                    <div class="answer">
+                        <strong>參考答案：</strong><br>
+                        NTUH is renowned for mainly 3 things: education, research, and services.
+                        <ol>
+                            <li><strong>Education.</strong> As a teaching hospital affiliated with NTU, NTUH plays a crucial role in training future healthcare professionals like myself. We have many hands-on opportunities for clinical skills.</li>
+                            <li><strong>Research.</strong> As a medical center, doctors in NTUH make use of a great portion of time on medical studies, ranging from basic medicine like molecular biology, to clinical medicine like meta analysis and study of new treatments and new diseases.</li>
+                            <li><strong>Services.</strong> As one of the most renowned hospital in Taiwan, tons of people flood in our hospital daily, where we provide the medical services with cutting-edge techniques and highest quality.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="question-item">
+                    <div class="question-title">7. 介紹台灣的衛生健康政策</div>
+                    <div class="answer">
+                        <strong>參考答案：</strong><br>
+                        Taiwan's health policies are centered around its National Health Insurance (NHI) system, implemented in 1995.<br><br>
+                        The good thing is: thanks to the low costs of our health insurance, over 99% of the population is insured in Taiwan, and most of the people can have high quality medical service with the price of a cup of simple beverage.<br><br>
+                        Nevertheless, the accessibility and cheapness also lead to overcrowded hospitals and a decline in the quality of life of medical staff. Now we are trying to seek a new balance between the price and quality of our National Health Insurance system.
+                    </div>
+                </div>
+
+                <div class="question-item">
+                    <div class="question-title">8. 台灣的轉診制度運作如何？ referral system</div>
+                    <div class="answer">
+                        <strong>參考答案：</strong><br>
+                        Taiwan's referral system aims to optimize healthcare resource allocation:
+                        <ol>
+                            <li>Primary care: Patients are encouraged to first visit local clinics or community hospitals for common ailments</li>
+                            <li>Referrals: If needed, primary care doctors refer patients to regional hospitals or medical centers for specialized care</li>
+                            <li>Incentives: The NHI provides financial incentives for patients who follow the referral system</li>
+                            <li>Flexibility: Patients can still directly access higher-level care, but with higher co-payment</li>
+                            <li>Information sharing: A national electronic health record system facilitates smooth transitions between levels of care</li>
+                        </ol>
+                        While the system aims to reduce overcrowding at large hospitals, there's ongoing work to improve its effectiveness and public adherence.
+                    </div>
+                </div>
+
+                <div class="question-item">
+                    <div class="question-title">9. 說明台灣疫情後的公衛系統</div>
+                    <div class="answer no-answer">（無參考答案）</div>
+                </div>
+
+                <div class="question-item">
+                    <div class="question-title">10. 談談對臨床環境跨學科團隊合作的經驗</div>
+                    <div class="answer no-answer">（無參考答案）</div>
+                </div>
+
+                <div class="question-item">
+                    <div class="question-title">11. 想去申請什麼學校？為何？</div>
+                    <div class="answer no-answer">（無參考答案，請準備個人化內容）</div>
+                </div>
+
+                <div class="question-item">
+                    <div class="question-title">12. 最喜歡的課程為何？</div>
+                    <div class="answer no-answer">（無參考答案，請準備個人化內容）</div>
+                </div>
+
+                <div class="question-item">
+                    <div class="question-title">13. 何謂healthy lifestyle？與疾病有何關係？解釋病理</div>
+                    <div class="answer no-answer">（無參考答案）</div>
+                </div>
+
+                <div class="question-item">
+                    <div class="question-title">14. DDx for infant, 40y man, 80y man: cough for 1 month</div>
+                    <div class="answer no-answer">（無參考答案）</div>
+                </div>
+
+                <div class="question-item">
+                    <div class="question-title">15. AMI相關問題</div>
+                    <div class="answer no-answer">（無參考答案）</div>
+                </div>
+            </div>
+
+            <!-- Tab 2: 我遇到的考題 -->
+            <div class="content-section" id="tab-1">
+                <div class="question-item">
+                    <div class="question-title">1. Please do a brief introduction in 60 secs.</div>
+                    <div class="answer no-answer">（2024年實際面試題目）</div>
+                </div>
+
+                <div class="question-item">
+                    <div class="question-title">2. Please tell me 3 main goals that you want to achieve in this international internship program.</div>
+                    <div class="answer no-answer">（2024年實際面試題目）</div>
+                </div>
+
+                <div class="question-item">
+                    <div class="question-title">3. Which school and department do you want to apply for as your priority?</div>
+                    <div class="answer no-answer">（2024年實際面試題目）</div>
+                </div>
+
+                <div class="question-item">
+                    <div class="question-title">4. Are there anything of your interest about this interview?</div>
+                    <div class="answer no-answer">（2024年實際面試題目）</div>
+                </div>
+            </div>
+
+            <!-- Tab 3: 聯絡我們 -->
+            <div class="content-section" id="tab-2">
+                <div class="contact-form">
+                    <h2 style="text-align: center; margin-bottom: 30px; color: #2d3748;">有問題想問？</h2>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="email">您的電子郵件 *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">問題標題 *</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">問題內容 *</label>
+                            <textarea id="message" name="message" required placeholder="請詳細描述您的問題..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">送出問題</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabIndex) {
+            // Hide all content sections
+            const contentSections = document.querySelectorAll('.content-section');
+            contentSections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected content section and activate tab button
+            document.getElementById(`tab-${tabIndex}`).classList.add('active');
+            tabButtons[tabIndex].classList.add('active');
+        }
+
+        // Handle form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Create mailto link
+            const mailtoLink = `mailto:motnahpminusone@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`From: ${email}\n\nMessage:\n${message}`)}`;
+            
+            // Open email client
+            window.location.href = mailtoLink;
+            
+            // Show confirmation
+            alert('郵件程式已開啟，請完成發送。感謝您的提問！');
+            
+            // Reset form
+            this.reset();
+        });
+
+        // Smooth scrolling for better UX
+        document.addEventListener('DOMContentLoaded', function() {
+            const style = document.createElement('style');
+            style.textContent = `
+                html {
+                    scroll-behavior: smooth;
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
