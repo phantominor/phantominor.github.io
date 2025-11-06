@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首爾棋遊戲</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #764ba2;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .rules {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+            overflow: hidden;
+        }
+
+        .rules-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .rules-header:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .rules-header h2 {
+            color: #667eea;
+            font-size: 1.5em;
+        }
+
+        .rules-toggle {
+            font-size: 1.5em;
+            color: #667eea;
+            transition: transform 0.3s;
+        }
+
+        .rules-toggle.open {
+            transform: rotate(180deg);
+        }
+
+        .rules-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .rules-content.open {
+            max-height: 500px;
+        }
+
+        .rules ul {
+            list-style: none;
+            padding: 0 20px 20px 20px;
+        }
+
+        .rules li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .rules li:before {
+            content: "🎯";
+            position: absolute;
+            left: 0;
+        }
+
+        .setup-screen {
+            display: block;
+        }
+
+        .setup-screen.hidden {
+            display: none;
+        }
+
+        .game-screen {
+            display: none;
+        }
+
+        .game-screen.active {
+            display: block;
+        }
+
+        .selection-step {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .selection-step h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .piece-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .piece-option {
+            padding: 20px;
+            border: 3px solid #ddd;
+            border-radius: 15px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .piece-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .piece-option.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .piece-option.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .piece-preview {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 10px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+
+        .btn-primary {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            color: white;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .player-turn {
+            font-size: 1.5em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .turn-indicator {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            animation: pulse 1.5s infinite;
+            font-size: 24px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .game-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-game {
+            padding: 12px 25px;
+            font-size: 1em;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-game:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-game:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .scoreboard {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .scoreboard h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .scores {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+        }
+
+        .score-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .score-label {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .score-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .board-container {
+            display: flex;
+            justify-content: center;
+            perspective: 1000px;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(7, 70px);
+            grid-template-rows: repeat(7, 70px);
+            gap: 10px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .cell {
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle, #1a252f 0%, #2c3e50 100%);
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+            box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+        }
+
+        .cell.column-hover {
+            box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(102, 126, 234, 0.6);
+        }
+
+        .cell.target-cell {
+            box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.5), 0 0 25px rgba(255, 215, 0, 0.8);
+            transform: scale(1.1);
+        }
+
+        .cell.filled {
+            cursor: default;
+        }
+
+        .cell.winning {
+            animation: celebrate 0.6s ease-in-out infinite;
+        }
+
+        @keyframes dropIn {
+            0% {
+                transform: translateY(-500px) scale(0.5);
+                opacity: 0;
+            }
+            60% {
+                transform: translateY(10px) scale(1.1);
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes celebrate {
+            0%, 100% {
+                transform: scale(1);
+                filter: brightness(1);
+            }
+            50% {
+                transform: scale(1.15);
+                filter: brightness(1.3);
+            }
+        }
+
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: white;
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            z-index: 1000;
+            transition: transform 0.5s;
+            min-width: 400px;
+        }
+
+        .message-box.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .message-box h2 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .message-box p {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .message-box .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            z-index: 999;
+        }
+
+        .overlay.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .board {
+                grid-template-columns: repeat(7, 50px);
+                grid-template-rows: repeat(7, 50px);
+                gap: 8px;
+                padding: 15px;
+            }
+            .cell {
+                width: 50px;
+                height: 50px;
+                font-size: 25px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>首爾棋遊戲</h1>
+        <p class="subtitle">Created by Hasbro; designed by phantominor.</p>
+
+        <div class="rules">
+            <div class="rules-header" onclick="toggleRules()">
+                <h2>📋 遊戲規則</h2>
+                <span class="rules-toggle" id="rulesToggle">▼</span>
+            </div>
+            <div class="rules-content" id="rulesContent">
+                <ul>
+                    <li>這是一個 7x7 的棋盤，兩位玩家輪流下棋</li>
+                    <li>選擇你喜歡的棋子類型和樣式</li>
+                    <li>點擊任意欄位，棋子會自動落到該列的最底部</li>
+                    <li>先在橫、直、或斜方向連成四子的玩家獲勝</li>
+                    <li>可以使用悔棋功能撤銷上一步</li>
+                    <li>計分板會記錄雙方的勝場數</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="setup-screen" id="setupScreen">
+            <div class="selection-step" id="step1">
+                <h3>步驟 1：選擇棋子類型</h3>
+                <div class="piece-options">
+                    <div class="piece-option" onclick="selectPieceType('color')">
+                        <div class="piece-preview" style="background: linear-gradient(135deg, #ff6b6b, #4ecdc4);">🎨</div>
+                        <div>純色棋</div>
+                    </div>
+                    <div class="piece-option" onclick="selectPieceType('snu')">
+                        <div class="piece-preview" style="background: linear-gradient(135deg, #003876, #6fa8dc);">🏫</div>
+                        <div>首爾大學棋</div>
+                    </div>
+                    <div class="piece-option" onclick="selectPieceType('rivalry')">
+                        <div class="piece-preview" style="background: linear-gradient(135deg, #8B0000, #003876);">⚔️</div>
+                        <div>高麗延世對決棋</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="selection-step" id="step2" style="display:none;">
+                <h3>步驟 2：玩家一選擇棋子</h3>
+                <div class="piece-options" id="player1Options"></div>
+                <button class="btn-primary" onclick="confirmPlayer1()" disabled id="confirmP1Btn">確認選擇</button>
+            </div>
+
+            <div class="selection-step" id="step3" style="display:none;">
+                <h3>步驟 3：玩家二選擇棋子</h3>
+                <div class="piece-options" id="player2Options"></div>
+                <button class="btn-primary" onclick="startGame()" disabled id="startGameBtn">開始遊戲</button>
+            </div>
+        </div>
+
+        <div class="game-screen" id="gameScreen">
+            <div class="scoreboard">
+                <h3>🏆 計分板</h3>
+                <div class="scores">
+                    <div class="score-item">
+                        <div class="score-label">
+                            <span id="p1ScoreIcon"></span>
+                            <span>玩家一</span>
+                        </div>
+                        <div class="score-value" id="player1Score">0</div>
+                    </div>
+                    <div class="score-item">
+                        <div class="score-label">
+                            <span id="p2ScoreIcon"></span>
+                            <span>玩家二</span>
+                        </div>
+                        <div class="score-value" id="player2Score">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-info">
+                <div class="player-turn">
+                    <span>目前回合：</span>
+                    <span class="turn-indicator" id="turnIndicator"></span>
+                    <span id="currentPlayer"></span>
+                </div>
+                <div class="game-controls">
+                    <button class="btn-game" onclick="undoMove()" id="undoBtn">↩️ 悔棋</button>
+                    <button class="btn-game" onclick="resetRound()">🔄 新回合</button>
+                    <button class="btn-game" onclick="showBackToSetupConfirm()">⚙️ 重新設定</button>
+                </div>
+            </div>
+
+            <div class="board-container">
+                <div class="board" id="board"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="message-box" id="winnerMessage">
+        <h2>🎉 恭喜獲勝！</h2>
+        <p id="winnerText"></p>
+        <div class="button-group">
+            <button class="btn-primary" onclick="nextRound()">下一回合</button>
+            <!-- <button class="btn-primary" onclick="showResetConfirm()" style="background: #6c757d;">重新設定</button> -->
+            <button class="btn-primary" onclick="showBackToSetupConfirm()" style="background: #6c757d;">重新設定</button>
+        </div>
+    </div>
+
+    <div class="message-box" id="confirmMessage">
+        <h2>⚠️ 確認操作</h2>
+        <p id="confirmText"></p>
+        <div class="button-group">
+            <button class="btn-primary" onclick="confirmAction()">確定</button>
+            <button class="btn-primary" onclick="closeConfirm()" style="background: #6c757d;">取消</button>
+        </div>
+    </div>
+
+    <script>
+        const ROWS = 7;
+        const COLS = 7;
+        let board = Array(ROWS).fill().map(() => Array(COLS).fill(null));
+        let currentPlayer = 1;
+        let gameOver = false;
+        let moveHistory = [];
+        let scores = { player1: 0, player2: 0 };
+
+        const pieceTypes = {
+            color: [
+                { id: 'red', display: '', color: 'radial-gradient(circle at 30% 30%, #ff6b6b, #c92a2a)', name: '紅色' },
+                { id: 'blue', display: '', color: 'radial-gradient(circle at 30% 30%, #4dabf7, #1971c2)', name: '藍色' },
+                { id: 'green', display: '', color: 'radial-gradient(circle at 30% 30%, #51cf66, #2f9e44)', name: '綠色' },
+                { id: 'yellow', display: '', color: 'radial-gradient(circle at 30% 30%, #ffd93d, #f1c40f)', name: '黃色' },
+                { id: 'purple', display: '', color: 'radial-gradient(circle at 30% 30%, #b197fc, #7950f2)', name: '紫色' },
+                { id: 'orange', display: '', color: 'radial-gradient(circle at 30% 30%, #ff922b, #fd7e14)', name: '橙色' }
+            ],
+            snu: [
+                { id: 'snu-logo', display: '🎓', color: 'radial-gradient(circle at 30% 30%, #003876, #0052a3)', name: '首爾大學校徽' },
+                { id: 'snu-bear', display: '🐻', color: 'radial-gradient(circle at 30% 30%, #8B4513, #A0522D)', name: '首爾熊熊' },
+                { id: 'snu-heart', display: '❤️', color: 'radial-gradient(circle at 30% 30%, #ff6b6b, #c92a2a)', name: '愛心' },
+                { id: 'snu-seoul', display: '서울', color: 'radial-gradient(circle at 30% 30%, #003876, #0052a3)', name: '首爾韓文' }
+            ],
+            rivalry: [
+                { id: 'korea-tiger', display: '🐯', color: 'radial-gradient(circle at 30% 30%, #8B0000, #DC143C)', name: '高麗老虎' },
+                { id: 'yonsei-eagle', display: '🦅', color: 'radial-gradient(circle at 30% 30%, #003876, #0052a3)', name: '延世老鷹' }
+            ]
+        };
+
+        let selectedType = null;
+        let player1Piece = null;
+        let player2Piece = null;
+
+        function toggleRules() {
+            const content = document.getElementById('rulesContent');
+            const toggle = document.getElementById('rulesToggle');
+            content.classList.toggle('open');
+            toggle.classList.toggle('open');
+        }
+
+        function selectPieceType(type) {
+            selectedType = type;
+            document.querySelectorAll('#step1 .piece-option').forEach(el => el.classList.remove('selected'));
+            event.target.closest('.piece-option').classList.add('selected');
+            
+            document.getElementById('step2').style.display = 'block';
+            showPlayer1Options();
+        }
+
+        function showPlayer1Options() {
+            const container = document.getElementById('player1Options');
+            container.innerHTML = '';
+            
+            pieceTypes[selectedType].forEach(piece => {
+                const option = document.createElement('div');
+                option.className = 'piece-option';
+                option.onclick = () => selectPlayer1Piece(piece.id);
+                option.innerHTML = `
+                    <div class="piece-preview" style="background: ${piece.color}; font-size: 40px;">${piece.display}</div>
+                    <div>${piece.name}</div>
+                `;
+                container.appendChild(option);
+            });
+        }
+
+        function selectPlayer1Piece(pieceId) {
+            player1Piece = pieceTypes[selectedType].find(p => p.id === pieceId);
+            document.querySelectorAll('#player1Options .piece-option').forEach(el => el.classList.remove('selected'));
+            event.target.closest('.piece-option').classList.add('selected');
+            document.getElementById('confirmP1Btn').disabled = false;
+        }
+
+        function confirmPlayer1() {
+            document.getElementById('step3').style.display = 'block';
+            showPlayer2Options();
+        }
+
+        function showPlayer2Options() {
+            const container = document.getElementById('player2Options');
+            container.innerHTML = '';
+            
+            let availablePieces = pieceTypes[selectedType];
+            if (selectedType === 'rivalry') {
+                availablePieces = availablePieces.filter(p => p.id !== player1Piece.id);
+            }
+            
+            availablePieces.forEach(piece => {
+                const option = document.createElement('div');
+                option.className = 'piece-option';
+                if (selectedType !== 'rivalry' && piece.id === player1Piece.id) {
+                    option.classList.add('disabled');
+                    option.onclick = null;
+                } else {
+                    option.onclick = () => selectPlayer2Piece(piece.id);
+                }
+                option.innerHTML = `
+                    <div class="piece-preview" style="background: ${piece.color}; font-size: 40px;">${piece.display}</div>
+                    <div>${piece.name}</div>
+                `;
+                container.appendChild(option);
+            });
+        }
+
+        function selectPlayer2Piece(pieceId) {
+            if (selectedType !== 'rivalry' && pieceId === player1Piece.id) return;
+            
+            player2Piece = pieceTypes[selectedType].find(p => p.id === pieceId);
+            document.querySelectorAll('#player2Options .piece-option').forEach(el => el.classList.remove('selected'));
+            event.target.closest('.piece-option').classList.add('selected');
+            document.getElementById('startGameBtn').disabled = false;
+        }
+
+        function startGame() {
+            document.getElementById('setupScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.add('active');
+            
+            document.getElementById('p1ScoreIcon').innerHTML = player1Piece.display;
+            document.getElementById('p2ScoreIcon').innerHTML = player2Piece.display;
+            
+            initBoard();
+            updateScoreboard();
+        }
+
+        function initBoard() {
+            const boardElement = document.getElementById('board');
+            boardElement.innerHTML = '';
+            board = Array(ROWS).fill().map(() => Array(COLS).fill(null));
+            moveHistory = [];
+            gameOver = false;
+            currentPlayer = 1;
+            
+            for (let row = 0; row < ROWS; row++) {
+                for (let col = 0; col < COLS; col++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.dataset.row = row;
+                    cell.dataset.col = col;
+                    cell.addEventListener('click', () => handleCellClick(col));
+                    cell.addEventListener('mouseenter', () => highlightColumn(col));
+                    cell.addEventListener('mouseleave', () => clearHighlight());
+                    boardElement.appendChild(cell);
+                }
+            }
+            updateTurnIndicator();
+            updateUndoButton();
+        }
+
+        function highlightColumn(col) {
+            if (gameOver) return;
+            
+            clearHighlight();
+            const targetRow = getLowestEmptyRow(col);
+            if (targetRow === -1) return;
+            
+            for (let row = 0; row < ROWS; row++) {
+                const index = row * COLS + col;
+                const cell = document.querySelectorAll('.cell')[index];
+                if (!cell.classList.contains('filled')) {
+                    cell.classList.add('column-hover');
+                    if (row === targetRow) {
+                        cell.classList.add('target-cell');
+                    }
+                }
+            }
+        }
+
+        function clearHighlight() {
+            document.querySelectorAll('.cell').forEach(cell => {
+                cell.classList.remove('column-hover', 'target-cell');
+            });
+        }
+
+        function handleCellClick(col) {
+            if (gameOver) return;
+
+            const row = getLowestEmptyRow(col);
+            if (row === -1) return;
+
+            board[row][col] = currentPlayer;
+            moveHistory.push({ row, col, player: currentPlayer });
+            updateCell(row, col, currentPlayer);
+
+            if (checkWin(row, col)) {
+                gameOver = true;
+                scores[`player${currentPlayer}`]++;
+                updateScoreboard();
+                showWinner();
+                return;
+            }
+
+            if (isBoardFull()) {
+                gameOver = true;
+                showDraw();
+                return;
+            }
+
+            currentPlayer = currentPlayer === 1 ? 2 : 1;
+            updateTurnIndicator();
+            updateUndoButton();
+        }
+
+        function undoMove() {
+            if (moveHistory.length === 0 || gameOver) return;
+            
+            const lastMove = moveHistory.pop();
+            board[lastMove.row][lastMove.col] = null;
+            
+            const cells = document.querySelectorAll('.cell');
+            const index = lastMove.row * COLS + lastMove.col;
+            cells[index].innerHTML = '';
+            cells[index].style.background = 'radial-gradient(circle, #1a252f 0%, #2c3e50 100%)';
+            cells[index].classList.remove('filled');
+            
+            currentPlayer = lastMove.player;
+            updateTurnIndicator();
+            updateUndoButton();
+        }
+
+        function updateUndoButton() {
+            const btn = document.getElementById('undoBtn');
+            btn.disabled = moveHistory.length === 0 || gameOver;
+        }
+
+        function getLowestEmptyRow(col) {
+            for (let row = ROWS - 1; row >= 0; row--) {
+                if (board[row][col] === null) {
+                    return row;
+                }
+            }
+            return -1;
+        }
+
+        function updateCell(row, col, player) {
+            const cells = document.querySelectorAll('.cell');
+            const index = row * COLS + col;
+            const piece = player === 1 ? player1Piece : player2Piece;
+            
+            cells[index].innerHTML = piece.display;
+            cells[index].style.background = piece.color;
+            cells[index].classList.add('filled');
+            cells[index].style.animation = 'dropIn 0.5s';
+        }
+
+        function checkWin(row, col) {
+            const directions = [
+                [[0, 1], [0, -1]],
+                [[1, 0], [-1, 0]],
+                [[1, 1], [-1, -1]],
+                [[1, -1], [-1, 1]]
+            ];
+
+            for (let dir of directions) {
+                let count = 1;
+                let winningCells = [[row, col]];
+
+                for (let [dx, dy] of dir) {
+                    let r = row + dx;
+                    let c = col + dy;
+                    while (r >= 0 && r < ROWS && c >= 0 && c < COLS && board[r][c] === currentPlayer) {
+                        count++;
+                        winningCells.push([r, c]);
+                        r += dx;
+                        c += dy;
+                    }
+                }
+
+                if (count >= 4) {
+                    highlightWinningCells(winningCells);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function highlightWinningCells(cells) {
+            const cellElements = document.querySelectorAll('.cell');
+            cells.forEach(([row, col]) => {
+                const index = row * COLS + col;
+                cellElements[index].classList.add('winning');
+            });
+        }
+
+        function isBoardFull() {
+            return board[0].every(cell => cell !== null);
+        }
+
+        function showWinner() {
+            const piece = currentPlayer === 1 ? player1Piece : player2Piece;
+            const displayText = piece.display ? `${piece.display} ${piece.name}` : piece.name;
+            document.getElementById('winnerText').innerHTML = `${displayText} 獲勝！`;
+            document.getElementById('overlay').classList.add('show');
+            document.getElementById('winnerMessage').classList.add('show');
+        }
+
+        function showDraw() {
+            document.getElementById('winnerText').textContent = '平局！棋盤已滿。';
+            document.getElementById('overlay').classList.add('show');
+            document.getElementById('winnerMessage').classList.add('show');
+        }
+
+        function updateTurnIndicator() {
+            const indicator = document.getElementById('turnIndicator');
+            const playerText = document.getElementById('currentPlayer');
+            const piece = currentPlayer === 1 ? player1Piece : player2Piece;
+            
+            indicator.style.background = piece.color;
+            indicator.innerHTML = piece.display;
+            playerText.textContent = `玩家${currentPlayer === 1 ? '一' : '二'} (${piece.name})`;
+        }
+
+        function updateScoreboard() {
+            document.getElementById('player1Score').textContent = scores.player1;
+            document.getElementById('player2Score').textContent = scores.player2;
+        }
+
+        function nextRound() {
+            document.getElementById('overlay').classList.remove('show');
+            document.getElementById('winnerMessage').classList.remove('show');
+            initBoard();
+        }
+
+        let pendingAction = null;
+
+        // function showResetConfirm() {
+        //     pendingAction = 'reset';
+        //     document.getElementById('confirmText').textContent = '確定要重新開始這一回合嗎？';
+        //     document.getElementById('confirmMessage').classList.add('show');
+        // }
+
+        function showBackToSetupConfirm() {
+            pendingAction = 'setup';
+            document.getElementById('confirmText').textContent = '確定要回到設定畫面嗎？這會清除目前的計分。';
+            document.getElementById('confirmMessage').classList.add('show');
+        }
+
+        function closeConfirm() {
+            pendingAction = null;
+            document.getElementById('confirmMessage').classList.remove('show');
+            if (!document.getElementById('winnerMessage').classList.contains('show')) {
+                document.getElementById('overlay').classList.remove('show');
+            }
+        }
+
+        function confirmAction() {
+            document.getElementById('confirmMessage').classList.remove('show');
+            
+            if (pendingAction === 'reset') {
+                document.getElementById('overlay').classList.remove('show');
+                initBoard();
+            } else if (pendingAction === 'setup') {
+                backToSetup();
+            }
+            
+            pendingAction = null;
+        }
+
+        function resetRound() {
+            document.getElementById('overlay').classList.add('show');
+            showResetConfirm();
+        }
+
+        function backToSetup() {
+            scores = { player1: 0, player2: 0 };
+            selectedType = null;
+            player1Piece = null;
+            player2Piece = null;
+            
+            document.getElementById('gameScreen').classList.remove('active');
+            document.getElementById('setupScreen').classList.remove('hidden');
+            document.getElementById('overlay').classList.remove('show');
+            document.getElementById('winnerMessage').classList.remove('show');
+            document.getElementById('confirmMessage').classList.remove('show');
+            
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('step3').style.display = 'none';
+            document.querySelectorAll('.piece-option').forEach(el => el.classList.remove('selected'));
+            document.getElementById('confirmP1Btn').disabled = true;
+            document.getElementById('startGameBtn').disabled = true;
+        }
+    </script>
+</body>
+</html>
